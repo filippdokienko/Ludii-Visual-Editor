@@ -151,9 +151,14 @@ public class EditorPanel extends JPanel {
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
-                System.out.println("mouse clicked editor panel -> pop up 'create new ludeme'");
-                // TODO: option to create new Ludeme
-                connectNewConnection(null);
+                if (e.getButton() == MouseEvent.BUTTON1) {
+                    System.out.println("mouse clicked editor panel -> pop up 'create new ludeme'");
+                    // TODO: option to create new Ludeme
+                }
+                if (e.getButton() == MouseEvent.BUTTON3) {
+                    // cancels creation of new connection
+                    connectNewConnection(null);
+                }
             }
         });
 
@@ -307,7 +312,7 @@ public class EditorPanel extends JPanel {
                 repaint();
             }*/
 
-            if (e.getButton() == MouseEvent.BUTTON3) {
+            if (e.getButton() == MouseEvent.BUTTON2) {
                 Terminal t1 = new Terminal("A1");
                 Terminal t2 = new Terminal("A2");
 
