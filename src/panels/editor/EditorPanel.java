@@ -40,32 +40,47 @@ public class EditorPanel extends JPanel {
     private void addConnection(CustomPoint p1, CustomPoint p2){
         list_edges.add(new LudemeBlockEdge(p1, p2));
     }
+    private void addConnection(LudemeConnectionComponent outgoingConnectionComponent, LudemeConnectionComponent ingoingConnectionComponent){
+        CustomPoint ingoingPosition = ingoingConnectionComponent.getPosition();
+        CustomPoint outgoingPosition = outgoingConnectionComponent.getPosition();
+        addConnection(outgoingPosition, ingoingPosition);
+
+        ingoingConnectionComponent.fill();
+        outgoingConnectionComponent.fill();
+
+        selectedConnectionComponent = null;
+        currentMousePoint = null;
+        repaint();
+    }
 
     private LudemeConnectionComponent selectedConnectionComponent;
     private Point currentMousePoint;
 
     public void connectNewConnection(LudemeConnectionComponent connectionComponent){
-        if(selectedConnectionComponent != null){
+        if(selectedConnectionComponent != null && connectionComponent != null){
+            if(selectedConnectionComponent.isOutgoing() && !connectionComponent.isOutgoing() && selectedConnectionComponent.getLudemeBlock() != connectionComponent.getLudemeBlock()){
+                addConnection(selectedConnectionComponent, connectionComponent);
+            }
+            else {
+                selectedConnectionComponent.unfill();
+                this.selectedConnectionComponent = connectionComponent;
+            }
+        } else if (selectedConnectionComponent != null){
             selectedConnectionComponent.unfill();
+            this.selectedConnectionComponent = connectionComponent;
         }
-        this.selectedConnectionComponent = connectionComponent;
+        else {
+            this.selectedConnectionComponent = connectionComponent;
+        }
+
     }
 
     public void ludemeBlockClicked(LudemeBlock ludemeBlock){
         if(selectedConnectionComponent != null && selectedConnectionComponent.isOutgoing() && ludemeBlock != selectedConnectionComponent.getLudemeBlock()){
             LudemeConnectionComponent ingoingConnectionComponent = ludemeBlock.getIngoingConnectionComponent();
-            CustomPoint ingoingPosition = ingoingConnectionComponent.getPosition();
-            CustomPoint outgoingPosition = selectedConnectionComponent.getPosition();
-            addConnection(outgoingPosition, ingoingPosition);
-
-            ingoingConnectionComponent.fill();
-            selectedConnectionComponent.fill();
-
-            selectedConnectionComponent = null;
-            repaint();
+            addConnection(selectedConnectionComponent, ingoingConnectionComponent);
         }
     }
-
 
     @Override
     public void paintComponent(Graphics g){
@@ -125,8 +140,8 @@ public class EditorPanel extends JPanel {
             @Override
             public void mouseMoved(MouseEvent e) {
                 super.mouseMoved(e);
+                currentMousePoint = e.getPoint();
                 if(selectedConnectionComponent != null){
-                    currentMousePoint = e.getPoint();
                     repaint();
                 }
             }
