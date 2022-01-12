@@ -1,5 +1,7 @@
 package components.ludemeblock;
 
+import panels.editor.EditorPanel;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
@@ -77,6 +79,7 @@ public class LudemeConnectionComponent extends JComponent {
                 @Override
                 public void mouseClicked(MouseEvent e) {
                     super.mouseClicked(e);
+                    /*
                     fill = !fill;
                     repaint();
                     revalidate();
@@ -86,24 +89,70 @@ public class LudemeConnectionComponent extends JComponent {
                         updatePosition();
                         LudemeConnectionComponent.this.LUDEME_BLOCK.EDITOR_PANEL.addEdge(position);
                     }
+
+                     */
+
+
+                    if(fill){
+                        // TODO: ? remove connection?
+                    } else {
+                        EditorPanel editor_panel = LudemeConnectionComponent.this.LUDEME_BLOCK.EDITOR_PANEL;
+                        fill = true;
+                        repaint();
+                        // editor_panel: new selected point
+                        editor_panel.connectNewConnection(LudemeConnectionComponent.this);
+                    }
+
+
+
                 }
             });
 
         }
     }
 
+    public boolean isFilled(){
+        return connectionPointComponent.fill;
+    }
+
+    public void fill(){
+        if(!isFilled()){
+            connectionPointComponent.fill = true;
+            connectionPointComponent.repaint();
+            connectionPointComponent.revalidate();
+        }
+    }
+
+    public void unfill(){
+        if(isFilled()){
+            connectionPointComponent.fill = false;
+            connectionPointComponent.repaint();
+            connectionPointComponent.revalidate();
+        }
+    }
+
     public void updatePosition(){
         int x = connectionPointComponent.getX() + this.getX() + this.getParent().getX() + this.getParent().getParent().getX() + RADIUS;// + this.getParent().getParent().getParent().getX() + this.getParent().getParent().getParent().getParent().getX();
         int y = connectionPointComponent.getY() + this.getY() + this.getParent().getY() + this.getParent().getParent().getY() + RADIUS;// + this.getParent().getParent().getParent().getY() + this.getParent().getParent().getParent().getParent().getY();
-        if(!OUTGOING){
-            System.out.println("x: " + x);
-            System.out.println(connectionPointComponent.getX() + this.getX() + this.getParent().getX() + this.getParent().getParent().getX() + connectionPointComponent.getWidth()/2 - connectionPointComponent.x);
-        }
+
         Point p = new Point(x,y);
         if(position == null){
             position = new CustomPoint(p);
         }
         position.update(p);
+    }
+
+    public CustomPoint getPosition(){
+        updatePosition();
+        return position;
+    }
+
+    public boolean isOutgoing(){
+        return OUTGOING;
+    }
+
+    public LudemeBlock getLudemeBlock(){
+        return LUDEME_BLOCK;
     }
 
 }

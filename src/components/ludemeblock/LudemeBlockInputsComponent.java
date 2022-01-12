@@ -33,8 +33,6 @@ public class LudemeBlockInputsComponent extends JPanel {
         repaint();
         setVisible(true);
 
-        System.out.println(getPreferredSize());
-
     }
 
     public List<JComponent> getComponentList(){

@@ -1,11 +1,9 @@
 package panels.editor;
 
 import components.ludemeblock.CustomPoint;
-import components.ludemeblockOLD.LudemeBlock;
+import components.ludemeblock.LudemeBlock;
+import components.ludemeblock.LudemeConnectionComponent;
 import components.ludemeblock.LudemeBlockEdge;
-import components.ludemeblockOLD.tempgrammar.Input;
-import components.ludemeblockOLD.tempgrammar.Ludeme;
-import components.ludemeblockOLD.tempgrammar.inputtypes.*;
 import components.ludemeblock.grammar.Constructor;
 import components.ludemeblock.grammar.input.LudemeInput;
 import components.ludemeblock.grammar.input.Terminal;
@@ -39,36 +37,54 @@ public class EditorPanel extends JPanel {
 
     public List<LudemeBlockEdge> list_edges = new ArrayList<>();
 
-    CustomPoint p1 = null;
-    CustomPoint p2 = null;
-
-    public void addEdge(CustomPoint p){
-        if(p1 == null){
-            p1 = p;
-        }
-        else {
-            // left most ludeme should be p1
-            if(p1.x > p.x){
-                p2 = p1;
-                p1 = p;
-            }
-            else {
-                p2 = p;
-            }
-            LudemeBlockEdge e = new LudemeBlockEdge(p1, p2);
-            list_edges.add(e);
-            p1 = null;
-            p2 = null;
-        }
+    private void addConnection(CustomPoint p1, CustomPoint p2){
+        list_edges.add(new LudemeBlockEdge(p1, p2));
     }
 
+    private LudemeConnectionComponent selectedConnectionComponent;
+    private Point currentMousePoint;
+
+    public void connectNewConnection(LudemeConnectionComponent connectionComponent){
+        if(selectedConnectionComponent != null){
+            selectedConnectionComponent.unfill();
+        }
+        this.selectedConnectionComponent = connectionComponent;
+    }
+
+    public void ludemeBlockClicked(LudemeBlock ludemeBlock){
+        if(selectedConnectionComponent != null && selectedConnectionComponent.isOutgoing() && ludemeBlock != selectedConnectionComponent.getLudemeBlock()){
+            LudemeConnectionComponent ingoingConnectionComponent = ludemeBlock.getIngoingConnectionComponent();
+            CustomPoint ingoingPosition = ingoingConnectionComponent.getPosition();
+            CustomPoint outgoingPosition = selectedConnectionComponent.getPosition();
+            addConnection(outgoingPosition, ingoingPosition);
+
+            ingoingConnectionComponent.fill();
+            selectedConnectionComponent.fill();
+
+            selectedConnectionComponent = null;
+            repaint();
+        }
+    }
 
 
     @Override
     public void paintComponent(Graphics g){
         super.paintComponent(g);
-
         Graphics2D g2 = (Graphics2D) g.create();
+
+        // draw new connection
+        if(selectedConnectionComponent != null && currentMousePoint != null) {
+            paintNewConnection(g2, currentMousePoint);
+        }
+
+        // draw existing connections
+        paintConnections(g2);
+
+        repaint();
+        revalidate();
+    }
+
+    private void paintConnections(Graphics2D g2){
         for(LudemeBlockEdge e : list_edges){
             int cp_x = e.p1.x + Math.abs((e.p1.x-e.p2.x)/2);
             int cp1_y = e.p1.y;
@@ -79,9 +95,23 @@ public class EditorPanel extends JPanel {
             p2d.curveTo(cp_x, cp1_y, cp_x, cp2_y, e.p2.x, e.p2.y);
             g2.draw(p2d);
         }
+    }
 
-        repaint();
-        revalidate();
+    private void paintNewConnection(Graphics2D g2, Point mousePosition){
+        CustomPoint connection_point = selectedConnectionComponent.getPosition();
+        Path2D p2d = new Path2D.Double();
+
+        if(selectedConnectionComponent.isOutgoing()){
+            int cp_x = connection_point.x + Math.abs((connection_point.x-mousePosition.x)/2);
+            p2d.moveTo(connection_point.x, connection_point.y);
+            p2d.curveTo(cp_x, connection_point.y, cp_x, mousePosition.y, mousePosition.x, mousePosition.y);
+        }
+        else {
+            int cp_x = mousePosition.x + Math.abs((mousePosition.x-connection_point.x)/2);
+            p2d.moveTo(mousePosition.x, mousePosition.y);
+            p2d.curveTo(cp_x, mousePosition.y, cp_x, connection_point.y, connection_point.x, connection_point.y);
+        }
+        g2.draw(p2d);
     }
 
     public EditorPanel(int width, int height){
@@ -91,6 +121,27 @@ public class EditorPanel extends JPanel {
         addMouseListener(new SpawnNodePanelListener());
 
 
+        addMouseMotionListener(new MouseAdapter() {
+            @Override
+            public void mouseMoved(MouseEvent e) {
+                super.mouseMoved(e);
+                if(selectedConnectionComponent != null){
+                    currentMousePoint = e.getPoint();
+                    repaint();
+                }
+            }
+        });
+
+        addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+                System.out.println("mouse clicked editor panel -> pop up 'create new ludeme'");
+                // TODO: option to create new Ludeme
+                connectNewConnection(null);
+            }
+        });
+
         // add default ludeme blocks
 
         int posX = 20;
@@ -99,6 +150,7 @@ public class EditorPanel extends JPanel {
         int heightBlock = 10;
 
         // game
+/*
 
         LudemeBlock.setEditorPanel(this);
 
@@ -215,13 +267,13 @@ public class EditorPanel extends JPanel {
          revalidate();
          repaint();
          }
-
+*/
     }
 
     private class SpawnNodePanelListener extends MouseAdapter {
         public void mouseClicked(MouseEvent e) {
 
-            if (e.getButton() == MouseEvent.BUTTON2) {
+            /*if (e.getButton() == MouseEvent.BUTTON2) {
                 Input i1 = new Input("InputTypesAllPossible.STRING input", InputTypesAllPossible.STRING);
                 Input i2 = new Input("int dropdown", InputTypesAllPossible.COLLECTION);
                 Input i3 = new Input("ludeme input", InputTypesAllPossible.LUDEME);
@@ -238,7 +290,7 @@ public class EditorPanel extends JPanel {
                 add(b1);
                 revalidate();
                 repaint();
-            }
+            }*/
 
             if (e.getButton() == MouseEvent.BUTTON3) {
                 Terminal t1 = new Terminal("A1");

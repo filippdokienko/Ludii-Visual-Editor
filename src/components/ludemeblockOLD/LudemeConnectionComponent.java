@@ -74,7 +74,7 @@ public class LudemeConnectionComponent extends JComponent {
                     if(fill){
                         // position in jframe
                         updatePosition();
-                        editorPanel.addEdge(position);
+                        //editorPanel.addEdge(position);
                     }
                 }
             });

@@ -41,8 +41,8 @@ public class LudemeBlockHeaderComponent extends JPanel {
         repaint();
     }
 
-    public void updatePosition(){
-        this.ingoingConnectionComponent.updatePosition();
+    public LudemeConnectionComponent getIngoingConnectionComponent(){
+        return ingoingConnectionComponent;
     }
 
 }

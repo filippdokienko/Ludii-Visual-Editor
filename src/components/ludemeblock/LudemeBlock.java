@@ -115,6 +115,8 @@ public class LudemeBlock extends JComponent {
             public void mousePressed(MouseEvent e) {
                 LudemeBlock.this.x = e.getX();
                 LudemeBlock.this.y = e.getY();
+                System.out.println("mouse pressed ludemeblock");
+                EDITOR_PANEL.ludemeBlockClicked(LudemeBlock.this);
             }
         });
 
@@ -126,7 +128,7 @@ public class LudemeBlock extends JComponent {
                 for(LudemeConnectionComponent lc : outgoingConnectionsComponent.getConnectionComponentList()){
                     lc.updatePosition();
                 }
-                headerComponent.updatePosition();
+                headerComponent.getIngoingConnectionComponent().updatePosition();
             }
         });
     }
@@ -149,5 +151,9 @@ public class LudemeBlock extends JComponent {
 
     public Constructor getCurrentConstructor() {
         return currentConstructor;
+    }
+
+    public LudemeConnectionComponent getIngoingConnectionComponent(){
+        return headerComponent.getIngoingConnectionComponent();
     }
 }
