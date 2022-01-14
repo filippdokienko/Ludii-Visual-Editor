@@ -12,6 +12,9 @@ public class MainFrame extends JFrame {
     }
 
     private void initialize(){
+        try {
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        } catch(Exception ignored){}
         setTitle("Prototype");
         setSize(1200,800);
         setLocationRelativeTo(null);
