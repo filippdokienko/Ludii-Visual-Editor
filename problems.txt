@@ -1,0 +1,8 @@
+int
+sites
+boolean
+direction
+effect.add
+what are {{ .. }}?
+
+main problem: endless recursion

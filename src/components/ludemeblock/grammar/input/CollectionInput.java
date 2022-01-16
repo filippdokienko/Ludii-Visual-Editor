@@ -2,6 +2,8 @@ package components.ludemeblock.grammar.input;
 
 import java.util.List;
 
+// TODO: either remove, or finish
+
 public class CollectionInput implements Input{
 
     private final String NAME;
@@ -44,6 +46,16 @@ public class CollectionInput implements Input{
     @Override
     public String getName() {
         return NAME;
+    }
+
+    @Override
+    public void setOptional(boolean optional) {
+
+    }
+
+    @Override
+    public void setCollection(boolean collection) {
+
     }
 
     public List<Input> getInputs(){

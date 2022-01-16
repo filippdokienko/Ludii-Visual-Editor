@@ -5,10 +5,12 @@ import components.ludemeblock.LudemeBlock;
 import components.ludemeblock.LudemeConnectionComponent;
 import components.ludemeblock.LudemeBlockEdge;
 import components.ludemeblock.grammar.Constructor;
+import components.ludemeblock.grammar.Ludeme;
 import components.ludemeblock.grammar.input.LudemeInput;
 import components.ludemeblock.grammar.input.Terminal;
 import components.ludemeblock.grammar.input.TerminalInput;
 import components.ludemeblock.grammar.input.TerminalInputType;
+import components.parsegrammar.Parser;
 
 import javax.swing.*;
 import java.awt.*;
@@ -18,6 +20,7 @@ import java.awt.geom.Path2D;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Random;
 
 public class EditorPanel extends JPanel {
 
@@ -313,6 +316,7 @@ public class EditorPanel extends JPanel {
             }*/
 
             if (e.getButton() == MouseEvent.BUTTON2) {
+                /*
                 Terminal t1 = new Terminal("A1");
                 Terminal t2 = new Terminal("A2");
 
@@ -326,6 +330,17 @@ public class EditorPanel extends JPanel {
                 components.ludemeblock.grammar.Ludeme l1 = new components.ludemeblock.grammar.Ludeme("test ludeme", List.of(c1));
 
                 components.ludemeblock.LudemeBlock b1 = new components.ludemeblock.LudemeBlock(e.getX(), e.getY(),300,l1,editorPanel);
+
+                 */
+
+                Parser p = new Parser();
+                try{
+                    p.parse();
+                } catch(Exception ex){}
+                Random random = new Random();
+                int randomNumber = random.nextInt( p.getLudemes().size());
+                Ludeme l = p.getLudemes().get(randomNumber);
+                LudemeBlock b1 = new LudemeBlock(e.getX(),e.getY(), 300,l,editorPanel);
 
 
                 add(b1);

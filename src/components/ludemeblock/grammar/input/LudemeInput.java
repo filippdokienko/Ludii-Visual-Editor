@@ -6,18 +6,12 @@ public class LudemeInput implements Input{
 
     private final String NAME;
     private final Ludeme REQUIRED_LUDEME;
-    private final boolean OPTIONAL;
+    private boolean OPTIONAL = false;
+    private boolean COLLECTION = false;
 
     public LudemeInput(String name, Ludeme requiredLudeme){
         this.NAME = name;
         this.REQUIRED_LUDEME = requiredLudeme;
-        this.OPTIONAL = false;
-    }
-
-    public LudemeInput(String name, Ludeme requiredLudeme, boolean optional){
-        this.NAME = name;
-        this.REQUIRED_LUDEME = requiredLudeme;
-        this.OPTIONAL = optional;
     }
 
     @Override
@@ -37,7 +31,7 @@ public class LudemeInput implements Input{
 
     @Override
     public boolean isChoice() {
-        return false;
+        return COLLECTION;
     }
 
     @Override
@@ -48,4 +42,13 @@ public class LudemeInput implements Input{
     public Ludeme getRequiredLudeme(){
         return REQUIRED_LUDEME;
     }
+
+    public void setOptional(boolean optional){
+        OPTIONAL = optional;
+    }
+
+    public void setCollection(boolean collection){
+        COLLECTION = collection;
+    }
+
 }

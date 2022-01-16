@@ -9,20 +9,13 @@ public class TerminalInput implements Input{
     private final String NAME;
     private final TerminalInputType TYPE;
     private final List<Terminal> TERMINALS; // only relevant for TerminalInputType = DROPDOWN
-    private final boolean OPTIONAL;
+    private boolean OPTIONAL = false;
+    private boolean COLLECTION = false;
 
     public TerminalInput(String name, TerminalInputType type){
         this.NAME = name;
         this.TYPE = type;
         this.TERMINALS =  new ArrayList<>();
-        this.OPTIONAL = false;
-    }
-
-    public TerminalInput(String name, TerminalInputType type, boolean optional){
-        this.NAME = name;
-        this.TYPE = type;
-        this.TERMINALS =  new ArrayList<>();
-        this.OPTIONAL = optional;
     }
 
     public TerminalInput(String name, TerminalInputType type, List<Terminal> terminals){
@@ -32,12 +25,6 @@ public class TerminalInput implements Input{
         this.OPTIONAL = false;
     }
 
-    public TerminalInput(String name, TerminalInputType type, List<Terminal> terminals, boolean optional){
-        this.NAME = name;
-        this.TYPE = type;
-        this.TERMINALS = terminals;
-        this.OPTIONAL = optional;
-    }
 
     public JComponent getComponent(){
         switch(TYPE){
@@ -56,7 +43,7 @@ public class TerminalInput implements Input{
 
     @Override
     public boolean isCollection() {
-        return false;
+        return COLLECTION;
     }
 
     @Override
@@ -77,5 +64,15 @@ public class TerminalInput implements Input{
     @Override
     public String getName() {
         return NAME;
+    }
+
+    @Override
+    public void setOptional(boolean optional) {
+        OPTIONAL = optional;
+    }
+
+    @Override
+    public void setCollection(boolean collection) {
+        COLLECTION = collection;
     }
 }

@@ -6,4 +6,6 @@ public interface Input {
     public boolean isOptional();
     public boolean isChoice();
     public String getName();
+    public void setOptional(boolean optional);
+    public void setCollection(boolean collection);
 }

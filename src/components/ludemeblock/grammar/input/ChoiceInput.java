@@ -5,18 +5,13 @@ import java.util.List;
 public class ChoiceInput implements Input {
     private final String NAME;
     private final List<Input> INPUTS;
-    private final boolean OPTIONAL;
+    private boolean OPTIONAL = false;
+    private boolean COLLECTION = false;
 
     public ChoiceInput(String name, List<Input> inputs){
         this.NAME = name;
         this.INPUTS = inputs;
         this.OPTIONAL = false;
-    }
-
-    public ChoiceInput(String name, List<Input> inputs, boolean optional){
-        this.NAME = name;
-        this.INPUTS = inputs;
-        this.OPTIONAL = optional;
     }
 
     @Override
@@ -42,5 +37,15 @@ public class ChoiceInput implements Input {
     @Override
     public String getName() {
         return NAME;
+    }
+
+    @Override
+    public void setOptional(boolean optional) {
+        OPTIONAL = optional;
+    }
+
+    @Override
+    public void setCollection(boolean collection) {
+        COLLECTION = collection;
     }
 }
