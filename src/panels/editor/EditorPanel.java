@@ -11,6 +11,7 @@ import components.ludemeblock.grammar.input.Terminal;
 import components.ludemeblock.grammar.input.TerminalInput;
 import components.ludemeblock.grammar.input.TerminalInputType;
 import components.parsegrammar.Parser;
+import components.parsegrammar.ParserWithBlueprint;
 
 import javax.swing.*;
 import java.awt.*;
@@ -293,6 +294,10 @@ public class EditorPanel extends JPanel {
 */
     }
 
+    ParserWithBlueprint p = new ParserWithBlueprint();
+    List<Ludeme> ludemes = p.getLudemes();
+    int cc = 66;
+
     private class SpawnNodePanelListener extends MouseAdapter {
         public void mouseClicked(MouseEvent e) {
 
@@ -333,13 +338,11 @@ public class EditorPanel extends JPanel {
 
                  */
 
-                Parser p = new Parser();
-                try{
-                    p.parse();
-                } catch(Exception ex){}
-                Random random = new Random();
-                int randomNumber = random.nextInt( p.getLudemes().size());
-                Ludeme l = p.getLudemes().get(randomNumber);
+
+                Ludeme l = ludemes.get(cc++);
+                System.out.println(l.NAME);
+                System.out.println(l.CONSTRUCTORS);
+
                 LudemeBlock b1 = new LudemeBlock(e.getX(),e.getY(), 300,l,editorPanel);
 
 

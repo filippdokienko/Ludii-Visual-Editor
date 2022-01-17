@@ -212,7 +212,6 @@ name,constructor
 <addScore>,(addScore (<moves.player> | <roleType>) <int> [<then>])
 <moveAgain>,(moveAgain [<then>])
 <forget>,(forget Value [<string>] <int> [<then>])
-<forget>,(forget Value [<string>] All [<then>])
 <remember>,(remember State [<then>])
 <remember>,(remember Value [<string>] <int> [unique:<boolean>] [<then>])
 <swap.swap>,(swap Players (<int> | <roleType>) (<int> | <roleType>) [<then>])
@@ -274,18 +273,13 @@ name,constructor
 <rules.rules>,(rules [<meta>] [<start>] [<play>] phases:{<phase.phase>} [<end>])
 <rules.rules>,(rules [<meta>] [<start>] <play> <end>)
 <meta>,(meta ({<metaRule>} | <metaRule>))
-<automove>,(automove)
-<gravity>,(gravity [PyramidalDrop])
-<meta.swap>,(swap)
 <metaRule>,<automove>
 <metaRule>,<gravity>
 <metaRule>,<noRepeat>
 <metaRule>,<passEnd>
-<metaRule>,<pin>
 <metaRule>,<meta.swap>
 <noRepeat>,(noRepeat [<repetitionType>])
 <passEnd>,(passEnd <passEndType>)
-<pin>,(pin SupportMultiple)
 <start>,(start ({<startRule>} | <startRule>))
 <start.deal>,(deal <dealableType> [<int>])
 <startRule>,<start.deal>
@@ -293,7 +287,6 @@ name,constructor
 <startRule>,<place>
 <startRule>,<deductionPuzzle.set>
 <startRule>,<start.set.set>
-<startRule>,<split>
 <deductionPuzzle.set>,(set [<siteType>] {{<int>}})
 <forEach.forEach>,(forEach Player <startRule>)
 <forEach.forEach>,(forEach Value min:<int> max:<int> <startRule>)
@@ -318,7 +311,6 @@ name,constructor
 <setStartSitesType>,Cost
 <setStartSitesType>,Count
 <setStartSitesType>,Phase
-<split>,(split Deck)
 <play>,(play <moves>)
 <end>,(end (<endRule> | {<endRule>}))
 <byScore>,(byScore [{<end.score>}])
@@ -334,9 +326,16 @@ name,constructor
 <match>,(match <string> [<players>] <games> <end>)
 <games>,(games (<subgame> | {<subgame>}))
 <subgame>,(subgame <string> [<string>] [next:<int>] [result:<int>])
-<was>,(was Pass)
 <booleans.no.no>,(no Moves <roleType>)
 <booleans.no.no>,(no Pieces [<siteType>] [<roleType> | of:<int>] [<string>] [in:<sites>])
+<!=>,(!= <sites> <sites>)
+<!=>,(!= <int> (<int> | <roleType>))
+<<>,(< <int> <int>)
+<<=>,(<= <int> <int>)
+<=>,(= <sites> <sites>)
+<=>,(= <int> (<int> | <roleType>))
+<>>,(> <int> <int>)
+<>=>,(>= <int> <int>)
 <booleans.math.if>,(if <boolean> <boolean> [<boolean>])
 <math.and>,(and {<boolean>})
 <math.and>,(and <boolean> <boolean>)
@@ -397,7 +396,6 @@ name,constructor
 <isTreeType>,TreeCentre
 <deductionPuzzle.is.is>,(is Unique [<siteType>])
 <deductionPuzzle.is.is>,(is <isPuzzleRegionResultType> [<siteType>] [<sites>] [of:<int>] [<string>] <int>)
-<deductionPuzzle.is.is>,(is Solved)
 <isPuzzleRegionResultType>,Count
 <isPuzzleRegionResultType>,Sum
 <deductionPuzzle.all.all>,(all Different [<siteType>] [<sites>] [except:<int> | excepts:{<int>}])
@@ -414,19 +412,13 @@ name,constructor
 <allSitesType>,Sites
 <value>,(value Piece [<siteType>] at:<int> [level:<int>])
 <value>,(value Player (<int> | <roleType>))
-<value>,(value Pending)
 <value>,(value Random <range>)
-<value>,(value)
 <trackSite>,(trackSite Move [from:<int>] [<roleType> | <moves.player> | <string>] steps:<int>)
 <trackSite>,(trackSite EndSite [<moves.player> | <roleType>] [<string>])
 <trackSite>,(trackSite FirstSite [<moves.player> | <roleType>] [<string>] [from:<int>] [if:<boolean>])
 <pathExtent>,(pathExtent [<int>] [<int> | <sites>])
 <state>,(state [<siteType>] at:<int> [level:<int>])
 <amount>,(amount (<roleType> | <moves.player>))
-<counter>,(counter)
-<mover>,(mover)
-<next>,(next)
-<pot>,(pot)
 <prev>,(prev [<prevType>])
 <rotation>,(rotation [<siteType>] at:<int> [level:<int>])
 <state.score>,(score (<moves.player> | <roleType>))
@@ -459,17 +451,9 @@ name,constructor
 <lastType>,LevelFrom
 <lastType>,LevelTo
 <lastType>,To
-<iterator.between>,(between)
-<iterator.edge>,(edge)
 <iterator.edge>,(edge <int> <int>)
 <iterator.from>,(from [at:<whenType>])
 <iterator.hint>,(hint [<siteType>] [at:<int>])
-<iterator.player>,(player)
-<iterator.to>,(to)
-<iterator.track>,(track)
-<level>,(level)
-<pips>,(pips)
-<site>,(site)
 <dice.face>,(face <int>)
 <count.count>,(count <countComponentType> [<siteType>] [<roleType> | of:<int>] [<string>] [in:<sites>])
 <count.count>,(count [<countSiteType>] [<siteType>] [in:<sites> | at:<int> | <string>])
@@ -501,7 +485,6 @@ name,constructor
 <countSiteType>,Orthogonal
 <countSiteType>,Sites
 <card.card>,(card <cardSiteType> at:<int> [level:<int>])
-<card.card>,(card TrumpSuit)
 <cardSiteType>,Rank
 <cardSiteType>,Suit
 <cardSiteType>,TrumpRank
@@ -517,7 +500,6 @@ name,constructor
 <sites>,(sites <sitesMoveType> <moves>)
 <sites>,(sites [<siteType>] {<string>})
 <sites>,(sites <sitesSimpleType> [<siteType>])
-<sites>,(sites)
 <sites>,(sites Loop [inside:<boolean>] [<siteType>] [surround:<roleType> | {<roleType>}] [<direction>] [<int>] [<int> | <sites>])
 <sites>,(sites Pattern {<stepType>} [<siteType>] [from:<int>] [what:<int> | whats:{<int>}])
 <sites>,(sites Random [<sites>] [num:<int>])
@@ -537,11 +519,6 @@ name,constructor
 <sites>,(sites Track [<moves.player> | <roleType>] [<string>] [from:<int>] [to:<int>])
 <sites>,(sites Distance [<siteType>] [<relationType>] [<effect.step>] [newRotation:<int>] from:<int> <range>)
 <sites>,(sites [<moves.player> | <roleType>] [<siteType>] [<string>])
-<sites>,(region <equipment.region>)
-<sites>,(region)
-<sites>,(region int)
-<sites>,(region <string> <container.board.board> {<string>})
-<sites>,(region {int})
 <sites>,<region.math.difference>
 <sites>,<expand>
 <sites>,<region.foreach.forEach>
@@ -599,7 +576,6 @@ name,constructor
 <region.math.intersection>,(intersection <sites> <sites>)
 <region.math.union>,(union {<sites>})
 <region.math.union>,(union <sites> <sites>)
-<region.last.last>,(last Between)
 <region.foreach.forEach>,(forEach of:<sites> <sites>)
 <region.foreach.forEach>,(forEach <sites> if:<boolean>)
 <region.foreach.forEach>,(forEach Team <sites>)
@@ -643,7 +619,6 @@ name,constructor
 <concentricShapeType>,Triangle
 <rectangle>,(rectangle <dim> [<dim>] [diagonals:<diagonalsType>])
 <regular>,(regular <basisType> <shapeType> <dim> [<dim>])
-<regular>,(regular [Star] <dim>)
 <repeat>,(repeat <dim> <dim> step:{{<float>}} (<poly> | {<poly>}))
 <spiral>,(spiral turns:<dim> sites:<dim> [clockwise:<boolean>])
 <wedge>,(wedge <dim> [<dim>])
@@ -746,7 +721,6 @@ name,constructor
 <intArray.math.union>,(union {<ints>})
 <intArray.math.union>,(union <ints> <ints>)
 <results>,(results (from:<int> | from:<sites>) (to:<int> | to:<sites>) <int>)
-<team>,(team)
 <array>,(array {<int>})
 <array>,(array <sites>)
 <ahead>,(ahead [<siteType>] <int> [steps:<int>] [<direction>])
@@ -790,7 +764,7 @@ name,constructor
 <float>,<floats.math.abs>
 <float>,<cos>
 <float>,<exp>
-<float>,float
+<float>,int
 <float>,<log>
 <float>,<log10>
 <float>,<floats.math.max>
@@ -841,10 +815,6 @@ name,constructor
 <int>,<ints.math.->
 <int>,<dim.math./>
 <int>,<ints.math./>
-<int>,End
-<int>,Infinity
-<int>,Off
-<int>,Undefined
 <int>,<dim.math.^>
 <int>,<ints.math.^>
 <int>,<dim.math.abs>
@@ -903,8 +873,26 @@ name,constructor
 <int>,<where>
 <int>,<who>
 <toInt>,(toInt (<boolean> | <float>))
-<boolean>,TRUE
-<boolean>,FALSE
+<boolean>,<!=>
+<boolean>,<<>
+<boolean>,<<=>
+<boolean>,<=>
+<boolean>,<>>
+<boolean>,<>=>
+<boolean>,<booleans.all.all>
+<boolean>,<deductionPuzzle.all.all>
+<boolean>,<math.and>
+<boolean>,int
+<boolean>,<can>
+<boolean>,<forAll>
+<boolean>,<booleans.math.if>
+<boolean>,<deductionPuzzle.is.is>
+<boolean>,<booleans.is.is>
+<boolean>,<booleans.no.no>
+<boolean>,<not>
+<boolean>,<math.or>
+<boolean>,<toBool>
+<boolean>,<xor>
 <toBool>,(toBool (<int> | <float>))
 <directions>,(directions (<absoluteDirection> | {<absoluteDirection>}))
 <directions>,(directions [<relativeDirection> | {<relativeDirection>}] [of:<relationType>] [bySite:<boolean>])
@@ -931,7 +919,6 @@ name,constructor
 <moves.player>,(player <int>)
 <moves.to>,(to [<siteType>] [<sites> | <int>] [level:<int>] [<rotations>] [if:<boolean>] [<apply>])
 <graph>,(graph vertices:{{<float>}} [edges:{{<int>}}])
-<graph>,(graph)
 <graph>,(graph <graph>)
 <graph>,<operators.add>
 <graph>,<basis>
@@ -973,6 +960,12 @@ name,constructor
 <equipment.hint>,(hint <int> [<int>])
 <equipment.hint>,(hint {<int>} [<int>])
 <equipment.values>,(values <siteType> <range>)
+<direction>,<absoluteDirection>
+<direction>,<directions.difference>
+<direction>,<directions>
+<direction>,<directions.if>
+<direction>,<relativeDirection>
+<direction>,<directions.union>
 <absoluteDirection>,Adjacent
 <absoluteDirection>,All
 <absoluteDirection>,Angled
@@ -1250,4 +1243,3 @@ name,constructor
 <tilingBoardlessType>,Square
 <tilingBoardlessType>,Triangular
 <string>,string
-<direction>,<absoluteDirection>

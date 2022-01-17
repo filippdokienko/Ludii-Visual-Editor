@@ -1,15 +1,20 @@
 package components.ludemeblock.grammar;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Ludeme {
-    private final String NAME;
-    private final List<Constructor> CONSTRUCTORS;
+    public final String NAME;
+    public List<Constructor> CONSTRUCTORS = new ArrayList<>();
 
 
     public Ludeme(String name, List<Constructor> constructors){
         this.NAME = name;
         this.CONSTRUCTORS = constructors;
+    }
+
+    public Ludeme(String name){
+        this.NAME = name;
     }
 
     public String getName() {
@@ -18,5 +23,8 @@ public class Ludeme {
 
     public List<Constructor> getConstructors(){
         return CONSTRUCTORS;
+    }
+    public void addConstructor(Constructor c){
+        CONSTRUCTORS.add(c);
     }
 }

@@ -1,8 +1,17 @@
-int
-sites
-boolean
-direction
-effect.add
-what are {{ .. }}?
+ludemes with empty constructor
+word in the middle of constructor 
+ e.g. terminalLudmes [...] All [<then>]
 
-main problem: endless recursion
+Terminal in brackets []
+
+starts with random lower case word
+
+e.g. <sites> :== region <equipment.region>
+
+<float>,<boolean> terminal
+
+ludemes with Terminals AND non-terminals
+e.g. <int>
+
+
+2d array {{}}

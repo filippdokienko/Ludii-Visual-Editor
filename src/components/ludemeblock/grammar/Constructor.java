@@ -26,4 +26,9 @@ public class Constructor {
         return INPUTS;
     }
     public String getGrammar(){ return GRAMMAR; }
+
+    @Override
+    public String toString(){
+        return GRAMMAR;
+    }
 }
