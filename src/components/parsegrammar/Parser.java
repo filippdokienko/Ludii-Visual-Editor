@@ -130,14 +130,33 @@ public class Parser {
         }
     }
 
+    private List<String> nameStack = new ArrayList<>();
+    private List<String> csStack = new ArrayList<>();
+
     private Ludeme getLudeme(String name){
         for(Ludeme l : ludemes){
             if(l.getName().equals(name)) return l;
         }
         // does not exist -> create
         System.out.println("couldnt find " + name + "; create!");
+
+        if(nameStack.contains(name)){
+            System.out.println("endless loop!");
+            nameStack.add(name);
+            System.out.println(nameStack.toString());
+            System.out.println("\n");
+            for(String c : csStack){
+                System.out.println(c);
+            }
+
+            System.exit(11);
+        }
+        nameStack.add(name);
+
         return createLudeme(name);
     }
+
+
 
     private Ludeme createLudeme(String name){
         // get constructors
@@ -154,7 +173,9 @@ public class Parser {
         }
         ArrayList<Constructor> constructors = new ArrayList<>();
         for(String constructorString : constructorStrings){
+            csStack.add(constructorString);
             constructors.add(readConstructorString(name, constructorString));
+            csStack.remove(constructorString);
         }
         Ludeme ludeme = new Ludeme(name, constructors);
         addLudeme(ludeme);
