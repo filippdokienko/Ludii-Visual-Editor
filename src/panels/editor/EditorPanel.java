@@ -292,11 +292,60 @@ public class EditorPanel extends JPanel {
          repaint();
          }
 */
+
+
+        Ludeme game = findLudeme("game");
+        add(getBlock(game, game.CONSTRUCTORS.get(1)));
+
+        Ludeme players = findLudeme("players");
+        add(getBlock(players));
+
+        Ludeme equipment = findLudeme("equipment");
+        add(getBlock(equipment));
+
+        Ludeme string = findLudeme("string");
+        add(getBlock(string));
+
+        Ludeme integer = findLudeme("int");
+        System.out.println(integer.CONSTRUCTORS);
+        add(getBlock(integer,integer.CONSTRUCTORS.get(30)));
+
+        Ludeme board = findLudeme("container.board.board");
+        add(getBlock(board));
+
+        Ludeme rules = findLudeme("rules.rules");
+        add(getBlock(rules));
+
+        Ludeme play = findLudeme("play");
+        add(getBlock(play));
+
+
+        revalidate();
+        repaint();
+
+    }
+
+
+    private LudemeBlock getBlock(Ludeme l){
+        return new LudemeBlock(0, 0, 300, l, this);
+    }
+
+    private LudemeBlock getBlock(Ludeme l, Constructor c){
+        LudemeBlock lb = new LudemeBlock(0,0,300, l,c,this);
+        //lb.setCurrentConstructor(c);
+        return lb;
+    }
+
+    private Ludeme findLudeme(String name){
+        for(Ludeme l : ludemes){
+            if(l.getName().equals(name)) return l;
+        }
+        return null;
     }
 
     ParserWithBlueprint p = new ParserWithBlueprint();
     List<Ludeme> ludemes = p.getLudemes();
-    int cc = 66;
+    int cc = 67;
 
     private class SpawnNodePanelListener extends MouseAdapter {
         public void mouseClicked(MouseEvent e) {

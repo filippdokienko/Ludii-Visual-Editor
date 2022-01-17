@@ -59,6 +59,22 @@ public class LudemeBlock extends JComponent {
 
     }
 
+    public LudemeBlock(int x, int y, int width, Ludeme ludeme, Constructor c, EditorPanel editorPanel){
+        this.x = x;
+        this.y = y;
+        this.WIDTH = width;
+        this.LUDEME = ludeme;
+        this.currentConstructor = c;
+
+        this.WIDTH_CENTER = ((int)(WIDTH_PERCENTAGE_CENTER*WIDTH));
+        this.WIDTH_SIDE = ((int)(WIDTH_PERCENTAGE_SIDE*WIDTH));
+
+        this.EDITOR_PANEL = editorPanel;
+
+        initializeLayout();
+
+    }
+
     private void initializeLayout(){
         setLayout(new BorderLayout());
         height += HEIGHT_HEADER_COMPONENT;
@@ -151,6 +167,17 @@ public class LudemeBlock extends JComponent {
 
     public Constructor getCurrentConstructor() {
         return currentConstructor;
+    }
+
+    // TODO: update block upon change
+    public void setCurrentConstructor(Constructor c){
+        this.currentConstructor = c;
+        // TODO: doesnt work
+        remove(inputsComponent);
+        inputsComponent = new LudemeBlockInputsComponent(this);
+        add(inputsComponent,BorderLayout.CENTER);
+        revalidate();
+        repaint();
     }
 
     public LudemeConnectionComponent getIngoingConnectionComponent(){

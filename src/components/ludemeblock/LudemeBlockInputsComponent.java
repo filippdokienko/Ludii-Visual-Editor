@@ -18,6 +18,8 @@ public class LudemeBlockInputsComponent extends JPanel {
         setAlignmentX(LEFT_ALIGNMENT);
         setBackground(LudemeBlock.MAIN_COLOR);
 
+        System.out.println("2[§] " + ludemeBlock.getCurrentConstructor());
+
         // for every input in current constructor add input field
         for(Input i : ludemeBlock.getCurrentConstructor().getInputs()){
             InputComponent ic = new InputComponent(ludemeBlock, i);
