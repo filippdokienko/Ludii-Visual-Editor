@@ -1,12 +1,14 @@
 package panels.editor;
 
-import components.ludemeblock.CustomPoint;
-import components.ludemeblock.LudemeBlock;
-import components.ludemeblock.LudemeConnectionComponent;
-import components.ludemeblock.LudemeBlockEdge;
-import components.ludemeblock.grammar.Constructor;
-import components.ludemeblock.grammar.Ludeme;
-import components.parsegrammar.Parser;
+import components.ludemenode.CustomPoint;
+import components.ludemenode.block.LudemeBlock;
+import components.ludemenode.block.LudemeConnectionComponent;
+import components.ludemenode.LudemeConnection;
+import components.ludemenode.interfaces.LudemeNode;
+import grammar.Constructor;
+import grammar.Ludeme;
+import grammar.parser.Parser;
+import components.DesignPalette;
 
 import javax.swing.*;
 import java.awt.*;
@@ -18,7 +20,6 @@ import java.util.List;
 
 public class EditorPanel extends JPanel {
 
-    public static final Color BACKGROUND_COLOR = new Color(233,233,233);
     private EditorPanel editorPanel = this;
 
     /*
@@ -32,10 +33,10 @@ public class EditorPanel extends JPanel {
 
      */
 
-    public List<LudemeBlockEdge> list_edges = new ArrayList<>();
+    public List<LudemeConnection> list_edges = new ArrayList<>();
 
     private void addConnection(CustomPoint p1, CustomPoint p2){
-        list_edges.add(new LudemeBlockEdge(p1, p2));
+        list_edges.add(new LudemeConnection(p1, p2));
     }
     private void addConnection(LudemeConnectionComponent outgoingConnectionComponent, LudemeConnectionComponent ingoingConnectionComponent){
         CustomPoint ingoingPosition = ingoingConnectionComponent.getPosition();
@@ -72,9 +73,9 @@ public class EditorPanel extends JPanel {
 
     }
 
-    public void ludemeBlockClicked(LudemeBlock ludemeBlock){
-        if(selectedConnectionComponent != null && selectedConnectionComponent.isOutgoing() && ludemeBlock != selectedConnectionComponent.getLudemeBlock()){
-            LudemeConnectionComponent ingoingConnectionComponent = ludemeBlock.getIngoingConnectionComponent();
+    public void ludemeBlockClicked(LudemeNode ludemeNode){
+        if(selectedConnectionComponent != null && selectedConnectionComponent.isOutgoing() && ludemeNode != selectedConnectionComponent.getLudemeBlock()){
+            LudemeConnectionComponent ingoingConnectionComponent = ((LudemeBlock) ludemeNode).getIngoingConnectionComponent();
             addConnection(selectedConnectionComponent, ingoingConnectionComponent);
         }
     }
@@ -97,7 +98,7 @@ public class EditorPanel extends JPanel {
     }
 
     private void paintConnections(Graphics2D g2){
-        for(LudemeBlockEdge e : list_edges){
+        for(LudemeConnection e : list_edges){
             int cp_x = e.p1.x + Math.abs((e.p1.x-e.p2.x)/2);
             int cp1_y = e.p1.y;
             int cp2_y = e.p2.y;
@@ -128,7 +129,7 @@ public class EditorPanel extends JPanel {
 
     public EditorPanel(int width, int height){
         setLayout(null);
-        setBackground(BACKGROUND_COLOR);
+        setBackground(DesignPalette.BACKGROUND_EDITOR);
         setPreferredSize(new Dimension(width, height));
         addMouseListener(new SpawnNodePanelListener());
 
@@ -158,134 +159,6 @@ public class EditorPanel extends JPanel {
                 }
             }
         });
-
-        // add default ludeme blocks
-
-        int posX = 20;
-        int posY = 20;
-        int widthBlock = 300;
-        int heightBlock = 10;
-
-        // game
-/*
-
-        LudemeBlock.setEditorPanel(this);
-
-        Input ig1 = new Input("", InputTypesAllPossible.STRING);
-        Input ig2 = new Input("players", InputTypesAllPossible.LUDEME); // ludeme
-        Input ig3 = new Input("equipment", InputTypesAllPossible.LUDEME); // ludeme
-        Input ig4 = new Input("rules", InputTypesAllPossible.LUDEME); // ludeme
-        Ludeme gameLudeme = new Ludeme("game", Arrays.asList(ig1,ig2,ig3,ig4));
-        LudemeBlock game_block = new LudemeBlock(posX, posY, widthBlock, heightBlock, gameLudeme);
-
-        // players
-
-        Input ip1 = new Input("", InputTypesAllPossible.INTEGER);
-        Ludeme playersLudeme = new Ludeme("players", List.of(ip1));
-        LudemeBlock players_block = new LudemeBlock(posX, posY, widthBlock, heightBlock, playersLudeme);
-
-        // equipment
-
-        Input ie1 = new Input("", InputTypesAllPossible.LUDEME); // ludeme
-        Input ie2 = new Input("", InputTypesAllPossible.LUDEME); // ludeme
-        Input ie3 = new Input("", InputTypesAllPossible.LUDEME); // ludeme
-        Ludeme equipmentLudeme = new Ludeme("equipment", Arrays.asList(ie1,ie2,ie3));
-        LudemeBlock equipment_block = new LudemeBlock(posX, posY, widthBlock, heightBlock, equipmentLudeme);
-
-        // board
-
-        Input ib1 = new Input("", InputTypesAllPossible.LUDEME); // ludeme
-        Ludeme boardLudeme = new Ludeme("board", List.of(ib1));
-        LudemeBlock board_block = new LudemeBlock(posX, posY, widthBlock, heightBlock, boardLudeme);
-
-        // square
-        Input is1 = new Input("", InputTypesAllPossible.INTEGER); // should be collection of integers OR integer
-        Ludeme squareLudeme = new Ludeme("square", List.of(is1));
-        LudemeBlock square_block = new LudemeBlock(posX, posY, widthBlock, heightBlock, squareLudeme);
-
-        // piece
-        Input ipi1 = new Input("", InputTypesAllPossible.COLLECTION, List.of("Disc", "Cross")); // should be collection of shape types
-        Input ipi2 = new Input("", InputTypesAllPossible.COLLECTION, List.of("P1", "P2", "SHOULD BE AUTOMATIC")); // should be collection of players
-        Ludeme pieceLudeme = new Ludeme("piece", Arrays.asList(ipi1, ipi2));
-        LudemeBlock piece_block1 = new LudemeBlock(posX, posY, widthBlock, heightBlock, pieceLudeme);
-        LudemeBlock piece_block2 = new LudemeBlock(posX, posY, widthBlock, heightBlock, pieceLudeme);
-
-        // rules
-        Input ir1 = new Input("", InputTypesAllPossible.LUDEME); // ludeme
-        Input ir2 = new Input("", InputTypesAllPossible.LUDEME); // ludeme
-        Ludeme rulesLudeme = new Ludeme("rules", Arrays.asList(ir1, ir2));
-        LudemeBlock rules_block = new LudemeBlock(posX, posY, widthBlock, heightBlock, rulesLudeme);
-
-        // play
-        Input ipl1 = new Input("", InputTypesAllPossible.LUDEME); // ludeme
-        Ludeme playLudeme = new Ludeme("play", List.of(ipl1));
-        LudemeBlock play_block = new LudemeBlock(posX, posY, widthBlock, heightBlock, playLudeme);
-
-        // move
-        Input im1 = new Input("Add", InputTypesAllPossible.LUDEME);
-        Ludeme moveLudeme = new Ludeme("move", List.of(im1));
-        LudemeBlock move_block = new LudemeBlock(posX, posY, widthBlock, heightBlock, moveLudeme);
-
-        // to
-        Input it1 = new Input("", InputTypesAllPossible.LUDEME);
-        Ludeme toLudeme = new Ludeme("to", List.of(it1));
-        LudemeBlock to_block = new LudemeBlock(posX, posY, widthBlock, heightBlock, toLudeme);
-
-        // sites
-        Input isi1 = new Input("", InputTypesAllPossible.COLLECTION, List.of("Empty")); // should be collection of sites
-        Ludeme sitesLudeme = new Ludeme("sites", List.of(isi1));
-        LudemeBlock sites_block = new LudemeBlock(posX, posY, widthBlock, heightBlock, sitesLudeme);
-
-        // end
-        Input ien1 = new Input("", InputTypesAllPossible.LUDEME);
-        Ludeme endLudeme = new Ludeme("end", List.of(ien1));
-        LudemeBlock end_block = new LudemeBlock(posX, posY, widthBlock, heightBlock, endLudeme);
-
-        // if
-        Input ii1 = new Input("", InputTypesAllPossible.LUDEME);
-        Input ii2 = new Input("", InputTypesAllPossible.LUDEME);
-        Ludeme ifLudeme = new Ludeme("if", List.of(ii1, ii2));
-        LudemeBlock if_block = new LudemeBlock(posX, posY, widthBlock, heightBlock, ifLudeme);
-
-
-        // is
-        Input iis1 = new Input("", InputTypesAllPossible.COLLECTION, List.of("Empty", "List")); // should be collection
-        Input iis2 = new Input("", InputTypesAllPossible.INTEGER);
-        Ludeme isLudeme = new Ludeme("is", List.of(iis1, iis2));
-        LudemeBlock is_block = new LudemeBlock(posX, posY, widthBlock, heightBlock, isLudeme);
-
-        // result
-        Input ire1 = new Input("", InputTypesAllPossible.COLLECTION, List.of("Mover")); // should be collection
-        Input ire2 = new Input("", InputTypesAllPossible.COLLECTION, List.of("Win", "Lose")); // should be collection
-        Ludeme resultLudeme = new Ludeme("result", List.of(ire1, ire2));
-        LudemeBlock result_block = new LudemeBlock(posX, posY, widthBlock, heightBlock, resultLudeme);
-
-
-
-        // add all to board
-        if(false){
-        add(game_block);
-            add(players_block);
-        add(equipment_block);
-            add(board_block);
-                add(square_block);
-            add(piece_block1);
-            add(piece_block2);
-        add(rules_block);
-            add(play_block);
-                add(move_block);
-                    add(to_block);
-                        add(sites_block);
-            add(end_block);
-                add(if_block);
-                    add(is_block);
-                    add(result_block);
-
-         revalidate();
-         repaint();
-         }
-*/
-
 
         Ludeme game = findLudeme("game");
         add(getBlock(game, game.CONSTRUCTORS.get(1)));
@@ -319,12 +192,12 @@ public class EditorPanel extends JPanel {
     }
 
 
-    private LudemeBlock getBlock(Ludeme l){
+    private LudemeNode getBlock(Ludeme l){
         return new LudemeBlock(0, 0, 300, l, this);
     }
 
-    private LudemeBlock getBlock(Ludeme l, Constructor c){
-        LudemeBlock lb = new LudemeBlock(0,0,300, l,c,this);
+    private LudemeNode getBlock(Ludeme l, Constructor c){
+        LudemeNode lb = new LudemeBlock(0,0,300, l,c,this);
         //lb.setCurrentConstructor(c);
         return lb;
     }
@@ -356,7 +229,7 @@ public class EditorPanel extends JPanel {
                 inputs1.add(i4);
                 Ludeme l1 = new Ludeme("play", inputs1);
 
-                LudemeBlock b1 = new LudemeBlock(e.getX(),e.getY(), 300,10, l1);
+                LudemeNode b1 = new LudemeBlock(e.getX(),e.getY(), 300,10, l1);
                 add(b1);
                 revalidate();
                 repaint();
@@ -367,16 +240,16 @@ public class EditorPanel extends JPanel {
                 Terminal t1 = new Terminal("A1");
                 Terminal t2 = new Terminal("A2");
 
-                components.ludemeblock.grammar.input.Input i1 = new TerminalInput("Integer", TerminalInputType.INTEGER);
-                components.ludemeblock.grammar.input.Input i2 = new TerminalInput("Dropdown", TerminalInputType.DROPDOWN, Arrays.asList(t1,t2));
-                components.ludemeblock.grammar.input.Input i3 = new LudemeInput("Ludeme",null);
-                components.ludemeblock.grammar.input.Input i4 = new LudemeInput("Ludeme2",null);
-                components.ludemeblock.grammar.input.Input i5 = new TerminalInput("String",TerminalInputType.STRING);
+                grammar.input.Input i1 = new TerminalInput("Integer", TerminalInputType.INTEGER);
+                grammar.input.Input i2 = new TerminalInput("Dropdown", TerminalInputType.DROPDOWN, Arrays.asList(t1,t2));
+                grammar.input.Input i3 = new LudemeInput("Ludeme",null);
+                grammar.input.Input i4 = new LudemeInput("Ludeme2",null);
+                grammar.input.Input i5 = new TerminalInput("String",TerminalInputType.STRING);
 
                 Constructor c1 = new Constructor(List.of(i1, i2, i3, i4, i5));
-                components.ludemeblock.grammar.Ludeme l1 = new components.ludemeblock.grammar.Ludeme("test ludeme", List.of(c1));
+                grammar.Ludeme l1 = new grammar.Ludeme("test ludeme", List.of(c1));
 
-                components.ludemeblock.LudemeBlock b1 = new components.ludemeblock.LudemeBlock(e.getX(), e.getY(),300,l1,editorPanel);
+                components.ludemeblock.LudemeNode b1 = new components.ludemeblock.LudemeNode(e.getX(), e.getY(),300,l1,editorPanel);
 
                  */
 
@@ -385,7 +258,7 @@ public class EditorPanel extends JPanel {
                 System.out.println(l.NAME);
                 System.out.println(l.CONSTRUCTORS);
 
-                LudemeBlock b1 = new LudemeBlock(e.getX(),e.getY(), 300,l,editorPanel);
+                LudemeNode b1 = new LudemeBlock(e.getX(),e.getY(), 300,l,editorPanel);
 
 
                 add(b1);

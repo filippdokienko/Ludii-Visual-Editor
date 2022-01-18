@@ -1,0 +1,54 @@
+package grammar.input;
+
+import grammar.Ludeme;
+
+public class LudemeInput implements Input{
+
+    private final String NAME;
+    private final Ludeme REQUIRED_LUDEME;
+    private boolean OPTIONAL = false;
+    private boolean COLLECTION = false;
+
+    public LudemeInput(String name, Ludeme requiredLudeme){
+        this.NAME = name;
+        this.REQUIRED_LUDEME = requiredLudeme;
+    }
+
+    @Override
+    public boolean isCollection() {
+        return false;
+    }
+
+    @Override
+    public boolean isTerminal() {
+        return false;
+    }
+
+    @Override
+    public boolean isOptional() {
+        return OPTIONAL;
+    }
+
+    @Override
+    public boolean isChoice() {
+        return COLLECTION;
+    }
+
+    @Override
+    public String getName() {
+        return NAME;
+    }
+
+    public Ludeme getRequiredLudeme(){
+        return REQUIRED_LUDEME;
+    }
+
+    public void setOptional(boolean optional){
+        OPTIONAL = optional;
+    }
+
+    public void setCollection(boolean collection){
+        COLLECTION = collection;
+    }
+
+}
