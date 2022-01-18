@@ -16,7 +16,7 @@ public class ChoiceInput implements Input {
 
     @Override
     public boolean isCollection() {
-        return false;
+        return COLLECTION;
     }
 
     @Override

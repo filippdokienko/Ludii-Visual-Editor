@@ -1,5 +1,5 @@
 package components.ludemeblock.grammar.input;
 
 public enum TerminalInputType {
-    STRING, INTEGER, DROPDOWN
+    STRING, INTEGER, DROPDOWN, FLOAT, BOOLEAN
 }
