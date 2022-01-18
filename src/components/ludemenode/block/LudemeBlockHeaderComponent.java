@@ -3,9 +3,13 @@ package components.ludemenode.block;
 
 import components.DesignPalette;
 import components.ludemenode.interfaces.ILudemeNodeTitle;
+import grammar.Constructor;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 
 public class LudemeBlockHeaderComponent extends JPanel implements ILudemeNodeTitle {
 
@@ -38,6 +42,19 @@ public class LudemeBlockHeaderComponent extends JPanel implements ILudemeNodeTit
         // RIGHT SIDE: Empty
         JComponent emptyComponent = (JComponent) Box.createRigidArea(new Dimension(ludemeBlock.WIDTH_SIDE,5));
         add(emptyComponent);
+
+
+        addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+
+                ArrayList<Constructor> constructors = (ArrayList<Constructor>) ludemeBlock.getLudeme().getConstructors();
+                int currentIndex = constructors.indexOf(ludemeBlock.getCurrentConstructor());
+                if(currentIndex == constructors.size()-1) ludemeBlock.setCurrentConstructor(constructors.get(0));
+                else ludemeBlock.setCurrentConstructor(constructors.get(currentIndex+1));
+            }
+        });
 
         setVisible(true);
         revalidate();

@@ -64,7 +64,6 @@ public class LudemeBlock extends LudemeNode {
 
     public void initialize(){
         setLayout(new BorderLayout());
-        height += HEIGHT_HEADER_COMPONENT;
         /*
          * NORTH COMPONENT: HeaderComponent
          *                  - Three parts: LEFT SIDE: Ingoing Connection
@@ -89,13 +88,13 @@ public class LudemeBlock extends LudemeNode {
 
         outgoingConnectionsComponent = new LudemeBlockOutgoingConnectionsComponent(this, inputsComponent.getComponentList());
         add(outgoingConnectionsComponent, BorderLayout.EAST);
-        height = (int)getPreferredSize().getHeight();
+        height = headerComponent.getPreferredSize().height + inputsComponent.getPreferredSize().height;
 
         add(emptySideComponent, BorderLayout.WEST);
 
 
         setMinimumSize(new Dimension(WIDTH, height));
-        setPreferredSize(new Dimension(getMinimumSize().width, getPreferredSize().height));
+        setPreferredSize(new Dimension(getMinimumSize().width, height));
         setSize(new Dimension(getMinimumSize().width, getPreferredSize().height));
 
         setSize(getPreferredSize());
@@ -156,13 +155,17 @@ public class LudemeBlock extends LudemeNode {
         return currentConstructor;
     }
 
-    // TODO: update block upon change
     public void setCurrentConstructor(Constructor c){
         this.currentConstructor = c;
-        // TODO: doesnt work
-        remove(inputsComponent);
-        inputsComponent = new LudemeBlockInputsComponent(this);
-        add(inputsComponent,BorderLayout.CENTER);
+        inputsComponent.update();
+        outgoingConnectionsComponent.update(inputsComponent.getComponentList()); // TODO: does not update
+
+        height = headerComponent.getPreferredSize().height + inputsComponent.getPreferredSize().height;
+
+        setMinimumSize(new Dimension(WIDTH, height));
+        setPreferredSize(new Dimension(getMinimumSize().width, height));
+        setSize(new Dimension(getMinimumSize().width, getPreferredSize().height));
+
         revalidate();
         repaint();
     }

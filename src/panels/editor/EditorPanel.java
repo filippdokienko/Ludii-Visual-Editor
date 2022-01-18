@@ -161,10 +161,13 @@ public class EditorPanel extends JPanel {
         });
 
         Ludeme game = findLudeme("game");
-        add(getBlock(game, game.CONSTRUCTORS.get(1)));
+        LudemeBlock gameBlock = getBlock(game);
+        gameBlock.setCurrentConstructor(game.CONSTRUCTORS.get(1));
+        add(gameBlock);
 
         Ludeme players = findLudeme("players");
-        add(getBlock(players));
+        LudemeBlock playersBlock = getBlock(players);
+        add(playersBlock);
 
         Ludeme equipment = findLudeme("equipment");
         add(getBlock(equipment));
@@ -173,14 +176,17 @@ public class EditorPanel extends JPanel {
         add(getBlock(string));
 
         Ludeme integer = findLudeme("int");
-        System.out.println(integer.CONSTRUCTORS);
-        add(getBlock(integer,integer.CONSTRUCTORS.get(30)));
+        LudemeBlock integerBlock = getBlock(integer);
+        integerBlock.setCurrentConstructor(integer.CONSTRUCTORS.get(30));
+        add(integerBlock);
 
         Ludeme board = findLudeme("container.board.board");
         add(getBlock(board));
 
         Ludeme rules = findLudeme("rules.rules");
-        add(getBlock(rules));
+        LudemeBlock rulesBlock = getBlock(rules);
+        rulesBlock.setCurrentConstructor(rules.CONSTRUCTORS.get(1));
+        add(rulesBlock);
 
         Ludeme play = findLudeme("play");
         add(getBlock(play));
@@ -192,12 +198,12 @@ public class EditorPanel extends JPanel {
     }
 
 
-    private LudemeNode getBlock(Ludeme l){
+    private LudemeBlock getBlock(Ludeme l){
         return new LudemeBlock(0, 0, 300, l, this);
     }
 
-    private LudemeNode getBlock(Ludeme l, Constructor c){
-        LudemeNode lb = new LudemeBlock(0,0,300, l,c,this);
+    private LudemeBlock getBlock(Ludeme l, Constructor c){
+        LudemeBlock lb = new LudemeBlock(0,0,300, l,c,this);
         //lb.setCurrentConstructor(c);
         return lb;
     }

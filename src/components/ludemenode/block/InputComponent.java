@@ -13,7 +13,7 @@ import java.awt.*;
 
 public class InputComponent extends JComponent {
 
-    private final Input INPUT;
+    public final Input INPUT;
     private final LudemeBlock LUDEME_BLOCK;
 
     public InputComponent(LudemeBlock ludemeBlock, Input input){
