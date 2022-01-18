@@ -8,13 +8,104 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class Parser {
+
+
+    private ArrayList<Ludeme> ludemes = new ArrayList<>();
+    private final List<Grammar> GRAMMAR = getGrammar();
+    private final boolean DEBUG = true;
+    private final String GRAMMAR_CHARACTERS = "[]<>(){}|,:"; //List.of('[',']','<','>','{','}','|',':','(',')');
+    private final String CAPITAL_NON_GRAMMAR_LETTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    private final String LOWER_NON_GRAMMAR_LETTERS = "abcdefghijklmnopqrstuvwxyz";
+    
+
+    public Parser(){
+        // first parse all grammars which consist of Terminals only
+        for(Grammar g : GRAMMAR){
+            boolean onlyTerminals = true;
+            for(String constructor : g.constructors){
+
+                if(!onlyTerminals) break;
+
+                if(CAPITAL_NON_GRAMMAR_LETTERS.indexOf(constructor.charAt(0)) == -1){
+                    onlyTerminals = false;
+                    continue;
+                }
+                for(char grammarChar: GRAMMAR_CHARACTERS.toCharArray()){
+                    if(constructor.indexOf(grammarChar) != -1){
+                        onlyTerminals = false;
+                        break;
+                    }
+                }
+            }
+            if(onlyTerminals){
+                createTerminalOnlyLudeme(g);
+                terminalLudmes.add(g.NAME);
+            }
+        }
+        for(Grammar g : GRAMMAR){
+            if(terminalLudmes.contains(g.NAME)) continue;
+            if(g.NAME.equals("automove") || g.NAME.equals("gravity") || g.NAME.equals("meta.swap") || g.NAME.equals("pin") || g.NAME.equals("split") || g.NAME.equals("was") || g.NAME.equals("is")) continue;
+            if(nameExists(g.NAME) == null) {
+                if (g.NAME.equals("string")) System.out.println("[!!!] String found");
+                createLudeme(g.NAME);
+            } else {
+                finishLudeme(nameExists(g.NAME),g.constructors);
+            }
+        }
+        System.out.println("TADAAA");
+    }
+
+
+    private Ludeme nameExists(String name){
+        for(Ludeme l : ludemes){
+            if(l.NAME.equals(name)) return l;
+        }
+        return null;
+    }
+
+    private void finishLudeme(Ludeme l, List<String> constructors){
+        for(String c : constructors){
+            l.addConstructor(readConstructorString(l.NAME,c));
+        }
+    }
+
+    private Ludeme createLudeme(String name){
+        // get constructors
+        List<String> constructorStrings = null;
+        for(Grammar g : GRAMMAR){
+            if(g.NAME.equals(name)){
+                constructorStrings = g.constructors;
+                break;
+            }
+        }
+        if(constructorStrings == null) {
+            System.out.println("EROOR: couldnt find grammar with name " + name);
+            return null;
+        }
+
+        // find ludeme or create
+        Ludeme lb = nameExists(name);
+        if(lb == null){
+            lb = new Ludeme(name);
+            addLudeme(lb);
+        }
+
+        ArrayList<Constructor> constructors = new ArrayList<>();
+        for(String constructorString : constructorStrings){
+            csStack.add(constructorString);
+            lb.addConstructor(readConstructorString(name, constructorString));
+            csStack.remove(constructorString);
+        }
+        return lb;
+    }
+
+
     private List<Grammar> getGrammar(){
         List<Grammar> records = new ArrayList<>();
-        try (BufferedReader br = new BufferedReader(new FileReader("D:\\fmele\\Documents\\University\\Year 2\\MaRBLe\\Ludii-Visual-Editor\\easygrammar.csv"))) {
+        try (BufferedReader br = new BufferedReader(new FileReader("D:\\fmele\\Documents\\University\\Year 2\\MaRBLe\\Ludii-Visual-Editor\\easy.csv"))) {
             String line;
             while ((line = br.readLine()) != null) {
                 String[] values = line.split(",");
@@ -60,59 +151,28 @@ public class Parser {
         return records;
     }
 
+    private List<Ludeme> actualLudems = new ArrayList<>();
 
-    private ArrayList<Ludeme> ludemes = new ArrayList<>();
-    private final List<Grammar> GRAMMAR = getGrammar();
-    private final boolean DEBUG = true;
-    private final String GRAMMAR_CHARACTERS = "[]<>(){}|,:"; //List.of('[',']','<','>','{','}','|',':','(',')');
-    private final String CAPITAL_NON_GRAMMAR_LETTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-    private final String LOWER_NON_GRAMMAR_LETTERS = "abcdefghijklmnopqrstuvwxyz";
-
-
-    public Parser(){
-
-        for(Grammar g : GRAMMAR){
-            if(g.NAME.equals("int")){
-                g.constructors = List.of("int");
-            }
-            if(g.NAME.equals("sites")){
-                g.constructors = List.of("sites LargePiece [<siteType>] at:<int>");
-            }
-        }
-
-        // first parse all grammars which consist of Terminals only
-        for(Grammar g : GRAMMAR){
-            boolean onlyTerminals = true;
-            for(String constructor : g.constructors){
-
-                if(!onlyTerminals) break;
-
-                if(CAPITAL_NON_GRAMMAR_LETTERS.indexOf(constructor.charAt(0)) == -1){
-                    onlyTerminals = false;
-                    continue;
-                }
-                for(char grammarChar: GRAMMAR_CHARACTERS.toCharArray()){
-                    if(constructor.indexOf(grammarChar) != -1){
-                        onlyTerminals = false;
-                        break;
-                    }
-                }
-            }
-            if(onlyTerminals){
-                createTerminalOnlyLudeme(g);
-            }
-        }
-
-
-    }
-
-    public void parse(){
-        getLudeme("game");
-    }
 
     public List<Ludeme> getLudemes(){
         return ludemes;
     }
+
+    private List<String> nameStack = new ArrayList<>();
+    private List<String> csStack = new ArrayList<>();
+
+    private Ludeme getLudeme(String name){
+        for(Ludeme l : ludemes){
+            if(l.getName().equals(name)) return l;
+        }
+        // does not exist -> create
+        System.out.println("couldnt find " + name + "; create!");
+        Ludeme l = new Ludeme(name);
+        addLudeme(l);
+        return l;
+    }
+
+    private List<String> terminalLudmes = new ArrayList<>();
 
     private Ludeme createTerminalOnlyLudeme(Grammar g){
         ArrayList<Terminal> terminals = new ArrayList<>();
@@ -130,60 +190,6 @@ public class Parser {
         }
     }
 
-    private List<String> nameStack = new ArrayList<>();
-    private List<String> csStack = new ArrayList<>();
-
-    private Ludeme getLudeme(String name){
-        for(Ludeme l : ludemes){
-            if(l.getName().equals(name)) return l;
-        }
-        // does not exist -> create
-        System.out.println("couldnt find " + name + "; create!");
-
-        if(nameStack.contains(name)){
-            System.out.println("endless loop!");
-            nameStack.add(name);
-            System.out.println(nameStack.toString());
-            System.out.println("\n");
-            for(String c : csStack){
-                System.out.println(c);
-            }
-
-            System.exit(11);
-        }
-        nameStack.add(name);
-
-        return createLudeme(name);
-    }
-
-
-
-    private Ludeme createLudeme(String name){
-        // get constructors
-        List<String> constructorStrings = null;
-        for(Grammar g : GRAMMAR){
-            if(g.NAME.equals(name)){
-                constructorStrings = g.constructors;
-                break;
-            }
-        }
-        if(constructorStrings == null) {
-            System.out.println("EROOR: couldnt find grammar with name " + name);
-            return null;
-        }
-        ArrayList<Constructor> constructors = new ArrayList<>();
-        for(String constructorString : constructorStrings){
-            csStack.add(constructorString);
-            constructors.add(readConstructorString(name, constructorString));
-            csStack.remove(constructorString);
-        }
-        Ludeme ludeme = new Ludeme(name, constructors);
-        addLudeme(ludeme);
-        System.out.println("created " + name);
-        return ludeme;
-    }
-
-
 
     private Constructor readConstructorString(String name, String constructorString){
         if(DEBUG) System.out.println("Reading " + constructorString);
@@ -191,11 +197,14 @@ public class Parser {
 
         // if constructor string contains name, trim it
         boolean containsName = constructorStringStartsWithLudemeName(name, constructorString);
-        constructorString = constructorString.substring(constructorString.indexOf(" ")+1);
+        if(!name.equals("string")  && !name.equals("int") && containsName) {
+            System.out.println("[!] contains name: " + name + ", " + constructorString);
+            constructorString = constructorString.substring(constructorString.indexOf(" ")+1);
+        }
 
         // if contained name and next word starts with capital letter, it identifies the constructor
         String constructorName = null;
-        if(CAPITAL_NON_GRAMMAR_LETTERS.indexOf(constructorString.charAt(0)) != -1){
+        while(containsName && CAPITAL_NON_GRAMMAR_LETTERS.indexOf(constructorString.charAt(0)) != -1){
             constructorName = constructorString.substring(0,constructorString.indexOf(" "));
             constructorString = constructorString.substring(constructorString.indexOf(" ")+1);
         }
@@ -222,11 +231,13 @@ public class Parser {
 
 
             if(constructorString.startsWith("int")){
+                System.out.println("[INT]");
                 inputs.add(readInput(constructorString));
                 constructorString = constructorString.replaceFirst("int","");
                 continue;
             }
             if(constructorString.startsWith("string")){
+                System.out.println("[STRING]");
                 inputs.add(readInput(constructorString));
                 constructorString = constructorString.replaceFirst("string","");
                 continue;
@@ -414,8 +425,9 @@ public class Parser {
         }
         // case 1
         else {
-           return constructorString.startsWith(name);
+            return constructorString.startsWith(name);
         }
     }
+    
 
 }

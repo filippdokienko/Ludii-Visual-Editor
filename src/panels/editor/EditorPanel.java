@@ -6,12 +6,7 @@ import components.ludemeblock.LudemeConnectionComponent;
 import components.ludemeblock.LudemeBlockEdge;
 import components.ludemeblock.grammar.Constructor;
 import components.ludemeblock.grammar.Ludeme;
-import components.ludemeblock.grammar.input.LudemeInput;
-import components.ludemeblock.grammar.input.Terminal;
-import components.ludemeblock.grammar.input.TerminalInput;
-import components.ludemeblock.grammar.input.TerminalInputType;
 import components.parsegrammar.Parser;
-import components.parsegrammar.ParserWithBlueprint;
 
 import javax.swing.*;
 import java.awt.*;
@@ -19,9 +14,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Path2D;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Random;
 
 public class EditorPanel extends JPanel {
 
@@ -343,7 +336,7 @@ public class EditorPanel extends JPanel {
         return null;
     }
 
-    ParserWithBlueprint p = new ParserWithBlueprint();
+    Parser p = new Parser();
     List<Ludeme> ludemes = p.getLudemes();
     int cc = 67;
 
