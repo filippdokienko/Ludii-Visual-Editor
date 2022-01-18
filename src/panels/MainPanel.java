@@ -1,18 +1,15 @@
 package panels;
 
 import panels.editor.EditorPanel;
-import panels.options.OptionsPanel;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseWheelEvent;
 
 public class MainPanel extends JPanel {
 
     JPanel editor_panel = new EditorPanel(5000, 5000);
-    JPanel options_panel = new OptionsPanel();
 
     public MainPanel(){
         setLayout(new BorderLayout());
@@ -54,9 +51,6 @@ public class MainPanel extends JPanel {
 
         editor_panel.addMouseListener(ma);
         editor_panel.addMouseMotionListener(ma);
-        //editor_panel.addMouseWheelListener(ma);
-
-        options_panel.setPreferredSize(new Dimension(200,this.getHeight()));
 
         //add(options_panel, BorderLayout.EAST);
     }
