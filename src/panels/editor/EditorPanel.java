@@ -29,8 +29,8 @@ public class EditorPanel extends JPanel {
         - Ludeme ingoing connection component not centered
         - Zoom in/out
         - connection by dragging
-        - connection only between ingoing & outgoing
         - header background
+        - when updating constructor: remove all connections
 
      */
 
@@ -238,6 +238,7 @@ public class EditorPanel extends JPanel {
 
                 addLudemeWindow.setVisible(true);
                 addLudemeWindow.setLocation(e.getX(), e.getY());
+                addLudemeWindow.searchField.requestFocus();
 
                 revalidate();
                 repaint();

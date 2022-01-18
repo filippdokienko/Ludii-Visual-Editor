@@ -10,12 +10,15 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.text.Collator;
+import java.util.Comparator;
 import java.util.List;
 
 public class AddLudemeWindow extends JPanel {
 
     DefaultListModel listModel;
-    JTextField searchField;
+    public JTextField searchField;
+    JScrollPane scrollableList;
 
     public AddLudemeWindow(List<Ludeme> ludemeList, EditorPanel editorPanel){
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
@@ -23,13 +26,14 @@ public class AddLudemeWindow extends JPanel {
 
         searchField = new JTextField();
 
+        ludemeList.sort(Comparator.comparing(Object::toString));
 
         listModel = new DefaultListModel<Ludeme>();
         for (Ludeme l : ludemeList) {
             listModel.addElement(l);
         }
         JList list = new JList(listModel);
-        JScrollPane scrollableList = new JScrollPane(list);
+        scrollableList = new JScrollPane(list);
 
         scrollableList.setPreferredSize(new Dimension(scrollableList.getPreferredSize().width, 150));
         searchField.setPreferredSize(new Dimension(scrollableList.getPreferredSize().width, searchField.getPreferredSize().height));
@@ -48,7 +52,6 @@ public class AddLudemeWindow extends JPanel {
 
             @Override
             public void changedUpdate(DocumentEvent e) {
-                System.out.println(searchField.getText());
                 listModel = new DefaultListModel<Ludeme>();
                 for(Ludeme l : ludemeList){
                     // TODO: Improve
@@ -78,6 +81,7 @@ public class AddLudemeWindow extends JPanel {
                         Object o = theList.getModel().getElementAt(index);
                         editorPanel.addLudeme((Ludeme) o);
                         searchField.setText("");
+                        scrollableList.getVerticalScrollBar().setValue(0);
                     }
             }
         };
