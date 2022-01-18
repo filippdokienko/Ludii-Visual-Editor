@@ -1,5 +1,6 @@
 package panels.editor;
 
+import components.AddLudemeWindow;
 import components.ludemenode.CustomPoint;
 import components.ludemenode.block.LudemeBlock;
 import components.ludemenode.block.LudemeConnectionComponent;
@@ -191,6 +192,7 @@ public class EditorPanel extends JPanel {
         Ludeme play = findLudeme("play");
         add(getBlock(play));
 
+        add(addLudemeWindow);
 
         revalidate();
         repaint();
@@ -219,58 +221,44 @@ public class EditorPanel extends JPanel {
     List<Ludeme> ludemes = p.getLudemes();
     int cc = 67;
 
+    private AddLudemeWindow addLudemeWindow = new AddLudemeWindow(ludemes, this);
+
     private class SpawnNodePanelListener extends MouseAdapter {
         public void mouseClicked(MouseEvent e) {
 
-            /*if (e.getButton() == MouseEvent.BUTTON2) {
-                Input i1 = new Input("InputTypesAllPossible.STRING input", InputTypesAllPossible.STRING);
-                Input i2 = new Input("int dropdown", InputTypesAllPossible.COLLECTION);
-                Input i3 = new Input("ludeme input", InputTypesAllPossible.LUDEME);
-                Input i4 = new Input("InputTypesAllPossible.STRING input 2", InputTypesAllPossible.STRING);
-
-                ArrayList<Input> inputs1 = new ArrayList<>();
-                inputs1.add(i1);
-                inputs1.add(i2);
-                inputs1.add(i3);
-                inputs1.add(i4);
-                Ludeme l1 = new Ludeme("play", inputs1);
-
-                LudemeNode b1 = new LudemeBlock(e.getX(),e.getY(), 300,10, l1);
-                add(b1);
-                revalidate();
-                repaint();
-            }*/
-
             if (e.getButton() == MouseEvent.BUTTON2) {
                 /*
-                Terminal t1 = new Terminal("A1");
-                Terminal t2 = new Terminal("A2");
-
-                grammar.input.Input i1 = new TerminalInput("Integer", TerminalInputType.INTEGER);
-                grammar.input.Input i2 = new TerminalInput("Dropdown", TerminalInputType.DROPDOWN, Arrays.asList(t1,t2));
-                grammar.input.Input i3 = new LudemeInput("Ludeme",null);
-                grammar.input.Input i4 = new LudemeInput("Ludeme2",null);
-                grammar.input.Input i5 = new TerminalInput("String",TerminalInputType.STRING);
-
-                Constructor c1 = new Constructor(List.of(i1, i2, i3, i4, i5));
-                grammar.Ludeme l1 = new grammar.Ludeme("test ludeme", List.of(c1));
-
-                components.ludemeblock.LudemeNode b1 = new components.ludemeblock.LudemeNode(e.getX(), e.getY(),300,l1,editorPanel);
-
-                 */
-
-
                 Ludeme l = ludemes.get(cc++);
                 System.out.println(l.NAME);
                 System.out.println(l.CONSTRUCTORS);
 
                 LudemeNode b1 = new LudemeBlock(e.getX(),e.getY(), 300,l,editorPanel);
-
-
                 add(b1);
+                */
+
+                addLudemeWindow.setVisible(true);
+                addLudemeWindow.setLocation(e.getX(), e.getY());
+
+                revalidate();
+                repaint();
+            }
+            else if (e.getButton() == MouseEvent.BUTTON3 || e.getButton() == MouseEvent.BUTTON1) {
+                addLudemeWindow.setVisible(false);
+
                 revalidate();
                 repaint();
             }
         }
     }
+
+    public void addLudeme(Ludeme l){
+        LudemeBlock lb = getBlock(l);
+        lb.setLocation(addLudemeWindow.getLocation());
+        add(lb);
+        addLudemeWindow.setVisible(false);
+
+        revalidate();
+        repaint();
+    }
+
 }

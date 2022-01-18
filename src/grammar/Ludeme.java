@@ -27,4 +27,9 @@ public class Ludeme {
     public void addConstructor(Constructor c){
         CONSTRUCTORS.add(c);
     }
+
+    @Override
+    public String toString(){
+        return NAME;
+    }
 }
