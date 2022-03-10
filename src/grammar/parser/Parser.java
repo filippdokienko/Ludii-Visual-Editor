@@ -105,7 +105,7 @@ public class Parser {
 
     private List<Grammar> getGrammar(){
         List<Grammar> records = new ArrayList<>();
-        try (BufferedReader br = new BufferedReader(new FileReader("D:\\fmele\\Documents\\University\\Year 2\\MaRBLe\\Ludii-Visual-Editor\\easy.csv"))) {
+        try (BufferedReader br = new BufferedReader(new FileReader("resources/easy.csv"))) {
             String line;
             while ((line = br.readLine()) != null) {
                 String[] values = line.split(",");
