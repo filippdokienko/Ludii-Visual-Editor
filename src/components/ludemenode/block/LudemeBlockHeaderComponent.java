@@ -32,7 +32,7 @@ public class LudemeBlockHeaderComponent extends JPanel implements ILudemeNodeTit
 
         // LEFT SIDE: Ingoing Connection
         // TODO: Center vertically and horizontally
-        ingoingConnectionComponent = new LudemeConnectionComponent(ludemeBlock,ludemeBlock.WIDTH_SIDE,ludemeBlock.HEIGHT_HEADER_COMPONENT, ludemeBlock.HEIGHT_HEADER_COMPONENT/3,false);
+        ingoingConnectionComponent = new LudemeConnectionComponent(ludemeBlock,null, ludemeBlock.WIDTH_SIDE,ludemeBlock.HEIGHT_HEADER_COMPONENT, ludemeBlock.HEIGHT_HEADER_COMPONENT/3,false);
         add(ingoingConnectionComponent);
         //add(new PlaceholderComponent(ludemeBlock.WIDTH_SIDE, (int)ludemeNameLabel.getPreferredSize().getHeight(), Color.RED));
         // PADDING BETWEEN LEFT & CENTER

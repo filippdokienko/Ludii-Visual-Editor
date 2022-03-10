@@ -2,12 +2,15 @@ package components.ludemenode.block;
 
 import components.DesignPalette;
 import components.ludemenode.CustomPoint;
+import grammar.Ludeme;
+import grammar.input.Input;
 import panels.editor.EditorPanel;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.List;
 
 public class LudemeConnectionComponent extends JComponent {
     private final boolean OUTGOING;
@@ -15,12 +18,15 @@ public class LudemeConnectionComponent extends JComponent {
     private ConnectionPointComponent connectionPointComponent;
     private final LudemeBlock LUDEME_BLOCK;
 
+    private final List<Ludeme> REQUIRED_LUDEMES; // if ingoing connection = null
+
     private final int WIDTH,HEIGHT;
 
     private final int RADIUS;
 
-    public LudemeConnectionComponent(LudemeBlock ludemeBlock, int width, int height, int radius, boolean outgoing){
+    public LudemeConnectionComponent(LudemeBlock ludemeBlock, List<Ludeme> requiredLudemes, int width, int height, int radius, boolean outgoing){
         this.LUDEME_BLOCK = ludemeBlock;
+        this.REQUIRED_LUDEMES = requiredLudemes;
         this.OUTGOING = outgoing;
         this.RADIUS = radius;
         this.WIDTH = width;
@@ -155,6 +161,10 @@ public class LudemeConnectionComponent extends JComponent {
 
     public LudemeBlock getLudemeBlock(){
         return LUDEME_BLOCK;
+    }
+
+    public List<Ludeme> getRequiredLudemes(){
+        return REQUIRED_LUDEMES;
     }
 
 }

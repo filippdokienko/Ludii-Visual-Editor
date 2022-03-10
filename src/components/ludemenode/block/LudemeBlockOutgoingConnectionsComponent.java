@@ -1,5 +1,7 @@
 package components.ludemenode.block;
 
+import grammar.Ludeme;
+import grammar.input.ChoiceInput;
 import grammar.input.Input;
 import grammar.input.LudemeInput;
 
@@ -31,7 +33,17 @@ public class LudemeBlockOutgoingConnectionsComponent extends JPanel {
             Input in = inputComponents.get(i).INPUT;
             int inputComponentHeight = (int) inputComponents.get(i).getPreferredSize().getHeight();
             if(!in.isTerminal()){
-                LudemeConnectionComponent lc = new LudemeConnectionComponent(LUDEME_BLOCK,LUDEME_BLOCK.WIDTH_SIDE,inputComponentHeight, LUDEME_BLOCK.WIDTH_SIDE/2, true);
+                List<Ludeme> list_of_required_ludemes;
+                if(in.isChoice()){
+                    list_of_required_ludemes = new ArrayList<>();
+                    for(Input c_in : ((ChoiceInput) in).getInputs()){
+                        if(!c_in.isTerminal()) list_of_required_ludemes.add(((LudemeInput) c_in).getRequiredLudeme());
+                    }
+                }
+                else {
+                    list_of_required_ludemes = List.of(((LudemeInput) in).getRequiredLudeme());
+                }
+                LudemeConnectionComponent lc = new LudemeConnectionComponent(LUDEME_BLOCK, list_of_required_ludemes, LUDEME_BLOCK.WIDTH_SIDE,inputComponentHeight, LUDEME_BLOCK.WIDTH_SIDE/2, true);
                 connectionComponentList.add(lc);
                 lc.setAlignmentX(Component.CENTER_ALIGNMENT);
                 add(lc);

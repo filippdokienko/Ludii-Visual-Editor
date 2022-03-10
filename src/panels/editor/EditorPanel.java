@@ -1,6 +1,7 @@
 package panels.editor;
 
 import components.AddLudemeWindow;
+import components.ConnectLudemeWindow;
 import components.ludemenode.CustomPoint;
 import components.ludemenode.block.LudemeBlock;
 import components.ludemenode.block.LudemeConnectionComponent;
@@ -151,11 +152,29 @@ public class EditorPanel extends JPanel {
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
                 if (e.getButton() == MouseEvent.BUTTON1) {
-                    System.out.println("mouse clicked editor panel -> pop up 'create new ludeme'");
+                    connectLudemeWindow.setVisible(false);
+                    if(selectedConnectionComponent != null && selectedConnectionComponent.getRequiredLudemes() != null){
+                        System.out.println(selectedConnectionComponent.getRequiredLudemes());
+                        if(selectedConnectionComponent.getRequiredLudemes().size() == 1){
+                            addLudeme(selectedConnectionComponent.getRequiredLudemes().get(0), e.getPoint(), true);
+                        } else if(selectedConnectionComponent.getRequiredLudemes().size() > 1){
+                            System.out.println("hmm");
+                            connectLudemeWindow.updateList(selectedConnectionComponent.getRequiredLudemes());
+                            //connectLudemeWindow = new AddLudemeWindow(selectedConnectionComponent.getRequiredLudemes(), EditorPanel.this, true);
+                            connectLudemeWindow.setVisible(true);
+                            connectLudemeWindow.setLocation(e.getX(), e.getY());
+                            connectLudemeWindow.searchField.requestFocus();
+                            System.out.println(connectLudemeWindow.getSize());
+                            revalidate();
+                            repaint();
+                        }
+
+                    }
                     // TODO: option to create new Ludeme
                 }
                 if (e.getButton() == MouseEvent.BUTTON3) {
                     // cancels creation of new connection
+                    connectLudemeWindow.setVisible(false);
                     connectNewConnection(null);
                 }
             }
@@ -193,6 +212,7 @@ public class EditorPanel extends JPanel {
         add(getBlock(play));
 
         add(addLudemeWindow);
+        add(connectLudemeWindow);
 
         revalidate();
         repaint();
@@ -221,7 +241,8 @@ public class EditorPanel extends JPanel {
     List<Ludeme> ludemes = p.getLudemes();
     int cc = 67;
 
-    private AddLudemeWindow addLudemeWindow = new AddLudemeWindow(ludemes, this);
+    private AddLudemeWindow addLudemeWindow = new AddLudemeWindow(ludemes, this, false);
+    private AddLudemeWindow connectLudemeWindow = new AddLudemeWindow(ludemes, this, true);
 
     private class SpawnNodePanelListener extends MouseAdapter {
         public void mouseClicked(MouseEvent e) {
@@ -252,14 +273,26 @@ public class EditorPanel extends JPanel {
         }
     }
 
-    public void addLudeme(Ludeme l){
+    public LudemeBlock addLudeme(Ludeme l, Point location){
         LudemeBlock lb = getBlock(l);
-        lb.setLocation(addLudemeWindow.getLocation());
+        lb.setLocation(location);
+        //lb.setLocation(addLudemeWindow.getLocation());
         add(lb);
         addLudemeWindow.setVisible(false);
+        connectLudemeWindow.setVisible(false);
 
         revalidate();
         repaint();
+        return lb;
     }
+
+    public LudemeBlock addLudeme(Ludeme l, Point location, boolean connect){
+        LudemeBlock lb = addLudeme(l, location);
+        if(connect){
+            connectNewConnection(lb.getIngoingConnectionComponent());
+        }
+        return lb;
+    }
+
 
 }

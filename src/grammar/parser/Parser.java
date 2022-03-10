@@ -317,7 +317,7 @@ public class Parser {
             return new TerminalInput("int", TerminalInputType.INTEGER);
         }
         if(inputString.startsWith("string")){
-            return new TerminalInput("int", TerminalInputType.STRING);
+            return new TerminalInput("string", TerminalInputType.STRING);
         }
 
         String inputName = null;

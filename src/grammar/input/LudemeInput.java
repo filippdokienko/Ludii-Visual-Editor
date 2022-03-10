@@ -16,7 +16,7 @@ public class LudemeInput implements Input{
 
     @Override
     public boolean isCollection() {
-        return false;
+        return COLLECTION;
     }
 
     @Override
@@ -31,7 +31,7 @@ public class LudemeInput implements Input{
 
     @Override
     public boolean isChoice() {
-        return COLLECTION;
+        return false;
     }
 
     @Override

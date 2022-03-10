@@ -48,4 +48,6 @@ public class ChoiceInput implements Input {
     public void setCollection(boolean collection) {
         COLLECTION = collection;
     }
+
+    public List<Input> getInputs(){ return INPUTS; }
 }
