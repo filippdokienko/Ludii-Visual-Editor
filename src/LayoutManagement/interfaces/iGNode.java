@@ -13,7 +13,7 @@ public interface iGNode {
 
     int getId();
 
-    iGNode getIGParent();
+    iGNode getParent();
 
     List<iGNode> getChildren();
 

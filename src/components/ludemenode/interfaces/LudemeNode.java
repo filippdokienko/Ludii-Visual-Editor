@@ -8,7 +8,7 @@ import panels.editor.EditorPanel;
 import javax.swing.*;
 import java.util.List;
 
-public abstract class LudemeNode extends JComponent implements ILudemeNode, iGNode {
+public abstract class LudemeNode extends JComponent implements ILudemeNode {
 
     protected int x, y;
     protected final Ludeme LUDEME;
@@ -20,30 +20,5 @@ public abstract class LudemeNode extends JComponent implements ILudemeNode, iGNo
         this.y = y;
         this.EDITOR_PANEL = editorPanel;
         this.LUDEME = ludeme;
-    }
-
-    @Override
-    public int getId() {
-        return 0;
-    }
-
-    @Override
-    public List<iGNode> getChildren() {
-        return null;
-    }
-
-    @Override
-    public List<iGNode> getSiblings() {
-        return null;
-    }
-
-    @Override
-    public Vector2D getPos() {
-        return null;
-    }
-
-    @Override
-    public void setPos() {
-
     }
 }
