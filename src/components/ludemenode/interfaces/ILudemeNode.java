@@ -15,4 +15,5 @@ public interface ILudemeNode {
     Ludeme getLudeme();
     Constructor getCurrentConstructor();
     void setCurrentConstructor(Constructor c);
+    //todo. position as vector2d
 }
