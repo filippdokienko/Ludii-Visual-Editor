@@ -1,16 +1,17 @@
 package panels.editor;
 
 import components.AddLudemeWindow;
-import components.ConnectLudemeWindow;
 import components.ludemenode.CustomPoint;
 import components.ludemenode.block.LudemeBlock;
 import components.ludemenode.block.LudemeConnectionComponent;
 import components.ludemenode.LudemeConnection;
-import components.ludemenode.interfaces.LudemeNode;
+import components.ludemenode.interfaces.LudemeNodeComponent;
 import grammar.Constructor;
 import grammar.Ludeme;
 import grammar.parser.Parser;
 import components.DesignPalette;
+import model.DescriptionGraph;
+import model.LudemeNode;
 
 import javax.swing.*;
 import java.awt.*;
@@ -23,6 +24,9 @@ import java.util.List;
 public class EditorPanel extends JPanel {
 
     private EditorPanel editorPanel = this;
+
+    private DescriptionGraph graph = new DescriptionGraph();
+
 
     /*
 
@@ -75,7 +79,7 @@ public class EditorPanel extends JPanel {
 
     }
 
-    public void ludemeBlockClicked(LudemeNode ludemeNode){
+    public void ludemeBlockClicked(LudemeNodeComponent ludemeNode){
         if(selectedConnectionComponent != null && selectedConnectionComponent.isOutgoing() && ludemeNode != selectedConnectionComponent.getLudemeBlock()){
             LudemeConnectionComponent ingoingConnectionComponent = ((LudemeBlock) ludemeNode).getIngoingConnectionComponent();
             addConnection(selectedConnectionComponent, ingoingConnectionComponent);
@@ -136,6 +140,18 @@ public class EditorPanel extends JPanel {
         addMouseListener(new SpawnNodePanelListener());
 
 
+
+
+        Ludeme game = findLudeme("game");
+        LudemeNode gameNode = new LudemeNode(game, 0, 0);
+        gameNode.setCurrentConstructor(game.getConstructors().get(1));
+        LudemeNodeComponent gameBlock = new LudemeBlock(gameNode, this, 300);
+        add(gameBlock);
+
+        graph.setRoot(gameNode);
+        graph.add(gameNode);
+
+
         addMouseMotionListener(new MouseAdapter() {
             @Override
             public void mouseMoved(MouseEvent e) {
@@ -156,7 +172,7 @@ public class EditorPanel extends JPanel {
                     if(selectedConnectionComponent != null && selectedConnectionComponent.getRequiredLudemes() != null){
                         System.out.println(selectedConnectionComponent.getRequiredLudemes());
                         if(selectedConnectionComponent.getRequiredLudemes().size() == 1){
-                            addLudeme(selectedConnectionComponent.getRequiredLudemes().get(0), e.getPoint(), true);
+                            addLudemeNode(selectedConnectionComponent.getRequiredLudemes().get(0), e.getPoint(), true);
                         } else if(selectedConnectionComponent.getRequiredLudemes().size() > 1){
                             System.out.println("hmm");
                             connectLudemeWindow.updateList(selectedConnectionComponent.getRequiredLudemes());
@@ -180,36 +196,6 @@ public class EditorPanel extends JPanel {
             }
         });
 
-        Ludeme game = findLudeme("game");
-        LudemeBlock gameBlock = getBlock(game);
-        gameBlock.setCurrentConstructor(game.CONSTRUCTORS.get(1));
-        add(gameBlock);
-
-        Ludeme players = findLudeme("players");
-        LudemeBlock playersBlock = getBlock(players);
-        add(playersBlock);
-
-        Ludeme equipment = findLudeme("equipment");
-        add(getBlock(equipment));
-
-        Ludeme string = findLudeme("string");
-        add(getBlock(string));
-
-        Ludeme integer = findLudeme("int");
-        LudemeBlock integerBlock = getBlock(integer);
-        integerBlock.setCurrentConstructor(integer.CONSTRUCTORS.get(30));
-        add(integerBlock);
-
-        Ludeme board = findLudeme("container.board.board");
-        add(getBlock(board));
-
-        Ludeme rules = findLudeme("rules.rules");
-        LudemeBlock rulesBlock = getBlock(rules);
-        rulesBlock.setCurrentConstructor(rules.CONSTRUCTORS.get(1));
-        add(rulesBlock);
-
-        Ludeme play = findLudeme("play");
-        add(getBlock(play));
 
         add(addLudemeWindow);
         add(connectLudemeWindow);
@@ -220,15 +206,37 @@ public class EditorPanel extends JPanel {
     }
 
 
-    private LudemeBlock getBlock(Ludeme l){
-        return new LudemeBlock(0, 0, 300, l, this);
+    private LudemeNode createLudemeNode(Ludeme l){
+        return new LudemeNode(l, 0, 0);
     }
 
-    private LudemeBlock getBlock(Ludeme l, Constructor c){
-        LudemeBlock lb = new LudemeBlock(0,0,300, l,c,this);
-        //lb.setCurrentConstructor(c);
+    private LudemeBlock createLudemeBlock(LudemeNode ln){
+        LudemeBlock lb = new LudemeBlock(ln, this, 300);
         return lb;
     }
+
+    public LudemeBlock addLudemeNode(Ludeme l, Point location){
+        LudemeNode ln = createLudemeNode(l);
+        ln.setPos(location.x, location.y);
+        LudemeBlock lb = createLudemeBlock(ln);
+        graph.add(ln);
+        add(lb);
+        addLudemeWindow.setVisible(false);
+        connectLudemeWindow.setVisible(false);
+
+        revalidate();
+        repaint();
+        return lb;
+    }
+
+    public LudemeBlock addLudemeNode(Ludeme l, Point location, boolean connect){
+        LudemeBlock lb = addLudemeNode(l, location);
+        if(connect){
+            connectNewConnection(lb.getIngoingConnectionComponent());
+        }
+        return lb;
+    }
+
 
     private Ludeme findLudeme(String name){
         for(Ludeme l : ludemes){
@@ -273,26 +281,7 @@ public class EditorPanel extends JPanel {
         }
     }
 
-    public LudemeBlock addLudeme(Ludeme l, Point location){
-        LudemeBlock lb = getBlock(l);
-        lb.setLocation(location);
-        //lb.setLocation(addLudemeWindow.getLocation());
-        add(lb);
-        addLudemeWindow.setVisible(false);
-        connectLudemeWindow.setVisible(false);
 
-        revalidate();
-        repaint();
-        return lb;
-    }
-
-    public LudemeBlock addLudeme(Ludeme l, Point location, boolean connect){
-        LudemeBlock lb = addLudeme(l, location);
-        if(connect){
-            connectNewConnection(lb.getIngoingConnectionComponent());
-        }
-        return lb;
-    }
 
 
 }

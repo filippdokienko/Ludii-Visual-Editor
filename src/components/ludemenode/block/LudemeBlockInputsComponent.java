@@ -2,8 +2,6 @@ package components.ludemenode.block;
 
 import components.DesignPalette;
 import components.ludemenode.interfaces.ILudemeNodeInputs;
-import components.ludemenode.interfaces.LudemeNode;
-import grammar.Constructor;
 import grammar.input.Input;
 
 import javax.swing.*;

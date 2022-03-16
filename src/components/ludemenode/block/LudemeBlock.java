@@ -3,6 +3,7 @@ package components.ludemenode.block;
 import components.ludemenode.interfaces.*;
 import grammar.Constructor;
 import grammar.Ludeme;
+import model.LudemeNode;
 import panels.editor.EditorPanel;
 
 import javax.swing.*;
@@ -11,11 +12,10 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
 
-public class LudemeBlock extends LudemeNode {
+public class LudemeBlock extends LudemeNodeComponent {
 
     private final int WIDTH;
     private int height = 0;
-    private Constructor currentConstructor;
 
     // TODO: (maybe parent as well)
     // TODO: have list of ludemenodes it is connect to
@@ -27,6 +27,7 @@ public class LudemeBlock extends LudemeNode {
     public final int WIDTH_CENTER;
     public final int WIDTH_SIDE;
 
+    private final LudemeNode LUDEME_NODE;
     public final EditorPanel EDITOR_PANEL;
 
     // Colours for different components of Ludeme Block
@@ -37,33 +38,17 @@ public class LudemeBlock extends LudemeNode {
     private LudemeBlockInputsComponent inputsComponent;
 
 
-    public LudemeBlock(int x, int y, int width, Ludeme ludeme, EditorPanel editorPanel){
-        super(x,y, ludeme, editorPanel);
+    public LudemeBlock(LudemeNode ludemeNode, EditorPanel editorPanel, int width){
+        super(ludemeNode, editorPanel);
+        this.LUDEME_NODE = ludemeNode;
         this.WIDTH = width;
-        this.currentConstructor = LUDEME.getConstructors().get(0);
+        this.EDITOR_PANEL = editorPanel;
 
         this.WIDTH_CENTER = ((int)(WIDTH_PERCENTAGE_CENTER*WIDTH));
         this.WIDTH_SIDE = ((int)(WIDTH_PERCENTAGE_SIDE*WIDTH));
-
-        this.EDITOR_PANEL = editorPanel;
-
         initialize();
-
     }
 
-    public LudemeBlock(int x, int y, int width, Ludeme ludeme, Constructor c, EditorPanel editorPanel){
-        super(x,y, ludeme, editorPanel);
-        this.WIDTH = width;
-        this.currentConstructor = c;
-
-        this.WIDTH_CENTER = ((int)(WIDTH_PERCENTAGE_CENTER*WIDTH));
-        this.WIDTH_SIDE = ((int)(WIDTH_PERCENTAGE_SIDE*WIDTH));
-
-        this.EDITOR_PANEL = editorPanel;
-
-        initialize();
-
-    }
 
     public void initialize(){
         setLayout(new BorderLayout());
@@ -102,8 +87,10 @@ public class LudemeBlock extends LudemeNode {
 
         setSize(getPreferredSize());
 
-        this.x = x - getWidth()/2;
-        this.y = y - getHeight()/2;
+        //this.x = x - getWidth()/2;
+        //this.y = y - getHeight()/2;
+        this.x = x;
+        this.y = y;
         setLocation(x,y);
 
         setDragListener(outgoingConnectionsComponent);
@@ -155,20 +142,21 @@ public class LudemeBlock extends LudemeNode {
     }
 
     public Constructor getCurrentConstructor() {
-        return currentConstructor;
+        return LUDEME_NODE.getCurrentConstructor();
     }
 
     public void setCurrentConstructor(Constructor c){
-        this.currentConstructor = c;
+        LUDEME_NODE.setCurrentConstructor(c);
+
         inputsComponent.update();
-        outgoingConnectionsComponent.update(inputsComponent.getComponentList()); // TODO: does not update
+        outgoingConnectionsComponent.update(inputsComponent.getComponentList());
 
         height = headerComponent.getPreferredSize().height + inputsComponent.getPreferredSize().height;
+
 
         setMinimumSize(new Dimension(WIDTH, height));
         setPreferredSize(new Dimension(getMinimumSize().width, height));
         setSize(new Dimension(getMinimumSize().width, getPreferredSize().height));
-
         revalidate();
         repaint();
     }

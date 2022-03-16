@@ -86,7 +86,7 @@ public class AddLudemeWindow extends JPanel {
                 int index = theList.locationToIndex(mouseEvent.getPoint());
                 if (index >= 0) {
                     Object o = theList.getModel().getElementAt(index);
-                    editorPanel.addLudeme((Ludeme) o, getLocation(), connect);
+                    editorPanel.addLudemeNode((Ludeme) o, getLocation(), connect);
                     searchField.setText("");
                     scrollableList.getVerticalScrollBar().setValue(0);
                 }
@@ -156,7 +156,7 @@ public class AddLudemeWindow extends JPanel {
                     int index = theList.locationToIndex(mouseEvent.getPoint());
                     if (index >= 0) {
                         Object o = theList.getModel().getElementAt(index);
-                        editorPanel.addLudeme((Ludeme) o, getLocation(), connect);
+                        editorPanel.addLudemeNode((Ludeme) o, getLocation(), connect);
                         searchField.setText("");
                         scrollableList.getVerticalScrollBar().setValue(0);
                     }
