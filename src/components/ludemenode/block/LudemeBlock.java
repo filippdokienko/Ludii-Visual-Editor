@@ -17,6 +17,9 @@ public class LudemeBlock extends LudemeNode {
     private int height = 0;
     private Constructor currentConstructor;
 
+    // TODO: (maybe parent as well)
+    // TODO: have list of ludemenodes it is connect to
+
     // Set widths of different components relative to the width of the block
     public final int HEIGHT_HEADER_COMPONENT = 35;
     public final double WIDTH_PERCENTAGE_CENTER = 0.86;

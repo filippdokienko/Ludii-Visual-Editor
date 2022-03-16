@@ -31,6 +31,8 @@ public class AddLudemeWindow extends JPanel {
 
         searchField = new JTextField();
 
+        //TODO: List of ludemes is sorted here RECS
+        // TODO: get list of ludemes and connections from editorpanel
         ludemeList.sort(Comparator.comparing(Object::toString));
 
         listModel = new DefaultListModel<Ludeme>();
