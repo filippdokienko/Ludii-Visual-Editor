@@ -1,8 +1,8 @@
-package LayoutManagement.GraphDrawing.MetaGraph;
+package model.MetaGraph;
 
 import LayoutManagement.GraphDrawing.DrawingFrame;
 import LayoutManagement.Math.Vector2D;
-import LayoutManagement.interfaces.iGNode;
+import model.interfaces.iGNode;
 
 import java.awt.*;
 import java.awt.geom.Ellipse2D;
@@ -16,37 +16,27 @@ import static LayoutManagement.VisualEditor.LayoutConfigs.NODE_SIZE;
  * @author nic0gin
  */
 
-public class Node implements iGNode {
+public class ExpNode implements iGNode {
 
     private Vector2D pos;
     private final int id;
-    private String data;
+    private String label;
 
     private List<Integer> adjacentNodes;
     private static int node_count = 1;
 
-    public Vector2D disp;
-
-    public Node() {
+    public ExpNode() {
         adjacentNodes = new ArrayList<>();
         pos = DrawingFrame.getRandomScreenPos();
         id = node_count++;
-        data = "";
+        label = "";
     }
 
-    public Node(String data) {
+    public ExpNode(String data) {
         adjacentNodes = new ArrayList<>();
         pos = DrawingFrame.getRandomScreenPos();
         id = node_count++;
-        this.data = data;
-    }
-
-    public void setData(String data) {
-        this.data = data;
-    }
-
-    public String getData() {
-        return data;
+        this.label = data;
     }
 
     @Override
@@ -75,17 +65,12 @@ public class Node implements iGNode {
         return pos;
     }
 
-    @Override
-    public void setPos() {
-
-    }
-
     public Vector2D getTransPos() {
         return new Vector2D(pos.getX() + DrawingFrame.getWIDTH() / 2,
                 pos.getY() + DrawingFrame.getHEIGHT() / 2);
     }
 
-    public void setPos(double x, double y) {
+    public void setPos(int x, int y) {
         this.pos = new Vector2D(x, y);
     }
 
@@ -101,35 +86,7 @@ public class Node implements iGNode {
         adjacentNodes.add(id);
     }
 
-    public void drawNode(Graphics g) {
-        drawInner((Graphics2D) g);
-        drawOuter((Graphics2D) g);
-        ((Graphics2D) g).drawString(data,
-                (int)pos.getX() + DrawingFrame.getWIDTH() / 2,
-                (int)pos.getY() + DrawingFrame.getHEIGHT() / 2);
+    public String getLabel() {
+        return label;
     }
-
-    private void drawInner(Graphics2D g2) {
-        Shape inner = new Ellipse2D.Double(
-                pos.getScreenTransX(),
-                pos.getScreenTransY(),
-                NODE_SIZE, NODE_SIZE);
-        g2.setColor(Color.WHITE);
-        g2.fill(inner);
-        g2.draw(inner);
-    }
-
-    private void drawOuter(Graphics2D g2) {
-        Shape outer = new Ellipse2D.Double(
-                pos.getScreenTransX(),
-                pos.getScreenTransY(),
-                NODE_SIZE, NODE_SIZE);
-        g2.setColor(Color.BLACK);
-        g2.draw(outer);
-    }
-
-
-
-
-
 }

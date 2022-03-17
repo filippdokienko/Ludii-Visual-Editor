@@ -1,4 +1,4 @@
-package LayoutManagement.interfaces;
+package model.interfaces;
 
 import LayoutManagement.Math.Vector2D;
 
@@ -21,6 +21,6 @@ public interface iGNode {
 
     Vector2D getPos();
 
-    void setPos();
+    void setPos(Vector2D pos);
 
 }

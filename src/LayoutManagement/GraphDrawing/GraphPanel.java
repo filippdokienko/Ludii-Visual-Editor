@@ -1,14 +1,19 @@
 package LayoutManagement.GraphDrawing;
 
-import LayoutManagement.GraphDrawing.LayoutManager.LayoutManager;
-import LayoutManagement.GraphDrawing.MetaGraph.Graph;
+import LayoutManagement.GraphDrawing.View.ExpEdgeComponent;
+import LayoutManagement.GraphDrawing.View.ExpNodeComponent;
+import LayoutManagement.LayoutManager.LayoutHandler;
+import model.MetaGraph.ExpGraph;
 import LayoutManagement.GraphFactory.GraphCreator;
 import LayoutManagement.GraphFactory.GraphFromFile;
+import model.MetaGraph.ExpNode;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Panel where graph to be drawn
@@ -17,19 +22,35 @@ import java.awt.event.ActionListener;
 
 public class GraphPanel extends JPanel {
 
-    private LayoutManager lm;
+    private LayoutHandler lm;
+    private ExpGraph expGraph;
+
+    private List<ExpEdgeComponent> edgeComponentList;
+    private List<ExpNodeComponent> nodeComponentList;
 
     public GraphPanel(Timer timer) {
 
         // initialise graph for the panel
         GraphCreator gc = new GraphFromFile();
-        gc.createGraph();
+        expGraph = (ExpGraph) gc.createGraph();
 
         // initialise layout manager
-        lm = new LayoutManager();
+        lm = new LayoutHandler(expGraph);
 
         add(getMenuBar(timer));
 
+        // Set up edge components
+
+        // Set up node components
+
+    }
+
+    public void constructVisualComponents() {
+        // TODO
+        edgeComponentList = new ArrayList<ExpEdgeComponent>();
+        expGraph.getEdgeList().forEach((e) -> edgeComponentList.add(new ExpEdgeComponent(expGraph, e)));
+
+        // TODO
     }
 
     @Override
@@ -37,9 +58,9 @@ public class GraphPanel extends JPanel {
         super.paintComponent(g);
 
         // draw edges
-        Graph.getGraphInstance().getEdgeList().forEach((e)->e.drawEdge((Graphics2D) g));
+        edgeComponentList.forEach((e)->e.drawEdge((Graphics2D) g));
         // draw nodes
-        Graph.getGraphInstance().getNodeList().forEach((k, n)-> n.drawNode(g));
+        nodeComponentList.forEach((n)-> n.drawNode(g));
 
     }
 
@@ -108,12 +129,16 @@ public class GraphPanel extends JPanel {
         }
     }
 
-    public LayoutManager getLayoutManager() {
+    public LayoutHandler getLayoutManager() {
         return lm;
     }
 
     public int getNumber() {
         return 12;
+    }
+
+    public ExpGraph getExpGraph() {
+        return expGraph;
     }
 }
 

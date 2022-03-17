@@ -1,6 +1,6 @@
 package LayoutManagement.GraphDrawing;
 
-import LayoutManagement.GraphDrawing.MetaGraph.Graph;
+import model.MetaGraph.ExpGraph;
 import LayoutManagement.Math.Vector2D;
 
 import javax.swing.*;
@@ -17,7 +17,7 @@ public class DrawingFrame extends JFrame {
     private static int WIDTH = 800;
     private static int HEIGHT = 700;
 
-    private JPanel graphPanel;
+    private GraphPanel graphPanel;
     private Timer updateTimer;
 
     public DrawingFrame() {
@@ -52,7 +52,7 @@ public class DrawingFrame extends JFrame {
     private class LayoutUpdate implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            ((GraphPanel) graphPanel).getLayoutManager().FruchReinIteration();
+            ((GraphPanel) graphPanel).getLayoutManager().executeLayout();
             graphPanel.repaint();
             graphPanel.revalidate();
         }
@@ -64,7 +64,7 @@ public class DrawingFrame extends JFrame {
         public void mouseClicked(MouseEvent e) {
             if (e.getButton() == MouseEvent.BUTTON3) {
                 Vector2D click = new Vector2D(e.getX(), e.getY());
-                Graph.getGraphInstance().removeNode(new Vector2D(click.getDefTransX(), click.getDefTransY()));
+                graphPanel.getExpGraph().removeNode(new Vector2D(click.getDefTransX(), click.getDefTransY()));
                 graphPanel.repaint();
                 graphPanel.revalidate();
                 System.out.println("hey");
@@ -100,10 +100,11 @@ public class DrawingFrame extends JFrame {
         @Override
         public void mouseDragged(MouseEvent e) {
             Vector2D click = new Vector2D(e.getX(), e.getY());
-            Graph.getGraphInstance().updateNodePos(click.getDefTrans());
+            graphPanel.getExpGraph().updateNodePos(click.getDefTrans());
             graphPanel.repaint();
             graphPanel.revalidate();
-            ((GraphPanel) graphPanel).getLayoutManager().incrementT(0.1);
+            // TODO: increment temperature when dragged
+            // graphPanel.getLayoutManager().incrementT(0.1);
             System.out.println("Dragged");
         }
 

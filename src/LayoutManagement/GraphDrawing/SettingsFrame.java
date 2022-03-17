@@ -1,6 +1,6 @@
 package LayoutManagement.GraphDrawing;
 
-import LayoutManagement.GraphDrawing.MetaGraph.Graph;
+import model.MetaGraph.ExpGraph;
 
 import javax.swing.*;
 import java.awt.*;
@@ -37,7 +37,8 @@ public class SettingsFrame extends JFrame {
         restartBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Graph.getGraphInstance().randomizeNodePos();
+                // TODO: randomise positions
+                // ExpGraph.getGraphInstance().randomizeNodePos();
                 //TODO implement with an instance of LayoutManager
                 //LayoutManager.t = (double) DrawingFrame.getWIDTH()/10;
                 //LayoutManager.C = Double.parseDouble(constantC.getText());

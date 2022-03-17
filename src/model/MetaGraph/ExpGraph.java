@@ -1,9 +1,10 @@
-package LayoutManagement.GraphDrawing.MetaGraph;
+package model.MetaGraph;
 
 import LayoutManagement.GraphDrawing.DrawingFrame;
 import LayoutManagement.Math.Vector2D;
-import LayoutManagement.interfaces.iGraph;
-import LayoutManagement.interfaces.iNode;
+import model.Edge;
+import model.interfaces.iGNode;
+import model.interfaces.iGraph;
 
 import java.util.*;
 import java.util.List;
@@ -17,27 +18,19 @@ import static LayoutManagement.VisualEditor.LayoutConfigs.NODE_SIZE;
  * @author nic0gin
  */
 
-public class Graph implements iGraph {
+public class ExpGraph implements iGraph {
 
-    private Node root;
+    //TODO: refactor with iGNode
+    private ExpNode root;
     private List<Edge> edgeList;
-    private HashMap<Integer, Node> nodeList;
-    private static Graph graphInstance;
+    private HashMap<Integer, iGNode> nodeList;
 
-    private Graph() {
+    public ExpGraph() {
 
         //root = new Node("root");
         nodeList = new HashMap<>();
         edgeList = new ArrayList<>();
 
-    }
-
-    public static Graph getGraphInstance() {
-        if (Graph.graphInstance == null) {
-            Graph.graphInstance = new Graph();
-        }
-
-        return Graph.graphInstance;
     }
 
     public void updateNodePos(Vector2D pos) {
@@ -57,17 +50,7 @@ public class Graph implements iGraph {
     }
 
     @Override
-    public int getNodeNum() {
-        return nodeList.size();
-    }
-
-    @Override
-    public int getEdgeNum() {
-        return edgeList.size();
-    }
-
-    @Override
-    public HashMap<Integer, Node> getNodeList() {
+    public HashMap<Integer, iGNode> getNodeList() {
         return nodeList;
     }
 
@@ -93,21 +76,30 @@ public class Graph implements iGraph {
         });
 
         // remove edges
-        edgeList.removeIf(e -> (e.getNodeA().getId() == clickedId.get()) || (e.getNodeB().getId() == clickedId.get()));
+        edgeList.removeIf(e -> (e.getNodeA() == clickedId.get()) || (e.getNodeB() == clickedId.get()));
 
         // remove vertex
         nodeList.remove(clickedId.get());
 
     }
 
-    public Node getNode(int id) {
+    public iGNode getNode(int id) {
         return nodeList.get(id);
     }
 
+    @Override
+    public iGNode getRoot() {
+        return null;
+    }
 
     @Override
-    public iNode getRoot() {
-        return null;
+    public void setRoot(int id) {
+
+    }
+
+    @Override
+    public void setRoot(iGNode node) {
+
     }
 
     @Override
@@ -121,38 +113,41 @@ public class Graph implements iGraph {
     }
 
     @Override
-    public int[][] getAdjacencyMatrix() {
-        return new int[0][];
-    }
-
-    @Override
-    public Vector2D getVertexPos(int id) {
-        return null;
-    }
-
-    @Override
-    public void setVertexPos(int id, Vector2D coords) {
-
-    }
-
-    @Override
     public void addEdge(int nodeA, int nodeB) {
         Edge e = new Edge(nodeA, nodeB);
-        nodeList.get(nodeA).addNeighbor(nodeB);
-        nodeList.get(nodeB).addNeighbor(nodeA);
+
+        // TODO: get rid of this
+        ((ExpNode) nodeList.get(nodeA)).addNeighbor(nodeB);
+        ((ExpNode) nodeList.get(nodeA)).addNeighbor(nodeA);
+
         edgeList.add(e);
     }
 
     @Override
+    public void addEdge(iGNode from, iGNode to) {
+
+    }
+
+    @Override
+    public void addEdge(int from, int to, int field) {
+
+    }
+
+    @Override
     public int addNode(String data) {
-        Node n = new Node(data);
+        ExpNode n = new ExpNode(data);
         nodeList.put(n.getId(), n);
         return n.getId();
     }
 
     @Override
+    public int addNode(iGNode node) {
+        return 0;
+    }
+
+    @Override
     public int addNode() {
-        Node n = new Node();
+        ExpNode n = new ExpNode();
         nodeList.put(n.getId(), n);
         return n.getId();
     }

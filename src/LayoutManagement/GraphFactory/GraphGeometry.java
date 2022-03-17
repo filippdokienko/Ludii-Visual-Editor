@@ -1,7 +1,7 @@
 package LayoutManagement.GraphFactory;
 
-import LayoutManagement.GraphDrawing.MetaGraph.Graph;
-import LayoutManagement.interfaces.iGraph;
+import model.MetaGraph.ExpGraph;
+import model.interfaces.iGraph;
 
 /**
  * Contains hard-coded implementations of graph geometric shapes
@@ -21,7 +21,7 @@ public class GraphGeometry extends GraphCreator{
     }
 
     public iGraph getGraphCube() {
-        iGraph graph = Graph.getGraphInstance();
+        iGraph graph = new ExpGraph();
         int A1 = graph.addNode();
         int B1 = graph.addNode();
         int C1 = graph.addNode();
@@ -51,7 +51,7 @@ public class GraphGeometry extends GraphCreator{
     }
 
     public iGraph getGraphTesseract() {
-        iGraph graph = Graph.getGraphInstance();
+        iGraph graph = new ExpGraph();
         int A1 = graph.addNode();
         int B1 = graph.addNode();
         int C1 = graph.addNode();
@@ -120,7 +120,7 @@ public class GraphGeometry extends GraphCreator{
     }
 
     public iGraph getGraphPyramid() {
-        iGraph graph = Graph.getGraphInstance();
+        iGraph graph = new ExpGraph();
 
         int A1 = graph.addNode();
 
@@ -150,7 +150,7 @@ public class GraphGeometry extends GraphCreator{
     }
 
     public iGraph getTicTacToeTree() {
-        iGraph graph = Graph.getGraphInstance();
+        iGraph graph = new ExpGraph();
 
         int A1 = graph.addNode("game");
         int A2 = graph.addNode("game");

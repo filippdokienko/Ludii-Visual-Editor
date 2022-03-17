@@ -10,7 +10,7 @@ import java.util.List;
  * @author Filipp Dokienko
  */
 
-public interface iDescriptionGraph {
+public interface iLudemeGraph {
     // get root LudemeNode
     LudemeNode getRoot();
     void setRoot(LudemeNode root);
@@ -30,8 +30,11 @@ public interface iDescriptionGraph {
     // remove LudemeNode
     void remove(LudemeNode ludemeNode);
 
-    void addEdge(LudemeNode l1, LudemeNode l2); // TODO: Edge between Input & LudemeNode and not LudemeNodes !!!
+    void addEdge(int from, int to, int field);
+
 
     // convert graph to a .lud equivalent String
     String toLud();
 }
+
+

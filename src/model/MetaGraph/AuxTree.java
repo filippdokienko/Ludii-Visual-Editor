@@ -1,4 +1,4 @@
-package LayoutManagement.GraphDrawing.MetaGraph;
+package model.MetaGraph;
 
 import LayoutManagement.interfaces.iNode;
 import LayoutManagement.interfaces.iTree;

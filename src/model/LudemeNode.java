@@ -1,7 +1,7 @@
 package model;
 
 import LayoutManagement.Math.Vector2D;
-import LayoutManagement.interfaces.iGNode;
+import model.interfaces.iGNode;
 import grammar.Constructor;
 import grammar.Ludeme;
 import grammar.input.Input;
@@ -66,6 +66,10 @@ public class LudemeNode implements iLudemeNode, iGNode {
     }
 
     @Override
+    public void setPos(Vector2D pos) {
+
+    }
+
     public void setPos() {
         // TODO
     }

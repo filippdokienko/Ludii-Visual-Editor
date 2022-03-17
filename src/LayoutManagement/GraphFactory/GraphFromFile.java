@@ -1,7 +1,6 @@
 package LayoutManagement.GraphFactory;
 
-import LayoutManagement.GraphDrawing.MetaGraph.Graph;
-import LayoutManagement.interfaces.iGraph;
+import model.interfaces.iGraph;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -37,8 +36,6 @@ public class GraphFromFile extends GraphCreator {
 
     @Override
     public iGraph createGraph() {
-
-        iGraph graph = Graph.getGraphInstance();
 
         int n = -1;
         int m = -1;
