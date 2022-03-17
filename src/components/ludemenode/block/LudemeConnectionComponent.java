@@ -87,19 +87,6 @@ public class LudemeConnectionComponent extends JComponent {
                 @Override
                 public void mouseClicked(MouseEvent e) {
                     super.mouseClicked(e);
-                    /*
-                    fill = !fill;
-                    repaint();
-                    revalidate();
-                    // if fill -> add edge
-                    if(fill){
-                        // position in jframe
-                        updatePosition();
-                        LudemeConnectionComponent.this.LUDEME_BLOCK.EDITOR_PANEL.addEdge(position);
-                    }
-
-                     */
-
 
                     if(fill){
                         // TODO: ? remove connection?
@@ -110,9 +97,6 @@ public class LudemeConnectionComponent extends JComponent {
                         // editor_panel: new selected point
                         editor_panel.connectNewConnection(LudemeConnectionComponent.this);
                     }
-
-
-
                 }
             });
 

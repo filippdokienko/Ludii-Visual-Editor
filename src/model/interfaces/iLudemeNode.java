@@ -9,8 +9,6 @@ import grammar.Constructor;
 import grammar.Ludeme;
 import grammar.input.Input;
 
-import javax.swing.*;
-import java.util.List;
 
 public interface iLudemeNode {
 
@@ -25,6 +23,8 @@ public interface iLudemeNode {
     Object[] getProvidedInputs();
     void setProvidedInput(int index, Object providedInput);
     void setProvidedInput(Input input, Object providedInput);
+
+    void setParent(iLudemeNode ludemeNode);
 
     /* The .lud equivalent of that node
      e.g. for a (game ) for an empty <game> LudemeNode

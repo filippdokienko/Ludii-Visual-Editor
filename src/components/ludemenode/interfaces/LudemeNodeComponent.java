@@ -22,12 +22,4 @@ public abstract class LudemeNodeComponent extends JComponent implements ILudemeN
         this.x = (int) ludemeNode.getPos().getX();
         this.y = (int) ludemeNode.getPos().getY();
     }
-
-    public LudemeNodeComponent(int x, int y, Ludeme ludeme, EditorPanel editorPanel){
-        this.x = x;
-        this.y = y;
-        this.EDITOR_PANEL = editorPanel;
-        this.LUDEME = ludeme;
-        this.LUDEME_NODE = null;
-    }
 }

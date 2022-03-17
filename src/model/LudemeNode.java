@@ -7,6 +7,7 @@ import grammar.Ludeme;
 import grammar.input.Input;
 import model.interfaces.iLudemeNode;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -22,6 +23,9 @@ public class LudemeNode implements iLudemeNode, iGNode {
     private final Ludeme LUDEME;
     private Constructor currentConstructor;
     private Object[] providedInputs;
+
+    private LudemeNode parent;
+    private List<LudemeNode> children = new ArrayList<>();
 
     private int x,y;
 
@@ -43,7 +47,7 @@ public class LudemeNode implements iLudemeNode, iGNode {
 
     @Override
     public iGNode getParent() {
-        return null;
+        return parent;
     }
 
     @Override
@@ -104,6 +108,19 @@ public class LudemeNode implements iLudemeNode, iGNode {
         // TODO
     }
 
+    @Override
+    public void setParent(iLudemeNode ludemeNode) {
+        this.parent = (LudemeNode) ludemeNode; // TODO: should it be casted?
+    }
+
+    public void addChildren(LudemeNode children){
+        this.children.add(children);
+    }
+
+    public void removeChildren(LudemeNode children){
+        this.children.remove(children);
+    }
+
 
     @Override
     public String getStringRepresentation() {
@@ -119,6 +136,11 @@ public class LudemeNode implements iLudemeNode, iGNode {
             s.append(" ");
         }
         s.append(")");
-        return s.toString().trim();
+        return s.toString().trim().replaceAll(" +", " ");
+    }
+
+    @Override
+    public String toString(){
+        return getStringRepresentation();
     }
 }

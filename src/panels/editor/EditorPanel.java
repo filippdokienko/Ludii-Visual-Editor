@@ -1,12 +1,20 @@
 package panels.editor;
 
+/*
+TODO:
+        - Ludeme ingoing connection component not centered
+        - Zoom in/out
+        - connection by dragging
+        - header background
+        - when updating constructor: remove all connections
+ */
+
 import components.AddLudemeWindow;
 import components.ludemenode.CustomPoint;
 import components.ludemenode.block.LudemeBlock;
 import components.ludemenode.block.LudemeConnectionComponent;
 import components.ludemenode.LudemeConnection;
 import components.ludemenode.interfaces.LudemeNodeComponent;
-import grammar.Constructor;
 import grammar.Ludeme;
 import grammar.parser.Parser;
 import components.DesignPalette;
@@ -23,23 +31,155 @@ import java.util.List;
 
 public class EditorPanel extends JPanel {
 
-    private EditorPanel editorPanel = this;
-
+    // graph of all ludeme nodes
     private DescriptionGraph graph = new DescriptionGraph();
+
+    // read grammar
+    Parser p = new Parser();
+    List<Ludeme> ludemes = p.getLudemes();
+
+    // window to add a new ludeme out of all possible ones
+    private AddLudemeWindow addLudemeWindow = new AddLudemeWindow(ludemes, this, false);
+    // window to add a new ludeme as an input
+    private AddLudemeWindow connectLudemeWindow = new AddLudemeWindow(ludemes, this, true);
+
+    // List of all edges, TODO:
+    public List<LudemeConnection> list_edges = new ArrayList<>();
+
+    public EditorPanel(int width, int height){
+        setLayout(null);
+        setBackground(DesignPalette.BACKGROUND_EDITOR);
+        setPreferredSize(new Dimension(width, height));
+        addMouseListener(new SpawnNodePanelListener());
+
+        Ludeme game = findLudeme("game");
+        LudemeNode gameNode = new LudemeNode(game, 0, 0);
+        gameNode.setCurrentConstructor(game.getConstructors().get(1));
+        LudemeNodeComponent gameBlock = new LudemeBlock(gameNode, this, 300);
+        add(gameBlock);
+
+        graph.setRoot(gameNode);
+        graph.add(gameNode);
+
+
+        // this listener continuously udpates the "currentMousePoint" variable
+        addMouseMotionListener(new MouseAdapter() {
+            @Override
+            public void mouseMoved(MouseEvent e) {
+                super.mouseMoved(e);
+                currentMousePoint = e.getPoint();
+                if(selectedConnectionComponent != null){
+                    repaint();
+                }
+            }
+        });
+
+        // this listener affects the linking of nodes.
+        // if the user is currently establishing a link, and clicks BUTTON1: -> (a) Open Window with possible ludeme inputs, (b) Create only possible ludeme and link it
+        //                                                          BUTTON3: -> Cancel linking
+        addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+                if (e.getButton() == MouseEvent.BUTTON1) {
+                    connectLudemeWindow.setVisible(false);
+                    if(selectedConnectionComponent != null && selectedConnectionComponent.getRequiredLudemes() != null){
+                        System.out.println(selectedConnectionComponent.getRequiredLudemes());
+                        if(selectedConnectionComponent.getRequiredLudemes().size() == 1){
+                            addLudemeNode(selectedConnectionComponent.getRequiredLudemes().get(0), e.getPoint(), true);
+                        } else if(selectedConnectionComponent.getRequiredLudemes().size() > 1){
+                            System.out.println("hmm");
+                            connectLudemeWindow.updateList(selectedConnectionComponent.getRequiredLudemes());
+                            //connectLudemeWindow = new AddLudemeWindow(selectedConnectionComponent.getRequiredLudemes(), EditorPanel.this, true);
+                            connectLudemeWindow.setVisible(true);
+                            connectLudemeWindow.setLocation(e.getX(), e.getY());
+                            connectLudemeWindow.searchField.requestFocus();
+                            System.out.println(connectLudemeWindow.getSize());
+                            revalidate();
+                            repaint();
+                        }
+                    }
+                }
+                if (e.getButton() == MouseEvent.BUTTON3) {
+                    // cancels creation of new connection
+                    connectLudemeWindow.setVisible(false);
+                    connectNewConnection(null);
+                }
+            }
+        });
+
+
+        add(addLudemeWindow);
+        add(connectLudemeWindow);
+
+        revalidate();
+        repaint();
+
+    }
+
+
+    /**
+     * Finds a ludeme with a given name in the grammar
+     * @param name Name of the ludeme
+     * @return Ludeme object
+     */
+    private Ludeme findLudeme(String name){
+        for(Ludeme l : ludemes){
+            if(l.getName().equals(name)) return l;
+        }
+        return null;
+    }
 
 
     /*
-
-    TODO:
-        - Ludeme ingoing connection component not centered
-        - Zoom in/out
-        - connection by dragging
-        - header background
-        - when updating constructor: remove all connections
-
+            METHODS TO CREATE & ADD A NEW LUDEME NODE
      */
 
-    public List<LudemeConnection> list_edges = new ArrayList<>();
+    private LudemeNode createLudemeNode(Ludeme l){
+        return new LudemeNode(l, 0, 0);
+    }
+
+    private LudemeBlock createLudemeBlock(LudemeNode ln){
+        LudemeBlock lb = new LudemeBlock(ln, this, 300);
+        return lb;
+    }
+
+    public LudemeBlock addLudemeNode(Ludeme l, Point location){
+        LudemeNode ln = createLudemeNode(l);
+        ln.setPos(location.x, location.y);
+        LudemeBlock lb = createLudemeBlock(ln);
+        graph.add(ln);
+        add(lb);
+        addLudemeWindow.setVisible(false);
+        connectLudemeWindow.setVisible(false);
+
+        revalidate();
+        repaint();
+        return lb;
+    }
+
+    public LudemeBlock addLudemeNode(Ludeme l, Point location, boolean connect){
+        LudemeBlock lb = addLudemeNode(l, location);
+        if(connect){
+            connectNewConnection(lb.getIngoingConnectionComponent());
+        }
+        return lb;
+    }
+
+    /*
+            END: METHODS TO CREATE & ADD A NEW LUDEME NODE
+     */
+
+
+    /*
+            METHODS TO LINK
+     */
+
+
+    private Point currentMousePoint;
+    private LudemeConnectionComponent selectedConnectionComponent;
+
+
 
     private void addConnection(CustomPoint p1, CustomPoint p2){
         list_edges.add(new LudemeConnection(p1, p2));
@@ -49,6 +189,14 @@ public class EditorPanel extends JPanel {
         CustomPoint outgoingPosition = outgoingConnectionComponent.getPosition();
         addConnection(outgoingPosition, ingoingPosition);
 
+        LudemeNode ln_in = ingoingConnectionComponent.getLudemeBlock().getLudemeNode();
+        LudemeNode ln_out = outgoingConnectionComponent.getLudemeBlock().getLudemeNode();
+
+        ln_in.setParent(ln_out);
+        ln_out.addChildren(ln_in);
+
+        outgoingConnectionComponent.getLudemeBlock().addedConnection(ln_in, outgoingConnectionComponent);
+
         ingoingConnectionComponent.fill();
         outgoingConnectionComponent.fill();
 
@@ -57,8 +205,7 @@ public class EditorPanel extends JPanel {
         repaint();
     }
 
-    private LudemeConnectionComponent selectedConnectionComponent;
-    private Point currentMousePoint;
+
 
     public void connectNewConnection(LudemeConnectionComponent connectionComponent){
         if(selectedConnectionComponent != null && connectionComponent != null){
@@ -133,137 +280,13 @@ public class EditorPanel extends JPanel {
         g2.draw(p2d);
     }
 
-    public EditorPanel(int width, int height){
-        setLayout(null);
-        setBackground(DesignPalette.BACKGROUND_EDITOR);
-        setPreferredSize(new Dimension(width, height));
-        addMouseListener(new SpawnNodePanelListener());
 
 
-
-
-        Ludeme game = findLudeme("game");
-        LudemeNode gameNode = new LudemeNode(game, 0, 0);
-        gameNode.setCurrentConstructor(game.getConstructors().get(1));
-        LudemeNodeComponent gameBlock = new LudemeBlock(gameNode, this, 300);
-        add(gameBlock);
-
-        graph.setRoot(gameNode);
-        graph.add(gameNode);
-
-
-        addMouseMotionListener(new MouseAdapter() {
-            @Override
-            public void mouseMoved(MouseEvent e) {
-                super.mouseMoved(e);
-                currentMousePoint = e.getPoint();
-                if(selectedConnectionComponent != null){
-                    repaint();
-                }
-            }
-        });
-
-        addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                super.mouseClicked(e);
-                if (e.getButton() == MouseEvent.BUTTON1) {
-                    connectLudemeWindow.setVisible(false);
-                    if(selectedConnectionComponent != null && selectedConnectionComponent.getRequiredLudemes() != null){
-                        System.out.println(selectedConnectionComponent.getRequiredLudemes());
-                        if(selectedConnectionComponent.getRequiredLudemes().size() == 1){
-                            addLudemeNode(selectedConnectionComponent.getRequiredLudemes().get(0), e.getPoint(), true);
-                        } else if(selectedConnectionComponent.getRequiredLudemes().size() > 1){
-                            System.out.println("hmm");
-                            connectLudemeWindow.updateList(selectedConnectionComponent.getRequiredLudemes());
-                            //connectLudemeWindow = new AddLudemeWindow(selectedConnectionComponent.getRequiredLudemes(), EditorPanel.this, true);
-                            connectLudemeWindow.setVisible(true);
-                            connectLudemeWindow.setLocation(e.getX(), e.getY());
-                            connectLudemeWindow.searchField.requestFocus();
-                            System.out.println(connectLudemeWindow.getSize());
-                            revalidate();
-                            repaint();
-                        }
-
-                    }
-                    // TODO: option to create new Ludeme
-                }
-                if (e.getButton() == MouseEvent.BUTTON3) {
-                    // cancels creation of new connection
-                    connectLudemeWindow.setVisible(false);
-                    connectNewConnection(null);
-                }
-            }
-        });
-
-
-        add(addLudemeWindow);
-        add(connectLudemeWindow);
-
-        revalidate();
-        repaint();
-
-    }
-
-
-    private LudemeNode createLudemeNode(Ludeme l){
-        return new LudemeNode(l, 0, 0);
-    }
-
-    private LudemeBlock createLudemeBlock(LudemeNode ln){
-        LudemeBlock lb = new LudemeBlock(ln, this, 300);
-        return lb;
-    }
-
-    public LudemeBlock addLudemeNode(Ludeme l, Point location){
-        LudemeNode ln = createLudemeNode(l);
-        ln.setPos(location.x, location.y);
-        LudemeBlock lb = createLudemeBlock(ln);
-        graph.add(ln);
-        add(lb);
-        addLudemeWindow.setVisible(false);
-        connectLudemeWindow.setVisible(false);
-
-        revalidate();
-        repaint();
-        return lb;
-    }
-
-    public LudemeBlock addLudemeNode(Ludeme l, Point location, boolean connect){
-        LudemeBlock lb = addLudemeNode(l, location);
-        if(connect){
-            connectNewConnection(lb.getIngoingConnectionComponent());
-        }
-        return lb;
-    }
-
-
-    private Ludeme findLudeme(String name){
-        for(Ludeme l : ludemes){
-            if(l.getName().equals(name)) return l;
-        }
-        return null;
-    }
-
-    Parser p = new Parser();
-    List<Ludeme> ludemes = p.getLudemes();
-    int cc = 67;
-
-    private AddLudemeWindow addLudemeWindow = new AddLudemeWindow(ludemes, this, false);
-    private AddLudemeWindow connectLudemeWindow = new AddLudemeWindow(ludemes, this, true);
 
     private class SpawnNodePanelListener extends MouseAdapter {
         public void mouseClicked(MouseEvent e) {
 
             if (e.getButton() == MouseEvent.BUTTON2) {
-                /*
-                Ludeme l = ludemes.get(cc++);
-                System.out.println(l.NAME);
-                System.out.println(l.CONSTRUCTORS);
-
-                LudemeNode b1 = new LudemeBlock(e.getX(),e.getY(), 300,l,editorPanel);
-                add(b1);
-                */
 
                 addLudemeWindow.setVisible(true);
                 addLudemeWindow.setLocation(e.getX(), e.getY());

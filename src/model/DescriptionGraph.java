@@ -82,4 +82,9 @@ public class DescriptionGraph implements iDescriptionGraph {
     public void addEdge(LudemeNode l1, LudemeNode l2) {
 
     }
+
+    @Override
+    public String toLud() {
+        return ROOT.getStringRepresentation();
+    }
 }

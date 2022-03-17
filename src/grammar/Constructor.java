@@ -7,7 +7,7 @@ import java.util.List;
 public class Constructor {
     private final List<Input> INPUTS;
     private final String GRAMMAR;
-    private String NAME;
+    private String NAME = "";
 
     public Constructor(List<Input> inputs){
         this.INPUTS = inputs;

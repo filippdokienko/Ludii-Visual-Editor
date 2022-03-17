@@ -3,6 +3,7 @@ package components.ludemenode.block;
 import components.ludemenode.interfaces.*;
 import grammar.Constructor;
 import grammar.Ludeme;
+import grammar.input.Input;
 import model.LudemeNode;
 import panels.editor.EditorPanel;
 
@@ -108,6 +109,7 @@ public class LudemeBlock extends LudemeNodeComponent {
                 LudemeBlock.this.x = e.getX();
                 LudemeBlock.this.y = e.getY();
                 System.out.println("mouse pressed ludemeblock");
+                System.out.println(LudemeBlock.this);
                 EDITOR_PANEL.ludemeBlockClicked(LudemeBlock.this);
             }
         });
@@ -168,4 +170,40 @@ public class LudemeBlock extends LudemeNodeComponent {
     public void setWidth(int width){
         // TODO
     }
+
+    public LudemeNode getLudemeNode() {
+        return LUDEME_NODE;
+    }
+
+    public void addedConnection(LudemeNode to, LudemeConnectionComponent outgoingConnectionComponent){
+        // finds supplied input's index
+        int index = -1;
+
+        java.util.List<LudemeConnectionComponent> componentList = outgoingConnectionsComponent.getConnectionComponentList();
+        // finds which ludeme connection point it is (what index)
+        int ludemeConnectionIndex = -1;
+        for(int i = 0; i < componentList.size(); i++){
+            Component c = componentList.get(i);
+            if(outgoingConnectionComponent == c){
+                ludemeConnectionIndex = i;
+                index = 0;
+                break;
+            }
+        }
+        // count req. inputs before i-th NonTerminal Input
+        for(Input in : getCurrentConstructor().getInputs()){
+            if (ludemeConnectionIndex == 0) break;
+            if(!in.isTerminal()) ludemeConnectionIndex--;
+            index++;
+        }
+
+        LUDEME_NODE.setProvidedInput(index, to);
+
+    }
+
+    @Override
+    public String toString(){
+        return LUDEME_NODE.toString();
+    }
+
 }

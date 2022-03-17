@@ -31,4 +31,7 @@ public interface iDescriptionGraph {
     void remove(LudemeNode ludemeNode);
 
     void addEdge(LudemeNode l1, LudemeNode l2); // TODO: Edge between Input & LudemeNode and not LudemeNodes !!!
+
+    // convert graph to a .lud equivalent String
+    String toLud();
 }

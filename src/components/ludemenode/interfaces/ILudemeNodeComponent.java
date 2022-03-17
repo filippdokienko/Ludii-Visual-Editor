@@ -14,5 +14,6 @@ public interface ILudemeNodeComponent {
     void setWidth(int width);
     int getHeight();
 
-    
+
+
 }
