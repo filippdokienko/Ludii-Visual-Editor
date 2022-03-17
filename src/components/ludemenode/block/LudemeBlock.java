@@ -111,6 +111,14 @@ public class LudemeBlock extends LudemeNodeComponent {
                 System.out.println("mouse pressed ludemeblock");
                 System.out.println(LudemeBlock.this);
                 EDITOR_PANEL.ludemeBlockClicked(LudemeBlock.this);
+
+                // TODO: It shouldnt be here
+                for(int i = 0; i < inputsComponent.getComponentList().size(); i++){
+                    InputComponent ic = inputsComponent.getComponentList().get(i);
+                    if(ic.INPUT.isTerminal()){
+                        LUDEME_NODE.setProvidedInput(i, ic.getUserInput());
+                    }
+                }
             }
         });
 

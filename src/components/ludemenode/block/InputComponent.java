@@ -15,6 +15,7 @@ public class InputComponent extends JComponent {
 
     public final Input INPUT;
     private final LudemeBlock LUDEME_BLOCK;
+    private JComponent component;
 
     public InputComponent(LudemeBlock ludemeBlock, Input input){
         this.LUDEME_BLOCK = ludemeBlock;
@@ -36,7 +37,7 @@ public class InputComponent extends JComponent {
 
         add(inputNameLabel);
 
-        JComponent component = null;
+        component = null;
 
         // different component based on input type
         if(INPUT.isTerminal()){
@@ -51,6 +52,14 @@ public class InputComponent extends JComponent {
             add(component);
         }
 
+    }
+
+    public Object getUserInput(){
+        if(component instanceof JTextField) return ((JTextField)component).getText();
+        if(component instanceof JSpinner) return ((JSpinner)component).getValue();
+        if(component instanceof JComboBox) return ((JComboBox)component).getSelectedItem();
+
+        return null;
     }
 
 }
