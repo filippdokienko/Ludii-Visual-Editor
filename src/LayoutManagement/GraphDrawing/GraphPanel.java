@@ -22,7 +22,7 @@ import java.util.List;
 
 public class GraphPanel extends JPanel {
 
-    private LayoutHandler lm;
+    private static LayoutHandler lm;
     private ExpGraph expGraph;
 
     private List<ExpEdgeComponent> edgeComponentList;
@@ -36,6 +36,7 @@ public class GraphPanel extends JPanel {
 
         // initialise layout manager
         lm = new LayoutHandler(expGraph);
+        lm.setLayoutMethod(1);
 
         add(getMenuBar(timer));
 
@@ -91,14 +92,13 @@ public class GraphPanel extends JPanel {
         private final Timer timer;
 
         public StartListener(Timer timer) {
-
             this.timer = timer;
-
         }
 
         @Override
         public void actionPerformed(ActionEvent e) {
             timer.start();
+            //lm.executeLayout();
         }
     }
 
@@ -134,10 +134,6 @@ public class GraphPanel extends JPanel {
 
     public LayoutHandler getLayoutManager() {
         return lm;
-    }
-
-    public int getNumber() {
-        return 12;
     }
 
     public ExpGraph getExpGraph() {

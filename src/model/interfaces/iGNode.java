@@ -13,14 +13,18 @@ public interface iGNode {
 
     int getId();
 
-    iGNode getParent();
+    int getParent();
 
-    List<iGNode> getChildren();
+    List<Integer> getChildren();
 
-    List<iGNode> getSiblings();
+    List<Integer> getSiblings();
 
     Vector2D getPos();
 
     void setPos(Vector2D pos);
+
+    int getWidth();
+
+    int getHeight();
 
 }

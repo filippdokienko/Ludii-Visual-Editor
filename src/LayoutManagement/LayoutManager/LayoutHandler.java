@@ -12,8 +12,6 @@ import java.util.List;
 import static java.lang.Math.*;
 
 /**
- * Call layout management methods from here
- * To be refactored with strategy pattern until 17.03.22
  * @author nic0gin
  */
 
@@ -29,12 +27,23 @@ public class LayoutHandler {
 
     }
 
-    public void setLayoutMethod() {
+    public void setLayoutMethod(int l) {
+        switch (l){
+            case 0:
+                layout = new FruchtermanReingold(graph);
+                break;
+            case 1:
+                layout = new DFSBoxDrawing(graph, 15);
+                break;
+            default:
+                layout = new DFSBoxDrawing(graph, 5);
+
+        }
 
     }
 
     public void executeLayout() {
-        layout.applyLayout(graph);
+        layout.applyLayout();
     }
 
 

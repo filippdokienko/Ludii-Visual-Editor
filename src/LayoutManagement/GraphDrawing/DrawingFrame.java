@@ -27,6 +27,7 @@ public class DrawingFrame extends JFrame {
 
 
         updateTimer = new Timer(20, new LayoutUpdate());
+
         graphPanel = new GraphPanel(updateTimer);
         graphPanel.addMouseListener(new ClickListener());
         graphPanel.addMouseMotionListener(new DragDropListener());
@@ -52,9 +53,10 @@ public class DrawingFrame extends JFrame {
     private class LayoutUpdate implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            ((GraphPanel) graphPanel).getLayoutManager().executeLayout();
+            graphPanel.getLayoutManager().executeLayout();
             graphPanel.repaint();
             graphPanel.revalidate();
+            updateTimer.stop();
         }
     }
 

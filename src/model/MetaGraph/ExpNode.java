@@ -22,21 +22,32 @@ public class ExpNode implements iGNode {
     private final int id;
     private String label;
 
-    private List<Integer> adjacentNodes;
+    private List<Integer> childNodes;
+    private int parent;
+
     private static int node_count = 1;
 
+    private int height;
+    private int width;
+
     public ExpNode() {
-        adjacentNodes = new ArrayList<>();
+        childNodes = new ArrayList<>();
         pos = DrawingFrame.getRandomScreenPos();
         id = node_count++;
         label = "";
+
+        height = NODE_SIZE;
+        width = NODE_SIZE;
     }
 
     public ExpNode(String data) {
-        adjacentNodes = new ArrayList<>();
+        childNodes = new ArrayList<>();
         pos = DrawingFrame.getRandomScreenPos();
         id = node_count++;
         this.label = data;
+
+        height = NODE_SIZE;
+        width = NODE_SIZE;
     }
 
     @Override
@@ -45,17 +56,17 @@ public class ExpNode implements iGNode {
     }
 
     @Override
-    public iGNode getParent() {
-        return null;
+    public int getParent() {
+        return parent;
     }
 
     @Override
-    public List<iGNode> getChildren() {
-        return null;
+    public List<Integer> getChildren() {
+        return childNodes;
     }
 
     @Override
-    public List<iGNode> getSiblings() {
+    public List<Integer> getSiblings() {
         return null;
     }
 
@@ -78,12 +89,22 @@ public class ExpNode implements iGNode {
         this.pos = new Vector2D(v.getX(), v.getY());
     }
 
-    public void addAdjacentNode(int id) {
-        adjacentNodes.add(id);
+    @Override
+    public int getWidth() {
+        return width;
     }
 
-    public void addNeighbor(int id) {
-        adjacentNodes.add(id);
+    @Override
+    public int getHeight() {
+        return height;
+    }
+
+    public void addChildNode(int id) {
+        childNodes.add(id);
+    }
+
+    public void addParent(int id) {
+        parent = id;
     }
 
     public String getLabel() {

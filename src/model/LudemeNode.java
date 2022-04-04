@@ -46,17 +46,19 @@ public class LudemeNode implements iLudemeNode, iGNode {
     }
 
     @Override
-    public iGNode getParent() {
-        return parent;
+    public int getParent() {
+        return parent.getId();
     }
 
     @Override
-    public List<iGNode> getChildren() {
+    public List<Integer> getChildren() {
+        // TODO implement
         return null;
     }
 
     @Override
-    public List<iGNode> getSiblings() {
+    public List<Integer> getSiblings() {
+        // TODO implement
         return null;
     }
 
@@ -68,6 +70,18 @@ public class LudemeNode implements iLudemeNode, iGNode {
     @Override
     public void setPos(Vector2D pos) {
 
+    }
+
+    @Override
+    public int getWidth() {
+        // TODO implement
+        return 0;
+    }
+
+    @Override
+    public int getHeight() {
+        // TODO implement
+        return 0;
     }
 
     public void setPos() {

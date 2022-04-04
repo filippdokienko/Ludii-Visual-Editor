@@ -5,6 +5,7 @@ import LayoutManagement.Math.Vector2D;
 import model.Edge;
 import model.interfaces.iGNode;
 import model.interfaces.iGraph;
+import org.w3c.dom.Node;
 
 import java.util.*;
 import java.util.List;
@@ -27,10 +28,11 @@ public class ExpGraph implements iGraph {
 
     public ExpGraph() {
 
-        //root = new Node("root");
         nodeList = new HashMap<>();
         edgeList = new ArrayList<>();
 
+        root = new ExpNode("root");
+        nodeList.put(root.getId(), root);
     }
 
     public void updateNodePos(Vector2D pos) {
@@ -46,7 +48,14 @@ public class ExpGraph implements iGraph {
             }
         });
 
-        nodeList.get(clickedId.get()).setPos(pos);
+        try {
+            nodeList.get(clickedId.get()).setPos(pos);
+        }
+        catch (NullPointerException e)
+        {
+
+        }
+
     }
 
     @Override
@@ -89,7 +98,7 @@ public class ExpGraph implements iGraph {
 
     @Override
     public iGNode getRoot() {
-        return null;
+        return root;
     }
 
     @Override
@@ -117,8 +126,8 @@ public class ExpGraph implements iGraph {
         Edge e = new Edge(nodeA, nodeB);
 
         // TODO: get rid of this
-        ((ExpNode) nodeList.get(nodeA)).addNeighbor(nodeB);
-        ((ExpNode) nodeList.get(nodeA)).addNeighbor(nodeA);
+        ((ExpNode) nodeList.get(nodeA)).addChildNode(nodeB);
+        ((ExpNode) nodeList.get(nodeB)).addParent(nodeA);
 
         edgeList.add(e);
     }

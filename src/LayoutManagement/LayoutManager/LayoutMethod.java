@@ -4,6 +4,6 @@ import model.interfaces.iGraph;
 
 public interface LayoutMethod {
 
-    public void applyLayout(iGraph graph);
+    public void applyLayout();
 
 }

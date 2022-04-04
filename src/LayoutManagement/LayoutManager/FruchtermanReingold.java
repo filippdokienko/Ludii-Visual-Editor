@@ -43,8 +43,8 @@ public class FruchtermanReingold implements LayoutMethod {
         return max(x*(1-coolRate), 0.1);
     }
 
-    public FruchtermanReingold() {
-
+    public FruchtermanReingold(iGraph graph) {
+        setUpFields(graph);
     }
 
     public void setUpFields(iGraph graph) {
@@ -143,7 +143,7 @@ public class FruchtermanReingold implements LayoutMethod {
     }
 
     @Override
-    public void applyLayout(iGraph graph) {
+    public void applyLayout() {
 
         // Set up variables (only once)
 

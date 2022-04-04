@@ -67,8 +67,8 @@ public interface iGraph
 
     /**
      * add edge
-     * @param from
-     * @param to
+     * @param from parent node
+     * @param to child node
      */
     void addEdge(int from, int to);
 
