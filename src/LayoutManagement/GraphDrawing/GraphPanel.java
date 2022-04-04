@@ -43,14 +43,17 @@ public class GraphPanel extends JPanel {
 
         // Set up node components
 
+        constructVComps();
     }
 
-    public void constructVisualComponents() {
+    public void constructVComps() {
         // TODO
         edgeComponentList = new ArrayList<ExpEdgeComponent>();
         expGraph.getEdgeList().forEach((e) -> edgeComponentList.add(new ExpEdgeComponent(expGraph, e)));
 
         // TODO
+        nodeComponentList = new ArrayList<ExpNodeComponent>();
+        expGraph.getNodeList().forEach((id,n) -> nodeComponentList.add(new ExpNodeComponent((ExpNode) n)));
     }
 
     @Override

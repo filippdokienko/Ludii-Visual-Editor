@@ -59,7 +59,7 @@ public class EditorPanel extends JPanel {
         add(gameBlock);
 
         graph.setRoot(gameNode);
-        graph.add(gameNode);
+        graph.addNode(gameNode);
 
 
         // this listener continuously udpates the "currentMousePoint" variable
@@ -148,7 +148,7 @@ public class EditorPanel extends JPanel {
         LudemeNode ln = createLudemeNode(l);
         ln.setPos(location.x, location.y);
         LudemeBlock lb = createLudemeBlock(ln);
-        graph.add(ln);
+        graph.addNode(ln);
         add(lb);
         addLudemeWindow.setVisible(false);
         connectLudemeWindow.setVisible(false);
