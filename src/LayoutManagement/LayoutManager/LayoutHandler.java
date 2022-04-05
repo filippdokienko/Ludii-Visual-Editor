@@ -21,23 +21,18 @@ public class LayoutHandler {
 
     private LayoutMethod layout;
 
-    public LayoutHandler(iGraph graph) {
-
+    public LayoutHandler(iGraph graph)
+    {
         this.graph = graph;
-
     }
 
-    public void setLayoutMethod(int l) {
-        switch (l){
-            case 0:
-                layout = new FruchtermanReingold(graph);
-                break;
-            case 1:
-                layout = new DFSBoxDrawing(graph, 15);
-                break;
-            default:
-                layout = new DFSBoxDrawing(graph, 5);
-
+    public void setLayoutMethod(int l)
+    {
+        switch (l)
+        {
+            case 0 -> layout = new FruchtermanReingold(graph);
+            case 1 -> layout = new DFSBoxDrawing(graph, 25);
+            default -> layout = new DFSBoxDrawing(graph, 5);
         }
 
     }
@@ -45,7 +40,5 @@ public class LayoutHandler {
     public void executeLayout() {
         layout.applyLayout();
     }
-
-
 
 }

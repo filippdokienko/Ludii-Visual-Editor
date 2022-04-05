@@ -1,8 +1,6 @@
 package LayoutManagement.GraphDrawing.View;
 
-import LayoutManagement.Math.Vector2D;
 import model.Edge;
-import model.MetaGraph.ExpGraph;
 import model.MetaGraph.ExpNode;
 import model.interfaces.iGraph;
 
@@ -10,17 +8,20 @@ import java.awt.*;
 
 import static LayoutManagement.VisualEditor.LayoutConfigs.NODE_SIZE;
 
-public class ExpEdgeComponent {
+public class ExpEdgeComponent
+{
 
     private ExpNode nodeA;
     private ExpNode nodeB;
 
-    public ExpEdgeComponent(iGraph graph, Edge edge) {
+    public ExpEdgeComponent(iGraph graph, Edge edge)
+    {
         nodeA = (ExpNode) graph.getNode(edge.getNodeA());
         nodeB = (ExpNode) graph.getNode(edge.getNodeB());
     }
 
-    public void drawEdge(Graphics2D g2d) {
+    public void drawEdge(Graphics2D g2d)
+    {
         g2d.setColor(Color.GRAY);
         g2d.drawLine((int)(nodeA.getPos().getScreenTransX()+(NODE_SIZE*0.5)),
                 (int)(nodeA.getPos().getScreenTransY()+(NODE_SIZE*0.5)),

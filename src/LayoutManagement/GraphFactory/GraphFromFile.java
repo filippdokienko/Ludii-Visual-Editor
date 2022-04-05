@@ -12,7 +12,8 @@ import java.io.IOException;
  * @author nic0gin
  */
 
-public class GraphFromFile extends GraphCreator {
+public class GraphFromFile extends GraphCreator
+{
 
     // DEFAULT FILE PATHS
     private final String DEF_FILE_1 = "../resources/graphs/graph1.txt";
@@ -26,27 +27,32 @@ public class GraphFromFile extends GraphCreator {
     //
     private final File file;
 
-    public GraphFromFile() {
+    public GraphFromFile()
+    {
         this.file = new File(DEF_FILE_6);
     }
 
-    public GraphFromFile(String path) {
+    public GraphFromFile(String path)
+    {
         this.file = new File(path);
     }
 
     @Override
-    public iGraph createGraph() {
+    public iGraph createGraph()
+    {
 
         int n = -1;
         int m = -1;
 
-        try {
+        try
+        {
             FileReader fr = new FileReader("src/"+file);
             BufferedReader br = new BufferedReader(fr);
 
             String record;
 
-            while ((record = br.readLine()) != null) {
+            while ((record = br.readLine()) != null)
+            {
                 if( record.startsWith("//") ) continue;
                 break;
             }
@@ -59,7 +65,8 @@ public class GraphFromFile extends GraphCreator {
 
             if (record.startsWith("EDGES = ")) {m = Integer.parseInt( record.substring(8) );}
 
-            for (int d=0; d<m; d++){
+            for (int d=0; d<m; d++)
+            {
                 record = br.readLine();
                 String[] data = record.split(" ");
 

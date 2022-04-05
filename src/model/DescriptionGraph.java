@@ -105,11 +105,6 @@ public class DescriptionGraph implements iGraph {
     }
 
     @Override
-    public void addEdge(iGNode from, iGNode to) {
-
-    }
-
-    @Override
     public void addEdge(int from, int to, int field) {
 
     }

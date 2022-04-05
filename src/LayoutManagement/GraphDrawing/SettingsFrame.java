@@ -12,9 +12,11 @@ import java.awt.event.ActionListener;
  * @author nic0gin
  */
 
-public class SettingsFrame extends JFrame {
+public class SettingsFrame extends JFrame
+{
 
-    public SettingsFrame(Timer timer) {
+    public SettingsFrame(Timer timer)
+    {
         setTitle("Settings");
         setSize(400, 250);
         setDefaultCloseOperation(EXIT_ON_CLOSE);

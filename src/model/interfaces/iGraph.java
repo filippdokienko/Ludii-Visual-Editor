@@ -72,8 +72,6 @@ public interface iGraph
      */
     void addEdge(int from, int to);
 
-    void addEdge(iGNode from, iGNode to);
-
     /**
      * add edge
      * @param from

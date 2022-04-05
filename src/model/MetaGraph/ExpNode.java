@@ -16,39 +16,44 @@ import static LayoutManagement.VisualEditor.LayoutConfigs.NODE_SIZE;
  * @author nic0gin
  */
 
-public class ExpNode implements iGNode {
-
-    private Vector2D pos;
-    private final int id;
+public class ExpNode implements iGNode
+{
     private String label;
 
+    private Vector2D pos;
     private List<Integer> childNodes;
     private int parent;
 
+    private final int id;
     private static int node_count = 1;
 
     private int height;
     private int width;
 
-    public ExpNode() {
-        childNodes = new ArrayList<>();
-        pos = DrawingFrame.getRandomScreenPos();
+    public ExpNode()
+    {
         id = node_count++;
         label = "";
-
-        height = NODE_SIZE;
-        width = NODE_SIZE;
+        setup();
     }
 
-    public ExpNode(String data) {
-        childNodes = new ArrayList<>();
-        pos = DrawingFrame.getRandomScreenPos();
+    public ExpNode(String data)
+    {
         id = node_count++;
         this.label = data;
+        setup();
+    }
+
+    private void setup()
+    {
+        childNodes = new ArrayList<>();
+        pos = DrawingFrame.getRandomScreenPos();
 
         height = NODE_SIZE;
         width = NODE_SIZE;
     }
+
+    //### Implementation of interface methods ###
 
     @Override
     public int getId() {
@@ -70,21 +75,12 @@ public class ExpNode implements iGNode {
         return null;
     }
 
-    // ###
-
+    @Override
     public Vector2D getPos() {
         return pos;
     }
 
-    public Vector2D getTransPos() {
-        return new Vector2D(pos.getX() + DrawingFrame.getWIDTH() / 2,
-                pos.getY() + DrawingFrame.getHEIGHT() / 2);
-    }
-
-    public void setPos(int x, int y) {
-        this.pos = new Vector2D(x, y);
-    }
-
+    @Override
     public void setPos(Vector2D v) {
         this.pos = new Vector2D(v.getX(), v.getY());
     }
@@ -99,6 +95,8 @@ public class ExpNode implements iGNode {
         return height;
     }
 
+    //### Additional functionality ###
+
     public void addChildNode(int id) {
         childNodes.add(id);
     }
@@ -109,5 +107,11 @@ public class ExpNode implements iGNode {
 
     public String getLabel() {
         return label;
+    }
+
+    public Vector2D getTransPos()
+    {
+        return new Vector2D(pos.getX() + DrawingFrame.getWIDTH() / 2,
+                pos.getY() + DrawingFrame.getHEIGHT() / 2);
     }
 }

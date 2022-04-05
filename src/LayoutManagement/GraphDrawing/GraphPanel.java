@@ -20,7 +20,8 @@ import java.util.List;
  * @author nic0gin
  */
 
-public class GraphPanel extends JPanel {
+public class GraphPanel extends JPanel
+{
 
     private static LayoutHandler lm;
     private ExpGraph expGraph;
@@ -28,7 +29,8 @@ public class GraphPanel extends JPanel {
     private List<ExpEdgeComponent> edgeComponentList;
     private List<ExpNodeComponent> nodeComponentList;
 
-    public GraphPanel(Timer timer) {
+    public GraphPanel(Timer timer)
+    {
 
         // initialise graph for the panel
         GraphCreator gc = new GraphFromFile();
@@ -41,13 +43,12 @@ public class GraphPanel extends JPanel {
         add(getMenuBar(timer));
 
         // Set up edge components
-
         // Set up node components
-
         constructVComps();
     }
 
-    public void constructVComps() {
+    public void constructVComps()
+    {
         // TODO
         edgeComponentList = new ArrayList<ExpEdgeComponent>();
         expGraph.getEdgeList().forEach((e) -> edgeComponentList.add(new ExpEdgeComponent(expGraph, e)));
@@ -58,7 +59,8 @@ public class GraphPanel extends JPanel {
     }
 
     @Override
-    protected void paintComponent(Graphics g) {
+    protected void paintComponent(Graphics g)
+    {
         super.paintComponent(g);
 
         // draw edges
@@ -87,16 +89,19 @@ public class GraphPanel extends JPanel {
         return jMenuBar;
     }
 
-    public static class StartListener implements ActionListener {
+    public static class StartListener implements ActionListener
+    {
 
         private final Timer timer;
 
-        public StartListener(Timer timer) {
+        public StartListener(Timer timer)
+        {
             this.timer = timer;
         }
 
         @Override
-        public void actionPerformed(ActionEvent e) {
+        public void actionPerformed(ActionEvent e)
+        {
             timer.start();
             //lm.executeLayout();
         }

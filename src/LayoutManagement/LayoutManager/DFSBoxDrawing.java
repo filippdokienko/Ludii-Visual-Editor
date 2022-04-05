@@ -15,6 +15,7 @@ public class DFSBoxDrawing implements LayoutMethod
     private iGraph graph;
     private int C3j;
     private int freeY;
+    private final double wY = 1.25;
 
     /**
      *
@@ -41,7 +42,7 @@ public class DFSBoxDrawing implements LayoutMethod
         if (graph.getNode(nodeId).getChildren() == null || graph.getNode(nodeId).getChildren().size() == 0)
         {
             Vector2D piInit = new Vector2D(freeX, freeY);
-            freeY += graph.getNode(nodeId).getWidth();
+            freeY += graph.getNode(nodeId).getWidth()*wY;
 
             graph.getNode(nodeId).setPos(piInit);
         }
@@ -59,7 +60,7 @@ public class DFSBoxDrawing implements LayoutMethod
                         nFirst.getPos().getY() +
                                 min(C3j, nLast.getPos().getY() - nFirst.getPos().getY()));
                 nV.setPos(piInit);
-                freeY = max(freeY, (int) (nV.getPos().getY() + nV.getWidth()));
+                freeY = max(freeY, (int) (nV.getPos().getY() + nV.getWidth()*wY));
 
 
             });
@@ -78,9 +79,36 @@ public class DFSBoxDrawing implements LayoutMethod
         return d;
     }
 
+    private void shift(int root)
+    {
+        List<Integer> Q = new ArrayList<>();
+        Q.add(root);
+        List<Integer> childNodes;
+        int nId;
+        while (!Q.isEmpty())
+        {
+            nId = Q.remove(0);
+            childNodes = graph.getNode(nId).getChildren();
+            for (int i = childNodes.size()-1; i == 0; i--)
+            {
+                if (i > 1)
+                {
+                    iGNode nV = graph.getNode(i);
+                    iGNode nVl = graph.getNode(childNodes.get(i-1));
+                    nV.setPos(nV.getPos().sub(new Vector2D(0, nVl.getPos().getY() + nVl.getWidth() )));
+                }
+                Q.add(childNodes.get(i));
+            }
+        }
+
+    }
+
     @Override
     public void applyLayout()
     {
-        initPlacement(extraPrep(),0);
+        int r = extraPrep();
+        initPlacement(r,0);
+        shift(r);
+        // translate graph by root vertex coordinates
     }
 }

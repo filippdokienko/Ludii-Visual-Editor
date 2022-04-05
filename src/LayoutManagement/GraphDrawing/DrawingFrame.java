@@ -20,7 +20,8 @@ public class DrawingFrame extends JFrame {
     private GraphPanel graphPanel;
     private Timer updateTimer;
 
-    public DrawingFrame() {
+    public DrawingFrame()
+    {
         setTitle("Graph drawing");
         setSize(WIDTH, HEIGHT);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -44,13 +45,15 @@ public class DrawingFrame extends JFrame {
         return WIDTH;
     }
 
-    public static Vector2D getRandomScreenPos() {
+    public static Vector2D getRandomScreenPos()
+    {
         double x = ThreadLocalRandom.current().nextInt(-WIDTH/2, WIDTH/2);
         double y = ThreadLocalRandom.current().nextInt(-HEIGHT/2, HEIGHT/2);
         return new Vector2D(x, y);
     }
 
-    private class LayoutUpdate implements ActionListener {
+    private class LayoutUpdate implements ActionListener
+    {
         @Override
         public void actionPerformed(ActionEvent e) {
             graphPanel.getLayoutManager().executeLayout();
@@ -60,7 +63,8 @@ public class DrawingFrame extends JFrame {
         }
     }
 
-    public class ClickListener implements MouseListener {
+    public class ClickListener implements MouseListener
+    {
 
         @Override
         public void mouseClicked(MouseEvent e) {
@@ -95,7 +99,8 @@ public class DrawingFrame extends JFrame {
         }
     }
 
-    public class DragDropListener implements MouseMotionListener {
+    public class DragDropListener implements MouseMotionListener
+    {
 
         boolean clicked = false;
 
