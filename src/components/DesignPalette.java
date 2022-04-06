@@ -11,7 +11,7 @@ public class DesignPalette {
     // ~~ COLORS ~~ //
 
     // PANELS //
-    public static Color BACKGROUND_EDITOR = new Color(233,233,233);;
+    public static Color BACKGROUND_EDITOR = new Color(244,244,244);;
 
     // LUDEME BLOCK //
         // fonts

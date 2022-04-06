@@ -41,6 +41,9 @@ public class LudemeBlockInputsComponent extends JPanel implements ILudemeNodeInp
         }
 
         setSize(LUDEME_BLOCK.WIDTH_CENTER,getPreferredSize().height);
+
+        setBorder(BorderFactory.createLineBorder(Color.BLACK));
+
         revalidate();
         repaint();
         setVisible(true);
