@@ -284,8 +284,25 @@ public class EditorPanel extends JPanel {
 
 
     private class SpawnNodePanelListener extends MouseAdapter {
-        public void mouseClicked(MouseEvent e) {
 
+        private void openPopupMenu(MouseEvent e){
+            JPopupMenu popupMenu = new EditorPopupMenu();
+            popupMenu.show(e.getComponent(), e.getX(), e.getY());
+        }
+
+        public void mousePressed(MouseEvent e){
+            if(e.getButton() == MouseEvent.BUTTON3){
+                openPopupMenu(e);
+            }
+        }
+
+        public void mouseReleased(MouseEvent e){
+            if(e.getButton() == MouseEvent.BUTTON3){
+                openPopupMenu(e);
+            }
+        }
+
+        public void mouseClicked(MouseEvent e) {
             if (e.getButton() == MouseEvent.BUTTON2) {
 
                 addLudemeWindow.setVisible(true);
@@ -301,6 +318,7 @@ public class EditorPanel extends JPanel {
                 revalidate();
                 repaint();
             }
+
         }
     }
 

@@ -1,6 +1,7 @@
 package panels;
 
 import panels.editor.EditorPanel;
+import panels.header.HeaderPanel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -13,6 +14,8 @@ public class MainPanel extends JPanel {
 
     public MainPanel(){
         setLayout(new BorderLayout());
+
+        add(new HeaderPanel(), BorderLayout.NORTH);
         add(new JScrollPane(editor_panel), BorderLayout.CENTER);
 
 

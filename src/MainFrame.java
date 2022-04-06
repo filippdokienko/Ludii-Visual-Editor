@@ -18,7 +18,8 @@ public class MainFrame extends JFrame {
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         } catch(Exception ignored){}
-        setTitle("Prototype");
+        setTitle("Ludii Visual Editor");
+        setIconImage(new ImageIcon("resources/icons/logo-clover-c.png").getImage());
         setSize(1200,800);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
