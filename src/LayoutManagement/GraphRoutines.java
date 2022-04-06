@@ -23,12 +23,14 @@ public final class GraphRoutines
         List<Integer> Q = new ArrayList<>();
         List<Integer> Visited = new ArrayList<>();
 
-        int d = 0;
+        int d = 1;
         Visited.add(r);
         Q.add(r);
         while (!Q.isEmpty())
         {
             int n = Q.remove(0);
+
+            // Update depth
             graph.getNode(n).setDepth(d);
 
             List<Integer> children = graph.getNode(n).getChildren();
@@ -63,7 +65,7 @@ public final class GraphRoutines
      */
     public static int getChildIndex(iGraph graph, int v)
     {
-        return graph.getNode(graph.getNode(v).getParent()).getChildren().indexOf(v);
+        return graph.getNode(graph.getNode(v).getParent()).getChildren().indexOf(v)+1;
     }
 
     /**
@@ -75,6 +77,36 @@ public final class GraphRoutines
     public static int getNumSiblings(iGraph graph, int v)
     {
         return graph.getNode(graph.getNode(v).getParent()).getChildren().size();
+    }
+
+    public static List<Integer> getLayerNodes(iGraph graph, int j, int r)
+    {
+        List<Integer> Q = new ArrayList<>();
+        List<Integer> Visited = new ArrayList<>();
+        List<Integer> Layer = new ArrayList<>();
+
+        int d = 1;
+        Visited.add(r);
+        Q.add(r);
+        while (!Q.isEmpty())
+        {
+            int n = Q.remove(0);
+
+            if (d == j) Layer.add(n);
+            else
+            {
+                List<Integer> children = graph.getNode(n).getChildren();
+                children.forEach((v) -> {
+                    if (!Visited.contains(v))
+                    {
+                        Q.add(v);
+                        Visited.add(v);
+                    }
+                });
+                d++;
+            }
+        }
+        return Layer;
     }
 
 }

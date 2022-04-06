@@ -4,6 +4,7 @@ import model.interfaces.iGraph;
 import static LayoutManagement.GraphRoutines.updateNodeDepth;
 
 /**
+ * TODO: implement application to the trees with different roots
  * @author nic0gin
  */
 
@@ -24,7 +25,7 @@ public class LayoutHandler {
         {
             case 0 -> layout = new FruchtermanReingold(graph);
             case 1 -> layout = new DFSBoxDrawing(graph, 25);
-            case 2 -> layout = new PlanetDrawing(graph, 10);
+            case 2 -> layout = new PlanetDrawing(graph, 1,50);
             default -> layout = new DFSBoxDrawing(graph, 5);
         }
 

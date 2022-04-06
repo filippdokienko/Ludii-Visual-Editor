@@ -1,12 +1,12 @@
 package LayoutManagement.LayoutManager;
 
+import LayoutManagement.GraphRoutines;
 import LayoutManagement.Math.Vector2D;
 import model.interfaces.iGNode;
 import model.interfaces.iGraph;
 
-import java.util.Iterator;
-import java.util.List;
-import java.util.ListIterator;
+import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import static LayoutManagement.GraphRoutines.*;
 import static java.lang.Math.*;
@@ -15,12 +15,17 @@ public class PlanetDrawing implements LayoutMethod
 {
 
     private iGraph graph;
-    private int xi;
+    private final int ROOT_ID;
+    private final int XI;
     private int theta;
+    private HashMap<Integer, Double> thetaMap;
 
-    public PlanetDrawing(iGraph graph, int xi)
+    public PlanetDrawing(iGraph graph, int ROOT_ID, int XI)
     {
         this.graph = graph;
+        this.ROOT_ID = ROOT_ID;
+        this.XI = XI;
+        thetaMap = new HashMap<>();
     }
 
     /**
@@ -31,14 +36,24 @@ public class PlanetDrawing implements LayoutMethod
         return graph.getRoot().getId();
     }
 
+    /**
+     * Node angle
+     * @param i child index of node
+     * @param nd number of siblings?
+     * @return parameter theta
+     */
+    private double calculateTheta1(int i, int nd)
+    {
+        return (2*(i - 1)*PI) / nd;
+    }
 
     private double calculateTheta2(int v, int d, int i, int nd)
     {
-        double theta1 = calculateTheta1(i, nd);
+        double theta1 = thetaMap.get(graph.getNode(v).getParent());
         if (nd == 1) return theta1;
         else
         {
-            double f0 = fJ(0, d, v);
+            double f0 = fJ(0);
             return theta1 - PI/f0 + 2*(i - 1)*PI/((nd - 1)*f0);
         }
     }
@@ -54,83 +69,55 @@ public class PlanetDrawing implements LayoutMethod
     private double calculateThetaNd(int v, int d, int i, int nd)
     {
         double theta;
-        double thetadm1 = calculateTheta(v, d-1, i, nd);
-        double thetadm2 = calculateTheta(v, d-2, i, nd);
+        int dm1 = graph.getNode(v).getParent();
+        int dm2 = graph.getNode(dm1).getParent();
+        double thetadm1 = thetaMap.get(dm1);
+        double thetadm2 = thetaMap.get(dm2);
 
         int m = d-2;
 
         if (nd == 1) theta = thetadm1;
-        else if (thetadm1 < thetadm2 && nd != 1)
+        else if (thetadm1 < thetadm2)
         {
-
-            int fJProd = fJ(0, d, v);
-            for (int j = 1; j < m; j++)
-            {
-                fJProd *= fJ(j, d, v);
-            }
-
+            int fJProd = prodFk(m);
             theta = thetadm1 + 2*(i-1)*PI/((nd-1)*fJProd);
         }
-        else if (thetadm1 > thetadm2 && nd != 1)
+        else if (thetadm1 > thetadm2)
         {
-            int fJProd = fJ(0, d, v);
-            for (int j = 1; j < m; j++)
-            {
-                fJProd *= fJ(j, d, v);
-            }
-
+            int fJProd = prodFk(m);
             theta = thetadm1 - 2*(i-1)*PI/((nd-1)*fJProd);
         }
         else
         {
-            int fJProd = fJ(0, d, v);
-            for (int j = 1; j < m; j++)
-            {
-                fJProd *= fJ(j, d, v);
-            }
-
-            theta = thetadm1 -PI/fJProd + 2*(i-1)*PI/((nd-1)*fJProd);
+            int fJProd = prodFk(m);
+            theta = thetadm1 - PI/fJProd + 2*(i-1)*PI/((nd-1)*fJProd);
         }
         return theta;
     }
 
-    private double calculateTheta(int v, int d, int i, int nd)
-    {
-        switch (d)
-        {
-            case 1 -> { return calculateTheta1(i, nd); }
-            case 2 -> { return calculateTheta2(v, d, i, nd); }
-            default -> { return calculateThetaNd(v, d, i, nd); }
-        }
-    }
-
     /**
-     * Node angle
-     * @param i child index of node
-     * @param nd number of siblings?
-     * @return parameter theta
-     */
-    private double calculateTheta1(int i, int nd)
-    {
-        return(2*(i - 1)*PI) / nd;
-    }
-
-    /**
-     * Number of child nodes of the jth layer parent node of
-     * @param v node id
-     * @param d node layer id
-     * @param j parent layer id
+     * Number of child nodes of the jth layer parent node
+     * @param j layer id
      * @return positive integer
      */
-    private int fJ(int j, int d, int v)
+    private int fJ(int j)
     {
-        int pId = v;
-        while (d < j)
+        List<Integer> pLayer = GraphRoutines.getLayerNodes(graph, j, ROOT_ID);
+        AtomicInteger count = new AtomicInteger();
+        pLayer.forEach((p) -> {
+            count.addAndGet(graph.getNode(p).getChildren().size());
+        });
+        return count.get();
+    }
+
+    private int prodFk(int m)
+    {
+        int prod = 1;
+        for (int j = 0; j < m; j++)
         {
-            pId = graph.getNode(pId).getParent();
-            j--;
+            prod *= fJ(j);
         }
-        return graph.getNode(pId).getChildren().size();
+        return prod;
     }
 
     private void PLANET(int r)
@@ -138,64 +125,70 @@ public class PlanetDrawing implements LayoutMethod
         // Initialization
         // graph.getNode(r).setPos(new Vector2D(0, 0));
         int d = 0;
-        int r0 = 1;
-        List<Integer> Q = graph.getNode(r).getChildren();
+        int r0 = 50;
+
+        iGNode rN = graph.getNode(r);
+        List<Integer> Q = new ArrayList<>(rN.getChildren());
 
         //Iteration: calculate the coordinate of nodes on dth levels
         while (!Q.isEmpty())
         {
             d++;
-            int rd = r0 + xi*d;
+            int rd = r0 + XI *d;
             if (d == 1)
             {
-                ListIterator<Integer> iter = Q.listIterator();
-                while (iter.hasNext())
+                int N = Q.size();
+                List<Integer> QCopy = new ArrayList<>(Q);
+                for (int i = 0; i < N; i++)
                 {
-                    Integer v = iter.next();
-
-                    double theta = calculateTheta1(getChildIndex(graph, v), getNumSiblings(graph, v));
+                    int v = Q.get(i);
+                    // getNumSiblings(graph, v)
+                    double theta = calculateTheta1(getChildIndex(graph, v), rN.getChildren().size());
+                    thetaMap.put(v, theta);
                     // Convert v's polar coordinates to absolute Cartesian coordinates
                     iGNode nV = graph.getNode(v);
-                    nV.setPos(new Vector2D(rd*cos(theta), rd*sin(theta)));
+                    nV.setPos(rN.getPos().add(new Vector2D(rd*cos(theta), rd*sin(theta))));
                     List<Integer> m = nV.getChildren();
-                    m.forEach(iter::add);
+                    Q.addAll(m);
                 }
+                Q.removeAll(QCopy);
             }
             else if (d == 2)
             {
-                ListIterator<Integer> iter = Q.listIterator();
-                while (iter.hasNext())
+                int N = Q.size();
+                List<Integer> QCopy = new ArrayList<>(Q);
+                for (int i = 0; i < N; i++)
                 {
-                    Integer v = iter.next();
-
-                    double theta = calculateTheta2(v, getNodeDepth(graph, v), getChildIndex(graph, v), getNumSiblings(graph, v));
+                    int v = Q.get(i);
+                    double theta = calculateTheta2(v, d, getChildIndex(graph, v), getNumSiblings(graph, v));
+                    thetaMap.put(v, theta);
                     iGNode nV = graph.getNode(v);
                     Vector2D pXY = graph.getNode(graph.getNode(v).getParent()).getPos();
                     nV.setPos(pXY.add(new Vector2D(rd*cos(theta), rd*sin(theta))));
                     List<Integer> m = nV.getChildren();
-                    m.forEach(iter::add);
+                    Q.addAll(m);
                 }
+                Q.removeAll(QCopy);
             }
             else
             {
-                ListIterator<Integer> iter = Q.listIterator();
-                while (iter.hasNext())
+                int N = Q.size();
+                List<Integer> QCopy = new ArrayList<>(Q);
+                for (int i = 0; i < N; i++)
                 {
-                    Integer v = iter.next();
-
-                    double theta = calculateThetaNd(v, getNodeDepth(graph, v), getChildIndex(graph, v), getNumSiblings(graph, v));
+                    int v = Q.get(i);
+                    double theta = calculateThetaNd(v, d, getChildIndex(graph, v), getNumSiblings(graph, v));
+                    thetaMap.put(v, theta);
                     iGNode nV = graph.getNode(v);
                     Vector2D pXY = graph.getNode(graph.getNode(v).getParent()).getPos();
                     nV.setPos(pXY.add(new Vector2D(rd*cos(theta), rd*sin(theta))));
                     List<Integer> m = nV.getChildren();
-                    m.forEach(iter::add);
+                    Q.addAll(m);
                 }
+                Q.removeAll(QCopy);
             }
-            Q.remove(0);
         }
     }
-
-
 
     @Override
     public void applyLayout()
