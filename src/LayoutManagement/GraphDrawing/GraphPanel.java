@@ -38,7 +38,7 @@ public class GraphPanel extends JPanel
 
         // initialise layout manager
         lm = new LayoutHandler(expGraph);
-        lm.setLayoutMethod(2);
+        lm.setLayoutMethod(0);
 
         add(getMenuBar(timer));
 
@@ -103,7 +103,6 @@ public class GraphPanel extends JPanel
         public void actionPerformed(ActionEvent e)
         {
             timer.start();
-            //lm.executeLayout();
         }
     }
 

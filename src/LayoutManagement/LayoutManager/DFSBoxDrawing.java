@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static LayoutManagement.GraphDrawing.NodePlacementRoutines.translateByRoot;
+import static LayoutManagement.GraphRoutines.getNodeDepth;
 import static java.lang.Math.*;
 
 public class DFSBoxDrawing implements LayoutMethod
@@ -53,7 +54,7 @@ public class DFSBoxDrawing implements LayoutMethod
             iGNode nLast = graph.getNode(nodeCh.get(nodeCh.size()-1));
 
             nodeCh.forEach((s) -> {
-                initPlacement(s, freeX + getDepth(s)*graph.getNode(s).getHeight());
+                initPlacement(s, freeX + getNodeDepth(graph, s)*graph.getNode(s).getHeight());
 
                 iGNode nV = graph.getNode(nodeId);
                 Vector2D piInit = new Vector2D(freeX,
@@ -66,17 +67,6 @@ public class DFSBoxDrawing implements LayoutMethod
             });
 
         }
-    }
-
-    private int getDepth(int nodeId) {
-        int d = 0;
-        int n = nodeId;
-        while (graph.getNode(n).getId() != graph.getRoot().getId())
-        {
-            n = graph.getNode(n).getParent();
-            d++;
-        }
-        return d;
     }
 
     private void shift(int root)

@@ -6,8 +6,6 @@ import model.Edge;
 import model.MetaGraph.ForceNode;
 import model.interfaces.iGNode;
 import model.interfaces.iGraph;
-
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -21,12 +19,13 @@ public class FruchtermanReingold implements LayoutMethod {
     private final int W = DrawingFrame.getWIDTH();
     private final int H = DrawingFrame.getHEIGHT();
     private final int area =  W*H;
-    private double C = 0.2;
+    private double C = 0.05;
     private double coolRate = 0.05;
     private double k;
     private double t = W/10;
 
     private List<iGNode> nodeList;
+    private HashMap<Integer, Double> dispMap; // TODO: replace usage of ForceNode with dispMap
     private HashMap<Integer, ForceNode> forceNodesMap;
     private List<Edge> edgeList;
     private iGraph graph;
@@ -143,12 +142,17 @@ public class FruchtermanReingold implements LayoutMethod {
     }
 
     @Override
-    public void applyLayout() {
+    public void applyLayout()
+    {
 
         // Set up variables (only once)
 
         // Execute algorithm iteration
-        FruchReinIteration();
+        for (int i = 0; i < 50; i++)
+        {
+            FruchReinIteration();
+        }
+
 
     }
 

@@ -1,8 +1,6 @@
 package LayoutManagement;
 
-import LayoutManagement.Math.Vector2D;
 import model.interfaces.iGraph;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -85,7 +83,7 @@ public final class GraphRoutines
         List<Integer> Visited = new ArrayList<>();
         List<Integer> Layer = new ArrayList<>();
 
-        int d = 1;
+        int d = 0;
         Visited.add(r);
         Q.add(r);
         while (!Q.isEmpty())
