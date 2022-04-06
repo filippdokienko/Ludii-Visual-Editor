@@ -7,8 +7,8 @@ import model.interfaces.iGraph;
 import java.util.ArrayList;
 import java.util.List;
 
-import static java.lang.Math.max;
-import static java.lang.Math.min;
+import static LayoutManagement.GraphDrawing.NodePlacementRoutines.translateByRoot;
+import static java.lang.Math.*;
 
 public class DFSBoxDrawing implements LayoutMethod
 {
@@ -89,7 +89,7 @@ public class DFSBoxDrawing implements LayoutMethod
         {
             nId = Q.remove(0);
             childNodes = graph.getNode(nId).getChildren();
-            for (int i = childNodes.size()-1; i == 0; i--)
+            for (int i = childNodes.size()-1; i >= 0; i--)
             {
                 if (i > 1)
                 {
@@ -107,8 +107,10 @@ public class DFSBoxDrawing implements LayoutMethod
     public void applyLayout()
     {
         int r = extraPrep();
+        Vector2D oPos = graph.getNode(r).getPos();
         initPlacement(r,0);
-        shift(r);
+        //shift(r);
+        translateByRoot(graph, r, oPos);
         // translate graph by root vertex coordinates
     }
 }

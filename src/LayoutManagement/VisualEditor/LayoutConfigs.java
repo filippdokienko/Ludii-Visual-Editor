@@ -18,6 +18,6 @@ public class LayoutConfigs
     GRAPH DRAWING
      */
 
-    public static final int NODE_SIZE = 15;
+    public static final int NODE_SIZE = 25;
 
 }

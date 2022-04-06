@@ -30,6 +30,8 @@ public class ExpNode implements iGNode
     private int height;
     private int width;
 
+    private int depth;
+
     public ExpNode()
     {
         id = node_count++;
@@ -93,6 +95,18 @@ public class ExpNode implements iGNode
     @Override
     public int getHeight() {
         return height;
+    }
+
+    @Override
+    public void setDepth(int depth)
+    {
+        this.depth = depth;
+    }
+
+    @Override
+    public int getDepth()
+    {
+        return depth;
     }
 
     //### Additional functionality ###

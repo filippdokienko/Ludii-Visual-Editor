@@ -27,4 +27,8 @@ public interface iGNode {
 
     int getHeight();
 
+    void setDepth(int depth);
+
+    int getDepth();
+
 }

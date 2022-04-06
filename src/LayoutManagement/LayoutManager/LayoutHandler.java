@@ -1,15 +1,7 @@
 package LayoutManagement.LayoutManager;
 
-import LayoutManagement.GraphDrawing.DrawingFrame;
-import model.Edge;
-import model.MetaGraph.ExpGraph;
-import LayoutManagement.Math.Vector2D;
-import model.interfaces.iGNode;
 import model.interfaces.iGraph;
-
-import java.util.List;
-
-import static java.lang.Math.*;
+import static LayoutManagement.GraphRoutines.updateNodeDepth;
 
 /**
  * @author nic0gin
@@ -32,12 +24,21 @@ public class LayoutHandler {
         {
             case 0 -> layout = new FruchtermanReingold(graph);
             case 1 -> layout = new DFSBoxDrawing(graph, 25);
+            case 2 -> layout = new PlanetDrawing(graph, 10);
             default -> layout = new DFSBoxDrawing(graph, 5);
         }
 
     }
 
-    public void executeLayout() {
+    public void executeLayout()
+    {
+        // Prepare the graph
+
+        // Calculate the depth for each node with respect with selected root
+        // TODO implement int root into constructor
+        int r = 1;
+        updateNodeDepth(graph, r);
+
         layout.applyLayout();
     }
 

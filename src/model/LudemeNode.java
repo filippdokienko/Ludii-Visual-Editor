@@ -84,6 +84,18 @@ public class LudemeNode implements iLudemeNode, iGNode {
         return 0;
     }
 
+    @Override
+    public void setDepth(int depth)
+    {
+        // TODO implement
+    }
+
+    @Override
+    public int getDepth() {
+        // TODO implement
+        return 0;
+    }
+
     public void setPos() {
         // TODO
     }
