@@ -48,11 +48,10 @@ public class Handler {
         }
     }
     public static void addEdge(DescriptionGraph graph, LudemeNode from, LudemeNode to){
-        // TODO: graph.addEdge(n1.getId(), n2.getId());
+        graph.addEdge(from.getId(), to.getId());
         // here form is the parent node
         from.addChildren(to);
         to.setParent(from);
-
     }
     public static void updatePosition(DescriptionGraph graph, LudemeNode node, int x, int y){
         node.setPos(x, y);

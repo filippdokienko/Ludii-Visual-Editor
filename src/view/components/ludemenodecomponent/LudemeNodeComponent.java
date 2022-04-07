@@ -54,6 +54,8 @@ public class LudemeNodeComponent extends JComponent {
         setSize(new Dimension(getMinimumSize().width, preferredHeight));
 
         setSize(getPreferredSize());
+        ludemeNode.setWidth(getWidth());
+        ludemeNode.setHeight(getHeight());
 
         addMouseMotionListener(dragListener);
         addMouseListener(mouseListener);
@@ -82,6 +84,9 @@ public class LudemeNodeComponent extends JComponent {
         setSize(new Dimension(getMinimumSize().width, preferredHeight));
 
         setSize(getPreferredSize());
+        LUDEME_NODE.setWidth(getWidth());
+        LUDEME_NODE.setHeight(getHeight());
+
         revalidate();
         repaint();
     }

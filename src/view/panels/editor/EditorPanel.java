@@ -9,6 +9,7 @@ TODO:
         - when updating constructor: remove all connections
  */
 
+import LayoutManagement.LayoutManager.LayoutHandler;
 import view.components.AddLudemeWindow;
 import view.components.ludemenode.CustomPoint;
 import view.components.ludemenode.block.LudemeBlock;
@@ -345,6 +346,11 @@ public class EditorPanel extends JPanel implements IGraphPanel {
     @Override
     public void removeNode(LudemeNode node) {
 
+    }
+
+    @Override
+    public LayoutHandler getLayoutHandler() {
+        return null;
     }
 
 

@@ -18,9 +18,13 @@ public class DescriptionGraph implements iGraph {
 
     //TODO: change to the HashMap
     List<LudemeNode> allLudemeNodes = new ArrayList<>();
+    HashMap<Integer, iGNode> nodeMap = new HashMap<>();
+    List<Edge> edgeList = new ArrayList<>();
+
     LudemeNode ROOT;
 
-    public DescriptionGraph(){
+    public DescriptionGraph()
+    {
 
     }
 
@@ -45,18 +49,22 @@ public class DescriptionGraph implements iGraph {
     }
 
     @Override
-    public HashMap<Integer, List<Integer>> getAdjacencyList() {
+    public HashMap<Integer, List<Integer>> getAdjacencyList()
+    {
+        // TODO remove this
         return null;
     }
 
     @Override
-    public List<Edge> getEdgeList() {
-        return null;
+    public List<Edge> getEdgeList()
+    {
+        return edgeList;
     }
 
     @Override
-    public HashMap<Integer, iGNode> getNodeList() {
-        return null;
+    public HashMap<Integer, iGNode> getNodeList()
+    {
+        return nodeMap;
     }
 
     @Override
@@ -96,30 +104,34 @@ public class DescriptionGraph implements iGraph {
     @Override
     public int addNode(iGNode ludemeNode) {
         this.allLudemeNodes.add((LudemeNode) ludemeNode);
-        return ludemeNode.getId();
+        int id = ludemeNode.getId();
+        nodeMap.put(id, ludemeNode);
+        return id;
     }
 
     @Override
     public int removeNode(iGNode node) {
         this.allLudemeNodes.remove((LudemeNode) node);
+        nodeMap.remove(node.getId());
         return node.getId();
     }
 
     @Override
     public int removeNode(int id) {
         iGNode node = getNode(id);
+        nodeMap.remove(id);
         this.allLudemeNodes.remove((LudemeNode) node);
         return node.getId();
     }
 
     @Override
     public void addEdge(int from, int to) {
-
+        edgeList.add(new Edge(from , to));
     }
 
     @Override
     public void addEdge(int from, int to, int field) {
-
+        edgeList.add(new Edge(from , to, field));
     }
 
     public void remove(LudemeNode ludemeNode) {

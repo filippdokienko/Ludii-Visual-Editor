@@ -1,5 +1,6 @@
 package view.panels.editor;
 
+import LayoutManagement.LayoutManager.LayoutHandler;
 import handler.Handler;
 import model.DescriptionGraph;
 import model.LudemeNode;
@@ -33,6 +34,7 @@ public class EditorPanel2 extends JPanel implements IGraphPanel {
     private Point mousePosition;
     private LConnectionComponent selectedConnectionComponent = null;
 
+    private LayoutHandler lm;
 
     // Reads grammar from file and generates all ludemes
     Parser p = new Parser();
@@ -61,11 +63,13 @@ public class EditorPanel2 extends JPanel implements IGraphPanel {
 
         graph.setRoot(addNode(gameLudeme, 20, 20, false));
 
+        lm = new LayoutHandler(graph);
     }
 
     @Override
     public void drawGraph(DescriptionGraph graph) {
-        this.graph = graph.clone();
+        this.graph = graph;
+        lm = new LayoutHandler(graph);
         System.out.println(graph.getNodes().size());
         removeAll();
         nodeComponents.clear();
@@ -150,6 +154,7 @@ public class EditorPanel2 extends JPanel implements IGraphPanel {
         target.setFill(true);
         source.setConnectedTo(target.getHeader().getLudemeNodeComponent());
         Handler.updateInput(graph, source.getLudemeNodeComponent().getLudemeNode(), source.getInputField().getInputIndex(), target.getHeader().getLudemeNodeComponent().getLudemeNode());
+        Handler.addEdge(graph, source.getLudemeNodeComponent().getLudemeNode(), target.getHeader().getLudemeNodeComponent().getLudemeNode());
         edges.add(connection);
         repaint();
     }
@@ -237,6 +242,12 @@ public class EditorPanel2 extends JPanel implements IGraphPanel {
         Handler.removeNode(graph, node);
         remove(lc);
         repaint();
+    }
+
+    @Override
+    public LayoutHandler getLayoutHandler()
+    {
+        return lm;
     }
 
     public void showCurrentlyAvailableLudemes(int x, int y) {
