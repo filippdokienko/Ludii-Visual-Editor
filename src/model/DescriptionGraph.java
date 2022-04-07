@@ -1,6 +1,6 @@
 package model;
 
-import grammar.Ludeme;
+import model.grammar.Ludeme;
 import model.interfaces.iGNode;
 import model.interfaces.iGraph;
 
@@ -100,6 +100,19 @@ public class DescriptionGraph implements iGraph {
     }
 
     @Override
+    public int removeNode(iGNode node) {
+        this.allLudemeNodes.remove((LudemeNode) node);
+        return node.getId();
+    }
+
+    @Override
+    public int removeNode(int id) {
+        iGNode node = getNode(id);
+        this.allLudemeNodes.remove((LudemeNode) node);
+        return node.getId();
+    }
+
+    @Override
     public void addEdge(int from, int to) {
 
     }
@@ -115,6 +128,43 @@ public class DescriptionGraph implements iGraph {
 
     public String toLud() {
         return ROOT.getStringRepresentation();
+    }
+
+    public DescriptionGraph clone(){
+
+        ArrayList<Integer> indeces = new ArrayList<>();
+        ArrayList<LudemeNode> from = new ArrayList<>();
+        ArrayList<LudemeNode> to = new ArrayList<>();
+
+        DescriptionGraph graphNew = new DescriptionGraph();
+        for(LudemeNode node : getNodes()){
+            LudemeNode node_new = new LudemeNode(node.getLudeme(), (int)node.getPos().getX(), (int)node.getPos().getY());
+            node_new.setCurrentConstructor(node.getCurrentConstructor());
+
+            if(to.contains(node)){
+                int index = to.indexOf(node);
+                int inputIndex = indeces.get(index);
+                from.get(index).setProvidedInput(inputIndex, node);
+
+                to.remove(index);
+                indeces.remove(index);
+                from.remove(index);
+
+            }
+
+            for(int i = 0; i < node.getProvidedInputs().length; i++){
+                Object in = node.getProvidedInputs()[i];
+                if(in instanceof LudemeNode){
+                    indeces.add(i);
+                    from.add(node_new);
+                    to.add((LudemeNode) in);
+                } else {
+                    node_new.setProvidedInput(i, in);
+                }
+            }
+        }
+        
+        return graphNew;
     }
 
 }

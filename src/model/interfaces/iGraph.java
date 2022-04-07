@@ -66,6 +66,20 @@ public interface iGraph
     int addNode(iGNode node);
 
     /**
+     * Removes instance of a node from the graph
+     * @param node valid instance of a node
+     * @return id
+     */
+    int removeNode(iGNode node);
+
+    /**
+     * Removes instance of a node from the graph
+     * @param id valid id of a node
+     * @return id
+     */
+    int removeNode(int id);
+
+    /**
      * add edge
      * @param from parent node
      * @param to child node

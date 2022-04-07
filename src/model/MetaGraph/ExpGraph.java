@@ -102,6 +102,18 @@ public class ExpGraph implements iGraph {
     }
 
     @Override
+    public int removeNode(iGNode node) {
+        // TODO: implement
+        return 0;
+    }
+
+    @Override
+    public int removeNode(int id) {
+        // TODO: implement
+        return 0;
+    }
+
+    @Override
     public int addNode()
     {
         ExpNode n = new ExpNode();

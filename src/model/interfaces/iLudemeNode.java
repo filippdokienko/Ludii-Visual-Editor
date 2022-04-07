@@ -5,9 +5,9 @@ package model.interfaces;
  * @author Filipp Dokienko
  */
 
-import grammar.Constructor;
-import grammar.Ludeme;
-import grammar.input.Input;
+import model.grammar.Constructor;
+import model.grammar.Ludeme;
+import model.grammar.input.Input;
 
 
 public interface iLudemeNode {

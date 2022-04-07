@@ -1,6 +1,6 @@
 package model;
 
-import grammar.input.Input;
+import model.grammar.input.Input;
 
 /**
  * User-provided input for an Input(field)

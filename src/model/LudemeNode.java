@@ -2,9 +2,9 @@ package model;
 
 import LayoutManagement.Math.Vector2D;
 import model.interfaces.iGNode;
-import grammar.Constructor;
-import grammar.Ludeme;
-import grammar.input.Input;
+import model.grammar.Constructor;
+import model.grammar.Ludeme;
+import model.grammar.input.Input;
 import model.interfaces.iLudemeNode;
 
 import java.util.ArrayList;
@@ -23,6 +23,9 @@ public class LudemeNode implements iLudemeNode, iGNode {
     private final Ludeme LUDEME;
     private Constructor currentConstructor;
     private Object[] providedInputs;
+
+    private int depth = 0;
+    private int width,height;
 
     private LudemeNode parent;
     private List<LudemeNode> children = new ArrayList<>();
@@ -72,28 +75,33 @@ public class LudemeNode implements iLudemeNode, iGNode {
 
     }
 
-    @Override
-    public int getWidth() {
-        // TODO implement
-        return 0;
+    public void setWidth(int width){
+        this.width = width;
     }
 
     @Override
+    public int getWidth() {
+        return width;
+    }
+
+   public void setHeight(int height){
+        this.height = height;
+   }
+
+    @Override
     public int getHeight() {
-        // TODO implement
-        return 0;
+        return height;
     }
 
     @Override
     public void setDepth(int depth)
     {
-        // TODO implement
+        this.depth = depth;
     }
 
     @Override
     public int getDepth() {
-        // TODO implement
-        return 0;
+        return depth;
     }
 
     public void setPos() {
@@ -163,7 +171,6 @@ public class LudemeNode implements iLudemeNode, iGNode {
             if(o == null); // TODO: What to do when input is empty?
             else if(o instanceof String) s.append("'").append(o.toString()).append("'");
             else s.append(o.toString());
-            s.append(" ");
         }
         s.append(")");
         return s.toString().trim().replaceAll(" +", " ");
