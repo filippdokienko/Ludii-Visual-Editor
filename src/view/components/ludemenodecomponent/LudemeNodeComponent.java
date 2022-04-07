@@ -9,6 +9,8 @@ import view.components.ludemenode.block.LudemeBlock;
 import view.components.ludemenodecomponent.inputs.LIngoingConnectionComponent;
 import view.components.ludemenodecomponent.inputs.LInputArea;
 import view.panels.IGraphPanel;
+import view.panels.editor.EditorPanel2;
+import view.panels.editor.EditorPopupMenu;
 
 import javax.swing.*;
 import java.awt.*;
@@ -128,14 +130,26 @@ public class LudemeNodeComponent extends JComponent {
 
     // Mouse Listener
     MouseListener mouseListener = new MouseAdapter() {
+
+        private void openPopupMenu(MouseEvent e){
+            JPopupMenu popupMenu = new NodePopupMenu(LudemeNodeComponent.this, LudemeNodeComponent.this.getGraphPanel());
+            popupMenu.show(e.getComponent(), e.getX(), e.getY());
+        }
+
         @Override
         public void mousePressed(MouseEvent e) {
             super.mousePressed(e);
-            getGraphPanel().clickedOnNode(LudemeNodeComponent.this);
             LudemeNodeComponent.this.x = e.getX();
             LudemeNodeComponent.this.y = e.getY();
             Handler.updatePosition(getGraphPanel().getGraph(), getLudemeNode(), getX(), getY());
-            System.out.println(LudemeNodeComponent.this.getIngoingConnectionComponent().getConnectionPointPosition());
+
+            if(e.getButton() == MouseEvent.BUTTON3){
+                openPopupMenu(e);
+            }
+            else {
+                getGraphPanel().clickedOnNode(LudemeNodeComponent.this.getLudemeNode());
+            }
+
         }
     };
 

@@ -195,12 +195,24 @@ public class EditorPanel2 extends JPanel implements IGraphPanel {
     }
 
     @Override
-    public void clickedOnNode(LudemeNodeComponent node) {
+    public void clickedOnNode(LudemeNode node) {
+        LudemeNodeComponent lc = getNodeComponent(node);
         if(selectedConnectionComponent != null){
-            if(selectedConnectionComponent.getRequiredLudemes().contains(node.getLudemeNode().getLudeme())) {
-                finishNewConnection(node);
+            if(selectedConnectionComponent.getRequiredLudemes().contains(node.getLudeme())) {
+                finishNewConnection(lc);
             }
         }
+    }
+
+    @Override
+    public void removeNode(LudemeNode node) {
+        System.out.println("Removing node");
+        LudemeNodeComponent lc = getNodeComponent(node);
+        nodeComponents.remove(lc);
+        removeConnections(node);
+        Handler.removeNode(graph, node);
+        remove(lc);
+        repaint();
     }
 
     public void showCurrentlyAvailableLudemes(int x, int y) {

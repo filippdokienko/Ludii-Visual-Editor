@@ -17,5 +17,6 @@ public interface IGraphPanel {
     public void addNode(Ludeme ludeme, int x, int y, boolean connect);
     public void showAllAvailableLudemes(int x, int y);
     public void removeConnections(LudemeNode node);
-    public void clickedOnNode(LudemeNodeComponent node);
+    public void clickedOnNode(LudemeNode node);
+    public void removeNode(LudemeNode node);
 }

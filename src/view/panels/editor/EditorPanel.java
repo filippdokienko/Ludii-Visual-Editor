@@ -333,7 +333,12 @@ public class EditorPanel extends JPanel implements IGraphPanel {
     }
 
     @Override
-    public void clickedOnNode(view.components.ludemenodecomponent.LudemeNodeComponent node) {
+    public void clickedOnNode(LudemeNode node) {
+
+    }
+
+    @Override
+    public void removeNode(LudemeNode node) {
 
     }
 
