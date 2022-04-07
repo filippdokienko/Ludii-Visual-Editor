@@ -59,7 +59,7 @@ public class EditorPanel2 extends JPanel implements IGraphPanel {
 
     @Override
     public void drawGraph(DescriptionGraph graph) {
-        this.graph = graph;
+        this.graph = graph.clone();
         removeAll();
         nodeComponents.clear();
         edges.clear();
@@ -214,7 +214,7 @@ public class EditorPanel2 extends JPanel implements IGraphPanel {
     public void clickedOnNode(LudemeNode node) {
         LudemeNodeComponent lc = getNodeComponent(node);
         if(selectedConnectionComponent != null){
-            if(selectedConnectionComponent.getRequiredLudemes().contains(node.getLudeme())) {
+            if(selectedConnectionComponent.getRequiredLudemes().contains(node.getLudeme()) && !lc.getIngoingConnectionComponent().isFilled()) {
                 finishNewConnection(lc);
             }
         }

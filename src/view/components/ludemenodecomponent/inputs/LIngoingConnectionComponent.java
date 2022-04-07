@@ -62,6 +62,8 @@ public class LIngoingConnectionComponent extends JComponent {
             return lHeader;
         }
 
+        public boolean isFilled(){ return fill; }
+
 
 
     class ConnectionPointComponent extends JComponent{
