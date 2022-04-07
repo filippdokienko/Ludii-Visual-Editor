@@ -277,7 +277,7 @@ public class Parser {
                         for(String is : inputStrings){
                             currentInputs.add(readInput(is));
                         }
-                        Input input = new ChoiceInput("choice (?)",currentInputs);
+                        Input input = new ChoiceInput("Choice",currentInputs);
                         input.setOptional(true);
                         inputs.add(input);
                     }
