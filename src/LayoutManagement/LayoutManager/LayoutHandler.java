@@ -1,5 +1,6 @@
 package LayoutManagement.LayoutManager;
 
+import LayoutManagement.Math.Vector2D;
 import model.interfaces.iGraph;
 import static LayoutManagement.GraphRoutines.updateNodeDepth;
 
@@ -23,7 +24,7 @@ public class LayoutHandler {
     {
         switch (l)
         {
-            case 0 -> layout = new FruchtermanReingold(graph);
+            case 0 -> layout = new FruchtermanReingold(graph, 0.25, 0.05, new Vector2D(500, 500));
             case 1 -> layout = new DFSBoxDrawing(graph, 25);
             case 2 -> layout = new PLANET(graph, 1,10);
             default -> layout = new DFSBoxDrawing(graph, 5);
