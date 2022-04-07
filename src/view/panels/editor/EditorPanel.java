@@ -318,8 +318,8 @@ public class EditorPanel extends JPanel implements IGraphPanel {
     }
 
     @Override
-    public void addNode(Ludeme ludeme, int x, int y, boolean connect) {
-        addLudemeNode(ludeme, new Point(x,y), connect);
+    public LudemeNode addNode(Ludeme ludeme, int x, int y, boolean connect) {
+        return addLudemeNode(ludeme, new Point(x,y), connect).getLudemeNode();
     }
 
     @Override

@@ -53,10 +53,15 @@ public class LudemeNode implements iLudemeNode, iGNode {
         return parent.getId();
     }
 
+    public LudemeNode getParentNode(){
+        return parent;
+    }
+
     @Override
     public List<Integer> getChildren() {
-        // TODO implement
-        return null;
+        List<Integer> children_ids = new ArrayList<>();
+        for(LudemeNode c : children) children_ids.add(c.getId());
+        return children_ids;
     }
 
     @Override
@@ -72,7 +77,8 @@ public class LudemeNode implements iLudemeNode, iGNode {
 
     @Override
     public void setPos(Vector2D pos) {
-
+        x = (int) pos.getX();
+        y = (int) pos.getY();
     }
 
     public void setWidth(int width){
@@ -104,9 +110,6 @@ public class LudemeNode implements iLudemeNode, iGNode {
         return depth;
     }
 
-    public void setPos() {
-        // TODO
-    }
 
     // TODO: Should be probably in iGNode ?
     public void setPos(int x, int y){

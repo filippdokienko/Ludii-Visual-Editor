@@ -22,7 +22,7 @@ public class EditorPopupMenu extends JPopupMenu {
             editorPanel2.drawGraph(graphPanel.getGraph());
             frame.setVisible(true);
             frame.setPreferredSize(frame.getPreferredSize());
-            frame.setSize(1200,600);
+            frame.setSize(1200,800);
                 });
 
         add(newLudeme);

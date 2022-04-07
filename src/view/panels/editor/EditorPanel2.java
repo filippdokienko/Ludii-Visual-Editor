@@ -54,12 +54,19 @@ public class EditorPanel2 extends JPanel implements IGraphPanel {
         add(addLudemeWindow);
         add(connectLudemeWindow);
 
+        Ludeme gameLudeme = null;
+        for(Ludeme l : p.getLudemes())
+            if(l.getName().equals("game")) gameLudeme = l;
+
+
+        graph.setRoot(addNode(gameLudeme, 20, 20, false));
 
     }
 
     @Override
     public void drawGraph(DescriptionGraph graph) {
         this.graph = graph.clone();
+        System.out.println(graph.getNodes().size());
         removeAll();
         nodeComponents.clear();
         edges.clear();
@@ -158,7 +165,7 @@ public class EditorPanel2 extends JPanel implements IGraphPanel {
     }
 
     @Override
-    public void addNode(Ludeme ludeme, int x, int y, boolean connect) {
+    public LudemeNode addNode(Ludeme ludeme, int x, int y, boolean connect) {
         LudemeNode node = new LudemeNode(ludeme, x, y);
         LudemeNodeComponent lc = new LudemeNodeComponent(node, 300, this);
         Handler.addNode(graph, node);
@@ -172,6 +179,7 @@ public class EditorPanel2 extends JPanel implements IGraphPanel {
         addLudemeWindow.setVisible(false);
         connectLudemeWindow.setVisible(false);
         repaint();
+        return node;
     }
 
     @Override

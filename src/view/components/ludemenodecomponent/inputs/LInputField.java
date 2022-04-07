@@ -26,21 +26,35 @@ import java.util.List;
 
 public class LInputField extends JComponent{
 
+    private final List<Input> INPUTS;
+    private final List<Integer> INPUT_INDICES;
     private final Input INPUT;
+
     private final LudemeNodeComponent LNC;
-    private final int INPUT_INDEX;
+
+
+
     private JComponent inputFieldComponent;
     private LConnectionComponent connectionComponent;
 
     public LInputField(LudemeNodeComponent ludemeNodeComponent, Input input, int inputIndex){
-        this.LNC = ludemeNodeComponent;
         this.INPUT = input;
-        this.INPUT_INDEX = inputIndex;
+        this.LNC = ludemeNodeComponent;
+        this.INPUTS = List.of(input);
+        this.INPUT_INDICES = List.of(inputIndex);
 
         addInputField();
 
         revalidate();
         repaint();
+    }
+
+    public LInputField(LudemeNodeComponent ludemeNodeComponent, List<Input> inputs, List<Integer> indices){
+        this.INPUTS = inputs;
+        this.INPUT_INDICES = indices;
+        this.INPUT = null;
+        this.LNC = ludemeNodeComponent;
+
     }
 
     private void addInputField() {
@@ -51,28 +65,8 @@ public class LInputField extends JComponent{
                 2. Choice: (a) Label: "choice", (b) icon button, (c) connection component || when connected -> (a) Label = ludeme name
                 3. Collection: (a) Label: "add <name>", (b) icon button
 
-                All but 1. are strictly non-terminal
+                All of these are strictly non-terminal
          */
-
-        if(INPUT.isOptional()){
-            JLabel label = new JLabel("Add optional argument: " + INPUT.getName());
-            label.setFont(DesignPalette.LUDEME_INPUT_FONT);
-            label.setForeground(DesignPalette.FONT_LUDEME_INPUTS_COLOR);
-
-            LInputButton addOptionalArgumentButton = new LInputButton(DesignPalette.OPTIONAL_ICON_ACTIVE, DesignPalette.OPTIONAL_ICON_HOVER);
-
-            // TODO: Hover
-            // TODO: Button Listener
-
-            setLayout(new FlowLayout(FlowLayout.RIGHT));
-
-            add(Box.createHorizontalStrut(10));
-            add(label);
-            add(Box.createHorizontalStrut(5));
-            add(addOptionalArgumentButton);
-
-            return;
-        }
 
         JLabel label = new JLabel(INPUT.getName());
         label.setFont(DesignPalette.LUDEME_INPUT_FONT);
@@ -92,7 +86,19 @@ public class LInputField extends JComponent{
             setLayout(new FlowLayout(FlowLayout.RIGHT));
             add(label);
 
-            if (INPUT.isChoice()) {
+            if(INPUT.isOptional()){
+                LInputButton addOptionalArgumentButton = new LInputButton(DesignPalette.OPTIONAL_ICON_ACTIVE, DesignPalette.OPTIONAL_ICON_HOVER);
+
+                // TODO: Button Listener
+
+                add(Box.createHorizontalStrut(10));
+                add(label);
+                add(Box.createHorizontalStrut(5));
+                add(addOptionalArgumentButton);
+
+            }
+
+            else if (INPUT.isChoice()) {
                 label.setText("Choice");
                 LInputButton addChoiceButton = new LInputButton(DesignPalette.CHOICE_ICON_ACTIVE, DesignPalette.CHOICE_ICON_HOVER);
 
@@ -110,11 +116,22 @@ public class LInputField extends JComponent{
     }
 
     public int getInputIndex() {
-        return INPUT_INDEX;
+        if(INPUT != null){
+            return INPUT_INDICES.get(0);
+        }
+        return -404;
+    }
+
+    public List<Integer> getInputIndices(){
+        return INPUT_INDICES;
     }
 
     public Input getInput() {
         return INPUT;
+    }
+
+    public List<Input> getInputs(){
+        return INPUTS;
     }
 
     /**
