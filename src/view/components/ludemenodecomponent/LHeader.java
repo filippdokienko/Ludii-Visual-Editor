@@ -40,11 +40,14 @@ public class LHeader extends JComponent {
             for (Constructor c : ludemeNodeComponent.getLudemeNode().getLudeme().getConstructors()) {
                 constructorPicker.addItem(c);
             }
+
+            System.out.println(ludemeNodeComponent.getLudemeNode().getCurrentConstructor());
+            constructorPicker.setSelectedItem(ludemeNodeComponent.getLudemeNode().getCurrentConstructor());
+
             constructorPicker.addActionListener(e -> {
                 ludemeNodeComponent.changeConstructor((Constructor) constructorPicker.getSelectedItem());
                 repaint();
             });
-
             add(constructorPicker, BorderLayout.LINE_END);
         }
 

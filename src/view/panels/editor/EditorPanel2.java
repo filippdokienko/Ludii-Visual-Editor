@@ -183,12 +183,28 @@ public class EditorPanel2 extends JPanel implements IGraphPanel {
     }
 
     @Override
-    public void removeConnections(LudemeNode node) {
+    public void removeAllConnections(LudemeNode node) {
         for(LudemeConnection e : new ArrayList<>(edges)){
-            if(e.getConnectionComponent().getLudemeNodeComponent().getLudemeNode().equals(node) || e.getIngoingConnectionComponent().getHeader().getLudemeNodeComponent().getLudemeNode().equals(node)){
+            if(e.getConnectionComponent().getLudemeNodeComponent().getLudemeNode().equals(node)){
                 edges.remove(e);
-                e.getIngoingConnectionComponent().setFill(false);
-                e.getConnectionComponent().setFill(false);
+                e.getIngoingConnectionComponent().setFill(false); // header
+                e.getConnectionComponent().setFill(false); // input
+                e.getConnectionComponent().setConnectedTo(null);
+                Handler.updateInput(graph, e.getConnectionComponent().getLudemeNodeComponent().getLudemeNode(), e.getConnectionComponent().getInputField().getInputIndex(), null);
+            }
+        }
+        repaint();
+    }
+
+    @Override
+    public void removeConnection(LudemeNode node, LConnectionComponent connection) {
+        for(LudemeConnection e : new ArrayList<>(edges)){
+            if(e.getConnectionComponent().equals(connection)){
+                edges.remove(e);
+                e.getIngoingConnectionComponent().setFill(false); // header
+                e.getConnectionComponent().setFill(false); // input
+                e.getConnectionComponent().setConnectedTo(null);
+                Handler.updateInput(graph, e.getConnectionComponent().getLudemeNodeComponent().getLudemeNode(), e.getConnectionComponent().getInputField().getInputIndex(), null);
             }
         }
         repaint();
@@ -209,7 +225,7 @@ public class EditorPanel2 extends JPanel implements IGraphPanel {
         System.out.println("Removing node");
         LudemeNodeComponent lc = getNodeComponent(node);
         nodeComponents.remove(lc);
-        removeConnections(node);
+        removeAllConnections(node);
         Handler.removeNode(graph, node);
         remove(lc);
         repaint();

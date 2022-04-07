@@ -68,7 +68,7 @@ public class LudemeNodeComponent extends JComponent {
         Handler.updateCurrentConstructor(getGraphPanel().getGraph(), getLudemeNode(), c);
 
         // TODO: Remove all edges of this ludeme node AND MODEL
-        getGraphPanel().removeConnections(getLudemeNode());
+        getGraphPanel().removeAllConnections(getLudemeNode());
 
         inputArea.updateConstructor();
 
@@ -145,6 +145,7 @@ public class LudemeNodeComponent extends JComponent {
 
             if(e.getButton() == MouseEvent.BUTTON3){
                 openPopupMenu(e);
+                getGraphPanel().cancelNewConnection();
             }
             else {
                 getGraphPanel().clickedOnNode(LudemeNodeComponent.this.getLudemeNode());

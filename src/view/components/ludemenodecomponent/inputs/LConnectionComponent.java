@@ -86,9 +86,16 @@ public class LConnectionComponent extends JComponent {
                     graphPanel.startNewConnection(LConnectionComponent.this);
                 }
                 else{
-                    // end drawing connection
-                    setFill(!fill);
-                    graphPanel.cancelNewConnection();
+                    // if already connected: remove connection
+                    if(getConnectedTo() != null) {
+                        graphPanel.removeConnection(LConnectionComponent.this.getLudemeNodeComponent().getLudemeNode(), LConnectionComponent.this);
+                        setConnectedTo(null);
+                    }
+                    else {
+                        // end drawing connection
+                        setFill(!fill);
+                        graphPanel.cancelNewConnection();
+                    }
                 }
             }
         }

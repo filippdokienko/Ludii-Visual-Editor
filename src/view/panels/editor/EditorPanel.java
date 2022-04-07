@@ -328,7 +328,12 @@ public class EditorPanel extends JPanel implements IGraphPanel {
     }
 
     @Override
-    public void removeConnections(LudemeNode node) {
+    public void removeAllConnections(LudemeNode node) {
+
+    }
+
+    @Override
+    public void removeConnection(LudemeNode node, LConnectionComponent connection) {
 
     }
 
@@ -353,15 +358,6 @@ public class EditorPanel extends JPanel implements IGraphPanel {
         public void mousePressed(MouseEvent e){
             if(e.getButton() == MouseEvent.BUTTON3){
                 openPopupMenu(e);
-
-                    JFrame frame = new JFrame("Define Editor");
-                    EditorPanel2 editorPanel2 = new EditorPanel2(5000,5000);
-                    frame.setContentPane(editorPanel2);
-                    editorPanel2.drawGraph(graph);
-                    frame.setVisible(true);
-                    frame.setPreferredSize(frame.getPreferredSize());
-                    frame.setSize(1200,600);
-
             }
         }
 
