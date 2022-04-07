@@ -533,7 +533,7 @@ name,constructor
 <sites>,(sites Between [<direction>] [<siteType>] from:<int> [fromIncluded:<boolean>] to:<int> [toIncluded:<boolean>] [cond:<boolean>])
 <sites>,(sites Hidden [<hiddenData>] [<siteType>] (to:<moves.player> | to:<roleType>))
 <sites>,(sites Start <moves.piece>)
-<sites>,(sites Occupied (by:<moves.player> | by:<roleType>) [container:<int> | container:<string>] [component:<int> | component:<string> | components:{<string>}] [top:<boolean>] [on:<siteType>])
+<sites>,(sites Occupied (by:<moves.player> | by:<roleType>) [container:<int> | container:<string>] [component:<int> | component:<string> | view.components:{<string>}] [top:<boolean>] [on:<siteType>])
 <sites>,(sites Incident <siteType> of:<siteType> at:<int> [owner:<moves.player> | <roleType>])
 <sites>,(sites Around [<siteType>] (<int> | <sites>) [<regionTypeDynamic>] [distance:<int>] [<absoluteDirection>] [if:<boolean>] [includeSelf:<boolean>])
 <sites>,(sites Direction (from:<int> | from:<sites>) [<direction>] [included:<boolean>] [stop:<boolean>] [stopIncluded:<boolean>] [distance:<int>] [<siteType>])

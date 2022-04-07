@@ -1,6 +1,6 @@
 package model;
 
-import grammar.Ludeme;
+import model.grammar.Ludeme;
 import model.interfaces.iGNode;
 import model.interfaces.iGraph;
 
@@ -97,6 +97,19 @@ public class DescriptionGraph implements iGraph {
     public int addNode(iGNode ludemeNode) {
         this.allLudemeNodes.add((LudemeNode) ludemeNode);
         return ludemeNode.getId();
+    }
+
+    @Override
+    public int removeNode(iGNode node) {
+        this.allLudemeNodes.remove((LudemeNode) node);
+        return node.getId();
+    }
+
+    @Override
+    public int removeNode(int id) {
+        iGNode node = getNode(id);
+        this.allLudemeNodes.remove((LudemeNode) node);
+        return node.getId();
     }
 
     @Override

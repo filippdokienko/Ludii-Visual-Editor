@@ -2,9 +2,9 @@ package model;
 
 import LayoutManagement.Math.Vector2D;
 import model.interfaces.iGNode;
-import grammar.Constructor;
-import grammar.Ludeme;
-import grammar.input.Input;
+import model.grammar.Constructor;
+import model.grammar.Ludeme;
+import model.grammar.input.Input;
 import model.interfaces.iLudemeNode;
 
 import java.util.ArrayList;
@@ -163,7 +163,6 @@ public class LudemeNode implements iLudemeNode, iGNode {
             if(o == null); // TODO: What to do when input is empty?
             else if(o instanceof String) s.append("'").append(o.toString()).append("'");
             else s.append(o.toString());
-            s.append(" ");
         }
         s.append(")");
         return s.toString().trim().replaceAll(" +", " ");

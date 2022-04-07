@@ -1,6 +1,6 @@
 package model.interfaces;
 
-import grammar.Ludeme;
+import model.grammar.Ludeme;
 import model.LudemeNode;
 
 import java.util.List;

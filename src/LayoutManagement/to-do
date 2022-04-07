@@ -4,7 +4,7 @@ TODO:
 3. Refactor SyntaxBase with RegEx
 4. Apply design patterns for graph drawing:
     - strategy pattern for layout management
-    - factory pattern for graph components
+    - factory pattern for graph view.components
 5. Bottom-up search
     - ParseTree node: iNode
     - hard-code parsed game with iNodes and needed info

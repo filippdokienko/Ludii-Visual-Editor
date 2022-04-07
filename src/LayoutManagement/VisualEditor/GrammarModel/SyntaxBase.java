@@ -50,13 +50,13 @@ public class SyntaxBase
     {
         StringBuilder contents = null;
 
-        // grammar to String
+        // model.grammar to String
         //-------------------------------------------------------------------------
 
         if (PRODUCTION)
         {
-            // In the production ready version, grammar is generated with respect to up-to-date ludii code base
-            // call Grammar.grammar().toString()
+            // In the production ready version, model.grammar is generated with respect to up-to-date ludii code base
+            // call Grammar.model.grammar().toString()
         }
         else
         {
@@ -67,13 +67,13 @@ public class SyntaxBase
             }
             catch (IOException e)
             {
-                System.out.println("Problems with reading grammar file");
+                System.out.println("Problems with reading model.grammar file");
                 System.out.println(e.getMessage());
             }
 
         }
 
-        // parse grammar to syntax instances
+        // parse model.grammar to syntax instances
         //-------------------------------------------------------------------------
         parseReferences(contents);
 

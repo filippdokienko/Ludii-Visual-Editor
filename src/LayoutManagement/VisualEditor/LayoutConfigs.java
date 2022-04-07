@@ -12,7 +12,7 @@ public class LayoutConfigs
      */
 
     public static final boolean PRODUCTION = false;
-    public static final String GRAMMAR_PATH = "res/ludii-grammar-1.2.11.txt";
+    public static final String GRAMMAR_PATH = "res/ludii-model.grammar-1.2.11.txt";
 
     /*
     GRAPH DRAWING
