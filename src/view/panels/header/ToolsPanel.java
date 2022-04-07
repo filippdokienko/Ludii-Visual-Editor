@@ -32,7 +32,11 @@ public class ToolsPanel extends JPanel {
         add(Box.createHorizontalStrut(8));
         add(redoBtn);
         add(Box.createHorizontalStrut(30));
-        add(new JButton("Play"));
+        JButton play = new JButton("Play");
+        play.addActionListener((e) -> {
+            // TODO
+        });
+        add(play);
         add(Box.createHorizontalStrut(20));
 
     }

@@ -28,7 +28,7 @@ public class EditorPopupMenu extends JPopupMenu {
 
         arrangeGraph.addActionListener(e -> {
             LayoutHandler lm = graphPanel.getLayoutHandler();
-            lm.setLayoutMethod(1);
+            lm.setLayoutMethod(2);
             lm.executeLayout();
             graphPanel.drawGraph(graphPanel.getGraph());
         });
