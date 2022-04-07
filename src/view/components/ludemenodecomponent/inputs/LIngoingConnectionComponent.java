@@ -37,8 +37,8 @@ public class LIngoingConnectionComponent extends JComponent {
         }
 
         public void updatePosition(){
-            int x = connectionPointComponent.getX() + this.getX() + this.getParent().getX() + this.getParent().getParent().getX() + RADIUS;
-            int y = connectionPointComponent.getY() + this.getY() + this.getParent().getY() + this.getParent().getParent().getY() + RADIUS;
+            int x = connectionPointComponent.getX() + this.getX() + this.getParent().getX() + this.getParent().getParent().getX() + this.getParent().getParent().getParent().getX() + RADIUS;
+            int y = connectionPointComponent.getY() + this.getY() + this.getParent().getY() + this.getParent().getParent().getY() + this.getParent().getParent().getParent().getY() + RADIUS;
             Point p = new Point(x,y);
             if(connectionPointPosition == null){
                 connectionPointPosition = new ImmutablePoint(p);

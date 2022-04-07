@@ -3,6 +3,7 @@ package view.components.ludemenodecomponent;
 import handler.Handler;
 import model.LudemeNode;
 
+import model.grammar.Constructor;
 import view.components.ludemenode.block.InputComponent;
 import view.components.ludemenode.block.LudemeBlock;
 import view.components.ludemenodecomponent.inputs.LIngoingConnectionComponent;
@@ -59,7 +60,28 @@ public class LudemeNodeComponent extends JComponent {
         repaint();
         setVisible(true);
 
+    }
 
+    public void changeConstructor(Constructor c){
+        Handler.updateCurrentConstructor(getGraphPanel().getGraph(), getLudemeNode(), c);
+
+        // TODO: Remove all edges of this ludeme node AND MODEL
+        getGraphPanel().removeConnections(getLudemeNode());
+
+        inputArea.updateConstructor();
+
+        revalidate();
+        repaint();
+
+        int preferredHeight = inputArea.getPreferredSize().height + header.getPreferredSize().height;
+
+        setMinimumSize(new Dimension(width, preferredHeight));
+        setPreferredSize(new Dimension(getMinimumSize().width, preferredHeight));
+        setSize(new Dimension(getMinimumSize().width, preferredHeight));
+
+        setSize(getPreferredSize());
+        revalidate();
+        repaint();
     }
 
     public void updatePositions(){
@@ -109,7 +131,7 @@ public class LudemeNodeComponent extends JComponent {
         @Override
         public void mousePressed(MouseEvent e) {
             super.mousePressed(e);
-            System.out.println("pressed");
+            getGraphPanel().clickedOnNode(LudemeNodeComponent.this);
             LudemeNodeComponent.this.x = e.getX();
             LudemeNodeComponent.this.y = e.getY();
             Handler.updatePosition(getGraphPanel().getGraph(), getLudemeNode(), getX(), getY());

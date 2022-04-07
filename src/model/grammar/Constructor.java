@@ -29,6 +29,7 @@ public class Constructor {
 
     @Override
     public String toString(){
-        return GRAMMAR;
+        if(!NAME.isBlank()) return NAME;
+        return getInputs().toString().substring(1, getInputs().toString().length() - 1);
     }
 }

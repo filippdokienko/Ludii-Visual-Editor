@@ -75,4 +75,12 @@ public class TerminalInput implements Input{
     public void setCollection(boolean collection) {
         COLLECTION = collection;
     }
+
+    @Override
+    public String toString(){
+        if(isOptional()){
+            return "[" + getName() + "]";
+        }
+        return NAME;
+    }
 }

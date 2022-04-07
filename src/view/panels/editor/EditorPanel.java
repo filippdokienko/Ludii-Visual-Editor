@@ -306,10 +306,6 @@ public class EditorPanel extends JPanel implements IGraphPanel {
 
     }
 
-    @Override
-    public void finishNewConnection() {
-
-    }
 
     @Override
     public void addConnection(LConnectionComponent source, LIngoingConnectionComponent target) {
@@ -328,6 +324,16 @@ public class EditorPanel extends JPanel implements IGraphPanel {
 
     @Override
     public void showAllAvailableLudemes(int x, int y) {
+
+    }
+
+    @Override
+    public void removeConnections(LudemeNode node) {
+
+    }
+
+    @Override
+    public void clickedOnNode(view.components.ludemenodecomponent.LudemeNodeComponent node) {
 
     }
 

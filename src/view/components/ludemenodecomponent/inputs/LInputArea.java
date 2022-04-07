@@ -22,6 +22,7 @@ public class LInputArea extends JPanel {
         setBackground(DesignPalette.BACKGROUND_LUDEME_BODY);
 
         List<Input> inputs = ludemeNodeComponent.getLudemeNode().getCurrentConstructor().getInputs();
+        System.out.println("current constructor: " + ludemeNodeComponent.getLudemeNode().getCurrentConstructor());
 
         for(int i = 0; i < inputs.size(); i++){
             Input in = inputs.get(i);
@@ -34,12 +35,39 @@ public class LInputArea extends JPanel {
         }
 
         int preferredHeight = getPreferredSize().height;
+        setSize(new Dimension(LNC.getWidth(), preferredHeight));
 
-        setMinimumSize(new Dimension(ludemeNodeComponent.getWidth(), preferredHeight));
-        setPreferredSize(new Dimension(getMinimumSize().width, preferredHeight));
-        setSize(new Dimension(getMinimumSize().width, preferredHeight));
+        setBorder(BorderFactory.createLineBorder(Color.BLACK));
 
-        setSize(getPreferredSize());
+        repaint();
+        revalidate();
+        setVisible(true);
+    }
+
+    public void updateConstructor(){
+        removeAll();
+        setLayout(new BoxLayout(this,BoxLayout.Y_AXIS));
+        setAlignmentX(LEFT_ALIGNMENT);
+        setBackground(DesignPalette.BACKGROUND_LUDEME_BODY);
+
+        inputFields.clear();
+
+        List<Input> inputs = LNC.getLudemeNode().getCurrentConstructor().getInputs();
+        System.out.println("current constructor: " + LNC.getLudemeNode().getCurrentConstructor());
+
+        for(int i = 0; i < inputs.size(); i++){
+            Input in = inputs.get(i);
+
+            LInputField inputField = new LInputField(LNC, in, i);
+            inputField.setAlignmentX(LEFT_ALIGNMENT);
+            inputFields.add(inputField);
+            add(inputField);
+            revalidate();
+        }
+
+        int preferredHeight = getPreferredSize().height;
+
+        setSize(new Dimension(LNC.getWidth(), preferredHeight));
 
         setBorder(BorderFactory.createLineBorder(Color.BLACK));
 
@@ -66,6 +94,9 @@ public class LInputArea extends JPanel {
                 inputField.setUserInput(providedInput);
             }
         }
+
+        int preferredHeight = getPreferredSize().height;
+        setSize(new Dimension(LNC.getWidth(), preferredHeight));
 
         repaint();
         revalidate();

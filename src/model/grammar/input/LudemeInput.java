@@ -51,4 +51,13 @@ public class LudemeInput implements Input{
         COLLECTION = collection;
     }
 
+    @Override
+    public String toString(){
+        String s = "<"+NAME+">";
+        if(OPTIONAL){
+            s = "["+s+"]";
+        }
+        return s;
+    }
+
 }

@@ -29,4 +29,12 @@ public class LudemeConnection {
     public ImmutablePoint getTargetPosition(){
         return targetPoint;
     }
+
+    public LIngoingConnectionComponent getIngoingConnectionComponent(){
+        return INGOING_CONNECTION_COMPONENT;
+    }
+
+    public LConnectionComponent getConnectionComponent(){
+        return CONNECTION_COMPONENT;
+    }
 }

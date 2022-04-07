@@ -125,12 +125,14 @@ public class EditorPanel2 extends JPanel implements IGraphPanel {
         selectedConnectionComponent = source;
     }
 
+    @Override
     public void cancelNewConnection(){
         selectedConnectionComponent.setFill(false);
         selectedConnectionComponent = null;
     }
 
-    public void finishNewConnection(){
+    public void finishNewConnection(LudemeNodeComponent target){
+        addConnection(selectedConnectionComponent, target.getIngoingConnectionComponent());
         selectedConnectionComponent = null;
     }
 
@@ -164,8 +166,7 @@ public class EditorPanel2 extends JPanel implements IGraphPanel {
         add(lc);
 
         if(connect){
-            addConnection(selectedConnectionComponent, lc.getIngoingConnectionComponent());
-            finishNewConnection();
+            finishNewConnection(lc);
         }
 
         addLudemeWindow.setVisible(false);
@@ -179,6 +180,27 @@ public class EditorPanel2 extends JPanel implements IGraphPanel {
         addLudemeWindow.setLocation(mousePosition);
         revalidate();
         repaint();
+    }
+
+    @Override
+    public void removeConnections(LudemeNode node) {
+        for(LudemeConnection e : new ArrayList<>(edges)){
+            if(e.getConnectionComponent().getLudemeNodeComponent().getLudemeNode().equals(node) || e.getIngoingConnectionComponent().getHeader().getLudemeNodeComponent().getLudemeNode().equals(node)){
+                edges.remove(e);
+                e.getIngoingConnectionComponent().setFill(false);
+                e.getConnectionComponent().setFill(false);
+            }
+        }
+        repaint();
+    }
+
+    @Override
+    public void clickedOnNode(LudemeNodeComponent node) {
+        if(selectedConnectionComponent != null){
+            if(selectedConnectionComponent.getRequiredLudemes().contains(node.getLudemeNode().getLudeme())) {
+                finishNewConnection(node);
+            }
+        }
     }
 
     public void showCurrentlyAvailableLudemes(int x, int y) {

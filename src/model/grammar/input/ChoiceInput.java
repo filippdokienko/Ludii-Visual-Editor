@@ -50,4 +50,18 @@ public class ChoiceInput implements Input {
     }
 
     public List<Input> getInputs(){ return INPUTS; }
+
+    @Override
+    public String toString(){
+        StringBuilder s = new StringBuilder("(");
+        for(Input input : INPUTS){
+            s.append(input.toString()).append(" | ");
+        }
+        s = new StringBuilder(s.substring(0, s.length() - 3));
+        s.append(")");
+        String ss = s.toString();
+        if(OPTIONAL) ss = "[" + ss + "]";
+        return ss;
+    }
+
 }
