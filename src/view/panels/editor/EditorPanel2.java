@@ -13,7 +13,6 @@ import view.components.ludemenodecomponent.LudemeConnection;
 import view.components.ludemenodecomponent.LudemeNodeComponent;
 import view.components.ludemenodecomponent.inputs.LConnectionComponent;
 import view.components.ludemenodecomponent.inputs.LIngoingConnectionComponent;
-import view.components.ludemenodecomponent.inputs.LInputField;
 import view.panels.IGraphPanel;
 
 import javax.swing.*;
@@ -82,10 +81,15 @@ public class EditorPanel2 extends JPanel implements IGraphPanel {
             LudemeNodeComponent lc = new LudemeNodeComponent(node, 300, this);
             nodeComponents.add(lc);
             add(lc);
+            lc.revalidate();
         }
         for(LudemeNodeComponent lc : nodeComponents){
             lc.updateProvidedInputs();
+            lc.updatePositions();
         }
+
+        add(addLudemeWindow);
+        add(connectLudemeWindow);
 
         revalidate();
         repaint();
@@ -131,7 +135,7 @@ public class EditorPanel2 extends JPanel implements IGraphPanel {
     }
 
     public void startNewConnection(LConnectionComponent source){
-        System.out.println(source.getConnectionPointPosition());
+        System.out.println(source.getConnectionPointPosition() + " , " + source.getRequiredLudemes());
         if(selectedConnectionComponent != null){
             selectedConnectionComponent.setFill(false);
         }
@@ -140,8 +144,10 @@ public class EditorPanel2 extends JPanel implements IGraphPanel {
 
     @Override
     public void cancelNewConnection(){
-        selectedConnectionComponent.setFill(false);
-        selectedConnectionComponent = null;
+        if(selectedConnectionComponent != null) {
+            selectedConnectionComponent.setFill(false);
+            selectedConnectionComponent = null;
+        }
     }
 
     public void finishNewConnection(LudemeNodeComponent target){
@@ -151,13 +157,27 @@ public class EditorPanel2 extends JPanel implements IGraphPanel {
 
     @Override
     public void addConnection(LConnectionComponent source, LIngoingConnectionComponent target) {
-        LudemeConnection connection = new LudemeConnection(source, target);
+
+        source.updatePosition();
+        target.updatePosition();
+
+        if(!source.getInputField().isSingle()){
+            source = source.getInputField().setToSingle(target.getHeader().getLudemeNodeComponent().getLudemeNode().getLudeme()).getConnectionComponent();
+        }
+
+        source.updatePosition();
+        target.updatePosition();
+
         source.setFill(true);
         target.setFill(true);
         source.setConnectedTo(target.getHeader().getLudemeNodeComponent());
         Handler.updateInput(graph, source.getLudemeNodeComponent().getLudemeNode(), source.getInputField().getInputIndex(), target.getHeader().getLudemeNodeComponent().getLudemeNode());
         Handler.addEdge(graph, source.getLudemeNodeComponent().getLudemeNode(), target.getHeader().getLudemeNodeComponent().getLudemeNode());
+
+
+        LudemeConnection connection = new LudemeConnection(source, target);
         edges.add(connection);
+
         repaint();
     }
 
@@ -178,6 +198,7 @@ public class EditorPanel2 extends JPanel implements IGraphPanel {
         Handler.addNode(graph, node);
         nodeComponents.add(lc);
         add(lc);
+        lc.updatePositions();
 
         if(connect){
             finishNewConnection(lc);
@@ -199,17 +220,23 @@ public class EditorPanel2 extends JPanel implements IGraphPanel {
 
     @Override
     public void removeAllConnections(LudemeNode node) {
+        removeAllConnections(node, true);
+    }
+
+    public void removeAllConnections(LudemeNode node, boolean onlyOutgoingConnections){
         for(LudemeConnection e : new ArrayList<>(edges)){
-            if(e.getConnectionComponent().getLudemeNodeComponent().getLudemeNode().equals(node)){
+            if(e.getConnectionComponent().getLudemeNodeComponent().getLudemeNode().equals(node) || (!onlyOutgoingConnections && e.getIngoingConnectionComponent().getHeader().getLudemeNodeComponent().getLudemeNode().equals(node))){
                 edges.remove(e);
                 e.getIngoingConnectionComponent().setFill(false); // header
                 e.getConnectionComponent().setFill(false); // input
                 e.getConnectionComponent().setConnectedTo(null);
+                e.getConnectionComponent().getInputField().getLudemeNodeComponent().getInputArea().updateComponent();
                 Handler.updateInput(graph, e.getConnectionComponent().getLudemeNodeComponent().getLudemeNode(), e.getConnectionComponent().getInputField().getInputIndex(), null);
             }
         }
         repaint();
     }
+
 
     @Override
     public void removeConnection(LudemeNode node, LConnectionComponent connection) {
@@ -219,6 +246,7 @@ public class EditorPanel2 extends JPanel implements IGraphPanel {
                 e.getIngoingConnectionComponent().setFill(false); // header
                 e.getConnectionComponent().setFill(false); // input
                 e.getConnectionComponent().setConnectedTo(null);
+                e.getConnectionComponent().getInputField().getLudemeNodeComponent().getInputArea().updateComponent();
                 Handler.updateInput(graph, e.getConnectionComponent().getLudemeNodeComponent().getLudemeNode(), e.getConnectionComponent().getInputField().getInputIndex(), null);
             }
         }
@@ -240,7 +268,7 @@ public class EditorPanel2 extends JPanel implements IGraphPanel {
         System.out.println("Removing node");
         LudemeNodeComponent lc = getNodeComponent(node);
         nodeComponents.remove(lc);
-        removeAllConnections(node);
+        removeAllConnections(node, false);
         Handler.removeNode(graph, node);
         remove(lc);
         repaint();
@@ -271,6 +299,9 @@ public class EditorPanel2 extends JPanel implements IGraphPanel {
         @Override
         public void mouseClicked(MouseEvent e) {
             super.mouseClicked(e);
+            if(connectLudemeWindow.isVisible()){
+                cancelNewConnection();
+            }
             addLudemeWindow.setVisible(false);
             connectLudemeWindow.setVisible(false);
             if(e.getButton() == MouseEvent.BUTTON1) {
@@ -280,7 +311,7 @@ public class EditorPanel2 extends JPanel implements IGraphPanel {
                     if(selectedConnectionComponent.getRequiredLudemes().size() == 1) {
                         addNode(selectedConnectionComponent.getRequiredLudemes().get(0), e.getX(), e.getY(), true);
                     }
-                    else if(selectedConnectionComponent.getRequiredLudemes().size() > 1) {
+                    else if(!connectLudemeWindow.isVisible() && selectedConnectionComponent.getRequiredLudemes().size() > 1) {
                         showCurrentlyAvailableLudemes(e.getX(), e.getY());
                     }
                 }
@@ -294,6 +325,7 @@ public class EditorPanel2 extends JPanel implements IGraphPanel {
 
         public void mousePressed(MouseEvent e){
             if(e.getButton() == MouseEvent.BUTTON3){
+                cancelNewConnection();
                 openPopupMenu(e);
             }
         }

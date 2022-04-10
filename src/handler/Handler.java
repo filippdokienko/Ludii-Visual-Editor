@@ -38,7 +38,7 @@ public class Handler {
             LudemeNode childrenNode = graph.getNode(childrenId);
             childrenNode.setParent(null);
         }
-        node.getParentNode().removeChildren(node);
+        if(node.getParentNode() != null) node.getParentNode().removeChildren(node);
         // TODO: Remove edges
     }
     public static void updateInput(DescriptionGraph graph, LudemeNode node, int index, Object input){

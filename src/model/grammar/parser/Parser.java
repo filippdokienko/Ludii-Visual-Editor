@@ -15,7 +15,7 @@ public class Parser {
 
     private ArrayList<Ludeme> ludemes = new ArrayList<>();
     private final List<Grammar> GRAMMAR = getGrammar();
-    private final boolean DEBUG = true;
+    private final boolean DEBUG = false;
     private final String GRAMMAR_CHARACTERS = "[]<>(){}|,:"; //List.of('[',']','<','>','{','}','|',':','(',')');
     private final String CAPITAL_NON_GRAMMAR_LETTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
     private final String LOWER_NON_GRAMMAR_LETTERS = "abcdefghijklmnopqrstuvwxyz";
@@ -49,13 +49,12 @@ public class Parser {
             if(terminalLudmes.contains(g.NAME)) continue;
             if(g.NAME.equals("automove") || g.NAME.equals("gravity") || g.NAME.equals("meta.swap") || g.NAME.equals("pin") || g.NAME.equals("split") || g.NAME.equals("was") || g.NAME.equals("is")) continue;
             if(nameExists(g.NAME) == null) {
-                if (g.NAME.equals("string")) System.out.println("[!!!] String found");
+                if(DEBUG) if (g.NAME.equals("string")) System.out.println("[!!!] String found");
                 createLudeme(g.NAME);
             } else {
                 finishLudeme(nameExists(g.NAME),g.constructors);
             }
         }
-        System.out.println("TADAAA");
     }
 
 
@@ -82,7 +81,7 @@ public class Parser {
             }
         }
         if(constructorStrings == null) {
-            System.out.println("EROOR: couldnt find model.grammar with name " + name);
+            if(DEBUG) System.out.println("EROOR: couldnt find model.grammar with name " + name);
             return null;
         }
 
@@ -166,7 +165,7 @@ public class Parser {
             if(l.getName().equals(name)) return l;
         }
         // does not exist -> create
-        System.out.println("couldnt find " + name + "; create!");
+        if(DEBUG) System.out.println("couldnt find " + name + "; create!");
         Ludeme l = new Ludeme(name);
         addLudeme(l);
         return l;
@@ -185,7 +184,7 @@ public class Parser {
 
     private void addLudeme(Ludeme l){
         if(!ludemes.contains(l)) {
-            System.out.println("[+] ADDING: " + l.getName());
+            if(DEBUG)  System.out.println("[+] ADDING: " + l.getName());
             ludemes.add(l);
         }
     }
@@ -198,7 +197,7 @@ public class Parser {
         // if constructor string contains name, trim it
         boolean containsName = constructorStringStartsWithLudemeName(name, constructorString);
         if(!name.equals("string")  && !name.equals("int") && containsName) {
-            System.out.println("[!] contains name: " + name + ", " + constructorString);
+            if(DEBUG) System.out.println("[!] contains name: " + name + ", " + constructorString);
             constructorString = constructorString.substring(constructorString.indexOf(" ")+1);
         }
 
@@ -220,24 +219,24 @@ public class Parser {
 
 
     private ArrayList<Input> readInputs(String constructorString){
-        System.out.println("working on constructor string: " + constructorString);
+        if(DEBUG)  System.out.println("working on constructor string: " + constructorString);
         ArrayList<Input> inputs = new ArrayList<>();
         // while constructorString is not empty, it contains inputs
         // TODO
         constructorString = constructorString.replaceAll("\\{\\{","{");
         constructorString = constructorString.replaceAll("\\}\\}","}");
         while(constructorString.length() > 0){
-            System.out.println("    -     " + constructorString);
+            if(DEBUG)  System.out.println("    -     " + constructorString);
 
 
             if(constructorString.startsWith("int")){
-                System.out.println("[INT]");
+                if(DEBUG)  System.out.println("[INT]");
                 inputs.add(readInput(constructorString));
                 constructorString = constructorString.replaceFirst("int","");
                 continue;
             }
             if(constructorString.startsWith("string")){
-                System.out.println("[STRING]");
+                if(DEBUG) System.out.println("[STRING]");
                 inputs.add(readInput(constructorString));
                 constructorString = constructorString.replaceFirst("string","");
                 continue;
@@ -255,7 +254,7 @@ public class Parser {
                 }
                 case '<' -> {
                     inputs.add(readInput(constructorString));
-                    System.out.print("trimmed from " + constructorString + " to ");
+                    if(DEBUG) System.out.print("trimmed from " + constructorString + " to ");
                     int endIndex = constructorString.indexOf('>');
 
                     if(constructorString.length() > endIndex+1 && constructorString.charAt(endIndex+1) == '>'){
@@ -266,7 +265,7 @@ public class Parser {
                     }
                     constructorString = constructorString.substring(endIndex+1);
 
-                    System.out.println(constructorString);
+                    if(DEBUG) System.out.println(constructorString);
                 }
                 case '[' -> {
                     String inputString = constructorString.substring(1,constructorString.indexOf(']'));
@@ -342,7 +341,7 @@ public class Parser {
                     endIndex+=1;
                 }
                 if (endIndex == -1) {
-                    System.out.println("ERROR, endIndex = -1");
+                    if(DEBUG) System.out.println("ERROR, endIndex = -1");
                 }
                 String ludemeName = inputString.substring(1, endIndex);
                 Input input = new LudemeInput(ludemeName, getLudeme(ludemeName));
@@ -365,9 +364,9 @@ public class Parser {
                         endIndex+=1;
                     }
                     if (endIndex == -1) {
-                        System.out.println("ERROR, endIndex = -1");
+                        if(DEBUG) System.out.println("ERROR, endIndex = -1");
                     }
-                    if (endIndex == -1) System.out.println("ERROR, endIndex = -1");
+                    if(DEBUG) if (endIndex == -1) System.out.println("ERROR, endIndex = -1");
                     String ludemeName = inputString.substring(2, endIndex);
                     LudemeInput input = new LudemeInput(ludemeName, getLudeme(ludemeName));
                     if(inputName != null){
@@ -387,7 +386,7 @@ public class Parser {
                 }
             }
         }
-        System.out.println("error: no input found, " + inputString);
+        if(DEBUG) System.out.println("error: no input found, " + inputString);
         return null;
     }
 

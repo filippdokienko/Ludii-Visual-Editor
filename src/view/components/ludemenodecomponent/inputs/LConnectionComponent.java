@@ -2,7 +2,6 @@ package view.components.ludemenodecomponent.inputs;
 
 import model.grammar.Ludeme;
 import view.components.DesignPalette;
-import view.components.ludemenode.CustomPoint;
 import view.components.ludemenodecomponent.ImmutablePoint;
 import view.components.ludemenodecomponent.LudemeNodeComponent;
 import view.panels.IGraphPanel;
@@ -47,6 +46,8 @@ public class LConnectionComponent extends JComponent {
 
         addMouseListener(clickListener);
 
+        connectionPointPosition.update(new Point(inputField.getLudemeNodeComponent().getWidth(), inputField.getPreferredSize().height*inputField.getInputIndex()));
+
         revalidate();
         repaint();
         setVisible(true);
@@ -78,7 +79,7 @@ public class LConnectionComponent extends JComponent {
         @Override
         public void mouseClicked(MouseEvent e) {
             super.mouseClicked(e);
-            IGraphPanel graphPanel = INPUT_FIELD.getLuDemeNodeComponent().getGraphPanel();
+            IGraphPanel graphPanel = INPUT_FIELD.getLudemeNodeComponent().getGraphPanel();
             if(e.getButton() == MouseEvent.BUTTON1){
                 if(!fill){
                     // Start drawing connection
@@ -110,7 +111,7 @@ public class LConnectionComponent extends JComponent {
     }
 
     public LudemeNodeComponent getLudemeNodeComponent(){
-        return INPUT_FIELD.getLuDemeNodeComponent();
+        return INPUT_FIELD.getLudemeNodeComponent();
     }
 
     public LInputField getInputField(){

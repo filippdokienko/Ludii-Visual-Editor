@@ -10,6 +10,7 @@ public class EditorPopupMenu extends JPopupMenu {
     public EditorPopupMenu(IGraphPanel graphPanel) {
         JMenuItem newLudeme = new JMenuItem("New Ludeme");
         JMenuItem duplicateScreen = new JMenuItem("Duplicate Screen");
+        JMenuItem repaintScreen = new JMenuItem("Repaint");
 
         JMenu lmMenu = new JMenu("Arrange Graph");
         JMenuItem compact = new JMenuItem("Compact hierarchy");
@@ -65,9 +66,14 @@ public class EditorPopupMenu extends JPopupMenu {
         lmMenu.add(fdp);
         lmMenu.add(cfdp);
 
+        repaintScreen.addActionListener(e -> {
+            graphPanel.repaint();
+                });
+
         add(newLudeme);
         add(lmMenu);
         add(duplicateScreen);
+        add(repaintScreen);
     }
 
 }
