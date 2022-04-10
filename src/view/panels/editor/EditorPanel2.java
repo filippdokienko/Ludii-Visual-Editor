@@ -218,7 +218,7 @@ public class EditorPanel2 extends JPanel implements IGraphPanel {
     @Override
     public void removeAllConnections(LudemeNode node) {
         for(LudemeConnection e : new ArrayList<>(edges)){
-            if(e.getConnectionComponent().getLudemeNodeComponent().getLudemeNode().equals(node)){
+            if(e.getConnectionComponent().getLudemeNodeComponent().getLudemeNode().equals(node) || e.getIngoingConnectionComponent().getHeader().getLudemeNodeComponent().getLudemeNode().equals(node)){
                 edges.remove(e);
                 e.getIngoingConnectionComponent().setFill(false); // header
                 e.getConnectionComponent().setFill(false); // input
