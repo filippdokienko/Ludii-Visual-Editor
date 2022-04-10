@@ -62,6 +62,7 @@ public class EditorPanel2 extends JPanel implements IGraphPanel {
 
 
         graph.setRoot(addNode(gameLudeme, 20, 20, false));
+        Handler.gameDescriptionGraph = graph;
 
         lm = new LayoutHandler(graph);
     }

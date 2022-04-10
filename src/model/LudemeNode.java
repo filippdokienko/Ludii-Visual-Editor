@@ -165,17 +165,28 @@ public class LudemeNode implements iLudemeNode, iGNode {
 
     @Override
     public String getStringRepresentation() {
+
+        char c = '"';
+
+        if(currentConstructor.getInputs().size() == 1 && currentConstructor.getInputs().get(0).isTerminal()){
+            if(providedInputs[0] instanceof String) return c+providedInputs[0].toString()+c;
+            else return providedInputs[0].toString();
+        }
+
         StringBuilder s = new StringBuilder("(");
-        s.append(getLudeme().getName());
+        String[] ludemeNameSplit = getLudeme().getName().split("\\.");
+        if(ludemeNameSplit.length >= 1)
+            s.append(ludemeNameSplit[ludemeNameSplit.length-1]);
+        else s.append(getLudeme().getName());
         s.append(" ");
         s.append(getCurrentConstructor().getName());
         s.append(" ");
         for(Object o : getProvidedInputs()){
             if(o == null); // TODO: What to do when input is empty?
-            else if(o instanceof String) s.append("'").append(o.toString()).append("'");
+            else if(o instanceof String) s.append("\"").append(o.toString()).append("\"");
             else s.append(o.toString());
         }
-        s.append(")");
+        s.append(" )");
         return s.toString().trim().replaceAll(" +", " ");
     }
 

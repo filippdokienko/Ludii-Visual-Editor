@@ -1,5 +1,7 @@
 package view.panels.header;
 
+import handler.Handler;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -34,7 +36,15 @@ public class ToolsPanel extends JPanel {
         add(Box.createHorizontalStrut(30));
         JButton play = new JButton("Play");
         play.addActionListener((e) -> {
-            // TODO
+            // add dialog box here
+            JDialog dialog = new JDialog();
+            dialog.setTitle("Play");
+            dialog.add(new JTextArea(Handler.getLudString(Handler.gameDescriptionGraph)));
+            dialog.setSize(new Dimension(300, 200));
+            dialog.setLocationRelativeTo(null);
+            dialog.setVisible(true);
+
+
         });
         add(play);
         add(Box.createHorizontalStrut(20));

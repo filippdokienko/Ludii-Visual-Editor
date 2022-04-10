@@ -10,7 +10,7 @@ public class Handler {
 
     // TODO: History for Undo/Redo
 
-    public static DescriptionGraph currentGraph;
+    public static DescriptionGraph gameDescriptionGraph;
 
     public static ArrayList<DescriptionGraph> history = new ArrayList<>();
 
@@ -58,5 +58,8 @@ public class Handler {
     }
     public static void updateCurrentConstructor(DescriptionGraph graph, LudemeNode node, Constructor c){
         node.setCurrentConstructor(c);
+    }
+    public static String getLudString(DescriptionGraph graph){
+        return graph.toLud();
     }
 }
