@@ -9,8 +9,13 @@ public class EditorPopupMenu extends JPopupMenu {
 
     public EditorPopupMenu(IGraphPanel graphPanel) {
         JMenuItem newLudeme = new JMenuItem("New Ludeme");
-        JMenuItem arrangeGraph = new JMenuItem("Arrange Graph");
         JMenuItem duplicateScreen = new JMenuItem("Duplicate Screen");
+
+        JMenu lmMenu = new JMenu("Arrange Graph");
+        JMenuItem compact = new JMenuItem("Compact hierarchy");
+        JMenuItem radial = new JMenuItem("Radial layout");
+        JMenuItem fdp = new JMenuItem("FDP layout");
+        JMenuItem cfdp = new JMenuItem("CFDP layout");
 
         newLudeme.addActionListener(e -> {
             graphPanel.showAllAvailableLudemes(getX(), getY());
@@ -26,15 +31,42 @@ public class EditorPopupMenu extends JPopupMenu {
             frame.setSize(1200,800);
         });
 
-        arrangeGraph.addActionListener(e -> {
+        compact.addActionListener(e -> {
+            LayoutHandler lm = graphPanel.getLayoutHandler();
+            lm.setLayoutMethod(1);
+            lm.executeLayout();
+
+            graphPanel.drawGraph(graphPanel.getGraph());
+        });
+
+        radial.addActionListener(e -> {
             LayoutHandler lm = graphPanel.getLayoutHandler();
             lm.setLayoutMethod(2);
             lm.executeLayout();
             graphPanel.drawGraph(graphPanel.getGraph());
         });
 
+        fdp.addActionListener(e -> {
+            LayoutHandler lm = graphPanel.getLayoutHandler();
+            lm.setLayoutMethod(0);
+            lm.executeLayout();
+            graphPanel.drawGraph(graphPanel.getGraph());
+        });
+
+        cfdp.addActionListener(e -> {
+            LayoutHandler lm = graphPanel.getLayoutHandler();
+            lm.setLayoutMethod(3);
+            lm.executeLayout();
+            graphPanel.drawGraph(graphPanel.getGraph());
+        });
+
+        lmMenu.add(compact);
+        lmMenu.add(radial);
+        lmMenu.add(fdp);
+        lmMenu.add(cfdp);
+
         add(newLudeme);
-        add(arrangeGraph);
+        add(lmMenu);
         add(duplicateScreen);
     }
 

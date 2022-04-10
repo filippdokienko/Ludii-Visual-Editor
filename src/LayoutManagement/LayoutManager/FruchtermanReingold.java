@@ -1,9 +1,7 @@
 package LayoutManagement.LayoutManager;
 
-import LayoutManagement.GraphDrawing.DrawingFrame;
 import LayoutManagement.Math.Vector2D;
 import model.Edge;
-import model.MetaGraph.ForceNode;
 import model.interfaces.iGNode;
 import model.interfaces.iGraph;
 import java.util.HashMap;

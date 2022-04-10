@@ -64,13 +64,13 @@ public class EditorPanel2 extends JPanel implements IGraphPanel {
         graph.setRoot(addNode(gameLudeme, 20, 20, false));
         Handler.gameDescriptionGraph = graph;
 
-        lm = new LayoutHandler(graph);
+        lm = new LayoutHandler(graph, graph.getRoot().getId());
     }
 
     @Override
     public void drawGraph(DescriptionGraph graph) {
         this.graph = graph;
-        lm = new LayoutHandler(graph);
+        lm = new LayoutHandler(graph, graph.getRoot().getId());
         System.out.println(graph.getNodes().size());
         removeAll();
         nodeComponents.clear();
@@ -87,6 +87,7 @@ public class EditorPanel2 extends JPanel implements IGraphPanel {
             lc.updateProvidedInputs();
         }
 
+        revalidate();
         repaint();
     }
 

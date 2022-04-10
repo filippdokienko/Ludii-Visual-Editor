@@ -18,27 +18,20 @@ public final class GraphRoutines
      */
     public static void updateNodeDepth(iGraph graph, int r)
     {
-        List<Integer> Q = new ArrayList<>();
-        List<Integer> Visited = new ArrayList<>();
+        List<Integer> layer = new ArrayList<>();
+        List<Integer> nextLayer = new ArrayList<>();
 
         int d = 1;
-        Visited.add(r);
-        Q.add(r);
-        while (!Q.isEmpty())
+        layer.add(r);
+        while (!layer.isEmpty())
         {
-            int n = Q.remove(0);
-
-            // Update depth
-            graph.getNode(n).setDepth(d);
-
-            List<Integer> children = graph.getNode(n).getChildren();
-            children.forEach((v) -> {
-                if (!Visited.contains(v))
-                {
-                    Q.add(v);
-                    Visited.add(v);
-                }
+            int finalD = d;
+            nextLayer.clear();
+            layer.forEach((v) -> {
+                graph.getNode(v).setDepth(finalD);
+                nextLayer.addAll(graph.getNode(v).getChildren());
             });
+            layer = new ArrayList<>(nextLayer);
             d++;
         }
 

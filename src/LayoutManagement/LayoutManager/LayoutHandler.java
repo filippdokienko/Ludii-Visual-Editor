@@ -12,12 +12,14 @@ import static LayoutManagement.GraphRoutines.updateNodeDepth;
 public class LayoutHandler {
 
     private iGraph graph;
+    private int root;
 
     private LayoutMethod layout;
 
-    public LayoutHandler(iGraph graph)
+    public LayoutHandler(iGraph graph, int root)
     {
         this.graph = graph;
+        this.root = root;
     }
 
     public void setLayoutMethod(int l)
@@ -25,9 +27,9 @@ public class LayoutHandler {
         switch (l)
         {
             case 0 -> layout = new FruchtermanReingold(graph, 5, 0.05, new Vector2D(1000, 1000));
-            case 1 -> layout = new DFSBoxDrawing(graph, 250);
-            case 2 -> layout = new PLANET(graph, 1,250);
-            default -> layout = new DFSBoxDrawing(graph, 5);
+            case 1 -> layout = new DFSBoxDrawing(graph, root,10);
+            case 2 -> layout = new PLANET(graph, root,25);
+            default -> layout = new DFSBoxDrawing(graph, root, 5);
         }
 
     }
