@@ -69,7 +69,6 @@ public class LInputArea extends JPanel {
             }
             else if(consequentOptionalInputs.size() == 1){
                 LInputField inputFieldPrevious = new LInputField(ludemeNodeComponent, consequentOptionalInputs.get(0));
-                System.out.println(consequentOptionalInputs);
                 fields.add(inputFieldPrevious);
                 consequentOptionalInputs = new ArrayList<>();
             }
@@ -95,9 +94,7 @@ public class LInputArea extends JPanel {
         List<LInputField> newFields = new ArrayList<>();
         for(int i = 0; i < inputFields.size(); i++){
             LInputField inputField = inputFields.get(i);
-            System.out.println("reading " + inputField);
             if((inputField.isSingle || LNC.getLudemeNode().getProvidedInputs()[inputField.getInputInformation().getIndex()] == null) && inputField.getInputInformation().isOptional()){
-                System.out.println("adding " + inputField);
                 consequentOptionalInputs.add(inputField);
             } else if(consequentOptionalInputs.size() == 1){
                 newFields.add(consequentOptionalInputs.get(0));

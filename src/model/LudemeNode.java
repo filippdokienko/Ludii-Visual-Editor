@@ -175,7 +175,8 @@ public class LudemeNode implements iLudemeNode, iGNode {
 
         StringBuilder s = new StringBuilder("(");
         String[] ludemeNameSplit = getLudeme().getName().split("\\.");
-        if(ludemeNameSplit.length >= 1)
+        if(getLudeme().HIDDEN) s.append("");
+        else if(ludemeNameSplit.length >= 1)
             s.append(ludemeNameSplit[ludemeNameSplit.length-1]);
         else s.append(getLudeme().getName());
         s.append(" ");

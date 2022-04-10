@@ -15,15 +15,18 @@ public class LudemeConnection {
         this.CONNECTION_COMPONENT = connectionComponent;
         this.INGOING_CONNECTION_COMPONENT = ingoingConnectionComponent;
 
+
         this.inputPoint = connectionComponent.getConnectionPointPosition();
         this.targetPoint = ingoingConnectionComponent.getConnectionPointPosition();
     }
 
     public ImmutablePoint getInputPosition(){
+        CONNECTION_COMPONENT.updatePosition();
         return inputPoint;
     }
 
     public ImmutablePoint getTargetPosition(){
+        INGOING_CONNECTION_COMPONENT.updatePosition();
         return targetPoint;
     }
 

@@ -81,11 +81,14 @@ public class EditorPanel2 extends JPanel implements IGraphPanel {
             LudemeNodeComponent lc = new LudemeNodeComponent(node, 300, this);
             nodeComponents.add(lc);
             add(lc);
+            lc.revalidate();
         }
         for(LudemeNodeComponent lc : nodeComponents){
             lc.updateProvidedInputs();
+            lc.updatePositions();
         }
 
+        revalidate();
         repaint();
     }
 
@@ -152,9 +155,15 @@ public class EditorPanel2 extends JPanel implements IGraphPanel {
     @Override
     public void addConnection(LConnectionComponent source, LIngoingConnectionComponent target) {
 
+        source.updatePosition();
+        target.updatePosition();
+
         if(!source.getInputField().isSingle()){
             source = source.getInputField().setToSingle(target.getHeader().getLudemeNodeComponent().getLudemeNode().getLudeme()).getConnectionComponent();
         }
+
+        source.updatePosition();
+        target.updatePosition();
 
         source.setFill(true);
         target.setFill(true);
@@ -165,8 +174,6 @@ public class EditorPanel2 extends JPanel implements IGraphPanel {
 
         LudemeConnection connection = new LudemeConnection(source, target);
         edges.add(connection);
-        source.updatePosition();
-        target.updatePosition();
 
         repaint();
     }

@@ -165,7 +165,6 @@ public class LInputField extends JComponent {
 
     public void setUserInput(Object input, int index){
         if(isSingle) {
-            System.out.println("--isSingle");
             setUserInput(input);
             return;
         }

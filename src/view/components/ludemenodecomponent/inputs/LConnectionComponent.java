@@ -46,6 +46,8 @@ public class LConnectionComponent extends JComponent {
 
         addMouseListener(clickListener);
 
+        connectionPointPosition.update(new Point(inputField.getLudemeNodeComponent().getWidth(), inputField.getPreferredSize().height*inputField.getInputIndex()));
+
         revalidate();
         repaint();
         setVisible(true);
