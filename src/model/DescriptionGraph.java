@@ -126,11 +126,19 @@ public class DescriptionGraph implements iGraph {
 
     @Override
     public void addEdge(int from, int to) {
+        Edge e = new Edge(from, to);
+        for(Edge edge : edgeList) {
+            if(edge.equals(e)) return;
+        }
         edgeList.add(new Edge(from , to));
     }
 
     @Override
     public void addEdge(int from, int to, int field) {
+        Edge e = new Edge(from, to, field);
+        for(Edge edge : edgeList) {
+            if(edge.equals(e)) return;
+        }
         edgeList.add(new Edge(from , to, field));
     }
 

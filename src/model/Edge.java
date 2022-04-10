@@ -40,4 +40,8 @@ public class Edge {
     public int getNodeB() {
         return nodeB;
     }
+
+    public boolean equals(Edge e){
+        return this.nodeA == e.getNodeA() && this.nodeB == e.getNodeB();
+    }
 }
