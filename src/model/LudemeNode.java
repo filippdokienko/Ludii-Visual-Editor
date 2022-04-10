@@ -173,12 +173,17 @@ public class LudemeNode implements iLudemeNode, iGNode {
             else return providedInputs[0].toString();
         }
 
-        StringBuilder s = new StringBuilder("(");
+        StringBuilder s = new StringBuilder("");
         String[] ludemeNameSplit = getLudeme().getName().split("\\.");
         if(getLudeme().HIDDEN) s.append("");
-        else if(ludemeNameSplit.length >= 1)
+        else if(ludemeNameSplit.length >= 1){
+            s.append("(");
             s.append(ludemeNameSplit[ludemeNameSplit.length-1]);
-        else s.append(getLudeme().getName());
+        }
+        else {
+            s.append("(");
+            s.append(getLudeme().getName());
+        }
         s.append(" ");
         s.append(getCurrentConstructor().getName());
         s.append(" ");
@@ -187,7 +192,7 @@ public class LudemeNode implements iLudemeNode, iGNode {
             else if(o instanceof String) s.append("\"").append(o.toString()).append("\"");
             else s.append(o.toString());
         }
-        s.append(" )");
+        if(s.toString().startsWith("(")) s.append(" )");
         return s.toString().trim().replaceAll(" +", " ");
     }
 

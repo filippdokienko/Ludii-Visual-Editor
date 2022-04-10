@@ -8,7 +8,7 @@ import java.util.List;
 
 public class Ludeme {
     public final String NAME;
-    public boolean HIDDEN = false; // TODO
+    public boolean HIDDEN = true; // TODO
     public List<Constructor> CONSTRUCTORS = new ArrayList<>();
 
 
@@ -49,7 +49,7 @@ public class Ludeme {
         if(c.getInputs().size() > 1) HIDDEN = false;
         else {
             for(Input in : c.getInputs()){
-                if(!(in instanceof LudemeInput)){
+                if(!(in instanceof LudemeInput) || in.isChoice() || in.isCollection()){
                     HIDDEN = false;
                     break;
                 }
