@@ -28,6 +28,8 @@ public class LInputField extends JComponent {
     List<InputInformation> inputInformationList = new ArrayList<>();
     boolean isSingle;
 
+    List<LInputField> children = new ArrayList<>(); // list of children in case of collection
+
     JComponent inputFieldComponent;
     LConnectionComponent connectionComponent;
 
@@ -42,8 +44,37 @@ public class LInputField extends JComponent {
         this.LNC = ludemeNodeComponent;
         this.inputInformationList = inputInformationList;
         isSingle = false;
-        System.out.println(this + "is not single");
         constructInputField(inputInformationList);
+    }
+
+    public LInputField(LInputField parent){
+        this.LNC = parent.LNC;
+        this.isSingle = parent.isSingle;
+        this.inputInformationList = parent.inputInformationList;
+        parent.children.add(this);
+        constructCollectionField(parent);
+    }
+
+    private void constructCollectionField(LInputField parent){
+        JLabel label = new JLabel(parent.getInputInformation().getInput().getName());
+        label.setFont(DesignPalette.LUDEME_INPUT_FONT);
+        label.setForeground(DesignPalette.FONT_LUDEME_INPUTS_COLOR);
+        setLayout(new FlowLayout(FlowLayout.RIGHT));
+        add(label);
+        LInputButton addItemButton = new LInputButton(DesignPalette.COLLECTION_REMOVE_ICON_ACTIVE, DesignPalette.COLLECTION_REMOVE_ICON_HOVER);
+
+        add(Box.createHorizontalStrut(10));
+        add(addItemButton);
+
+        addItemButton.addActionListener(e -> {
+                  LNC.getInputArea().removeField(this);
+                });
+
+
+        add(Box.createHorizontalStrut(5));
+        connectionComponent = new LConnectionComponent(this, label.getPreferredSize().height, (int) (label.getPreferredSize().height * 0.4), false);
+        add(connectionComponent);
+        inputFieldComponent = connectionComponent;
     }
 
     private void constructInputField(InputInformation inputInformation){
@@ -54,6 +85,8 @@ public class LInputField extends JComponent {
         JLabel label = new JLabel(input.getName());
         label.setFont(DesignPalette.LUDEME_INPUT_FONT);
         label.setForeground(DesignPalette.FONT_LUDEME_INPUTS_COLOR);
+
+
 
         if(input.isTerminal()){
             inputFieldComponent = ((TerminalInput)input).getComponent();
@@ -90,8 +123,25 @@ public class LInputField extends JComponent {
 
                 add(Box.createHorizontalStrut(10));
                 add(addChoiceButton);
+
             }
-            // TODO: Collection
+
+            else if(input.isCollection()){
+                LInputButton addItemButton = new LInputButton(DesignPalette.COLLECTION_ICON_ACTIVE, DesignPalette.COLLECTION_ICON_HOVER);
+
+                add(Box.createHorizontalStrut(10));
+                add(addItemButton);
+
+                addItemButton.addActionListener(e -> {
+                    System.out.println("CLICKED ADD");
+                    if(children.isEmpty()) {
+                        LNC.getInputArea().addInputFieldBelow(new LInputField(LInputField.this), LInputField.this);
+                    } else {
+                        LNC.getInputArea().addInputFieldBelow(new LInputField(LInputField.this), LInputField.this.children.get(LInputField.this.children.size() - 1));
+                    }
+                });
+            }
+
             add(Box.createHorizontalStrut(5));
             connectionComponent = new LConnectionComponent(this, label.getPreferredSize().height, (int) (label.getPreferredSize().height * 0.4), false);
             add(connectionComponent);

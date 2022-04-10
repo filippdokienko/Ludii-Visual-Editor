@@ -58,6 +58,9 @@ public class LudemeInput implements Input{
         if(OPTIONAL){
             s = "["+s+"]";
         }
+        if(COLLECTION){
+            s = "{"+s+"}";
+        }
         return s;
     }
 

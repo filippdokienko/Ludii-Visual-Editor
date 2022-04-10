@@ -35,6 +35,8 @@ public class DesignPalette {
     public static final ImageIcon CHOICE_ICON_HOVER = new ImageIcon("resources/icons/node/hover/choice.png");
     public static final ImageIcon COLLECTION_ICON_ACTIVE = new ImageIcon("resources/icons/node/active/collection_add.png");
     public static final ImageIcon COLLECTION_ICON_HOVER = new ImageIcon("resources/icons/node/hover/collection_add.png");
+    public static final ImageIcon COLLECTION_REMOVE_ICON_HOVER = new ImageIcon("resources/icons/node/hover/collection_remove.png");
+    public static final ImageIcon COLLECTION_REMOVE_ICON_ACTIVE = new ImageIcon("resources/icons/node/active/collection_remove.png");
     public static final ImageIcon OPTIONAL_ICON_ACTIVE = new ImageIcon("resources/icons/node/active/optional.png");
     public static final ImageIcon OPTIONAL_ICON_HOVER = new ImageIcon("resources/icons/node/hover/optional.png");
 

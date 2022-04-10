@@ -39,7 +39,7 @@ public class LInputArea extends JPanel {
 
         setBorder(BorderFactory.createLineBorder(Color.BLACK));
 
-        LNC.updateComponent();
+        //LNC.updateComponent();
         LNC.updatePositions();
 
 
@@ -172,6 +172,11 @@ public class LInputArea extends JPanel {
         revalidate();
         setVisible(true);
 
+    }
+
+    public void removeField(LInputField inputField){
+        inputFields.remove(inputField);
+        drawInputFields();
     }
 
     public void updatePosition(){
