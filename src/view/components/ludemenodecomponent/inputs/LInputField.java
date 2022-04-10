@@ -51,8 +51,8 @@ public class LInputField extends JComponent {
         this.LNC = parent.LNC;
         this.isSingle = parent.isSingle;
         this.inputInformationList = parent.inputInformationList;
-        parent.children.add(this);
         constructCollectionField(parent);
+        parent.children.add(this);
     }
 
     private void constructCollectionField(LInputField parent){
@@ -134,11 +134,13 @@ public class LInputField extends JComponent {
 
                 addItemButton.addActionListener(e -> {
                     System.out.println("CLICKED ADD");
+                    /* TODO:
                     if(children.isEmpty()) {
                         LNC.getInputArea().addInputFieldBelow(new LInputField(LInputField.this), LInputField.this);
                     } else {
                         LNC.getInputArea().addInputFieldBelow(new LInputField(LInputField.this), LInputField.this.children.get(LInputField.this.children.size() - 1));
-                    }
+                    }*/
+                    LNC.getInputArea().addInputFieldBelow(new LInputField(LInputField.this), LInputField.this);
                 });
             }
 
