@@ -86,6 +86,11 @@ public class LInputArea extends JPanel {
             fields.add(inputFieldPrevious);
             consequentOptionalInputs = new ArrayList<>();
         }
+        if(consequentOptionalInputs.size() > 1){
+            LInputField inputFieldPrevious = new LInputField(ludemeNodeComponent, consequentOptionalInputs);
+            fields.add(inputFieldPrevious);
+            consequentOptionalInputs = new ArrayList<>();
+        }
         return fields;
     }
 

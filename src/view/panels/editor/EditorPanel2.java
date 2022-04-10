@@ -214,6 +214,7 @@ public class EditorPanel2 extends JPanel implements IGraphPanel {
     public void showAllAvailableLudemes(int x, int y) {
         addLudemeWindow.setVisible(true);
         addLudemeWindow.setLocation(mousePosition);
+        addLudemeWindow.searchField.requestFocus();
         revalidate();
         repaint();
     }

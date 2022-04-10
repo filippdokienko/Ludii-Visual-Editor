@@ -10,6 +10,7 @@ import view.components.ludemenodecomponent.LudemeNodeComponent;
 import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class InputInformation {
 
@@ -39,11 +40,47 @@ public class InputInformation {
             return possibleLudemeInputs;
         }
         if(input instanceof LudemeInput){
-            possibleLudemeInputs.add(((LudemeInput) input).getRequiredLudeme());
+            LudemeInput l_input = (LudemeInput) input;
+
+            if(l_input.getRequiredLudeme().HIDDEN){
+            /*
+                for(Constructor c : l_input.getRequiredLudeme().getConstructors()){
+                    for(Input in : c.getInputs()){
+                        Ludeme l = ((LudemeInput) in).getRequiredLudeme();
+                        possibleLudemeInputs.add(l);
+                    }
+                }
+             */
+                possibleLudemeInputs.addAll(getNonHiddenLudemes(l_input.getRequiredLudeme()));
+            } else {
+                possibleLudemeInputs.add(l_input.getRequiredLudeme());
+            }
             return possibleLudemeInputs;
         }
 
         return possibleLudemeInputs;
+    }
+
+    private List<Ludeme> getNonHiddenLudemes(Ludeme ludeme){
+        if(ludeme.HIDDEN) {
+            List<Ludeme> ludeme_inputs = new ArrayList<>();
+            for (Constructor c : ludeme.getConstructors()) {
+                for (Input in : c.getInputs()) {
+                    if(!ludeme_inputs.contains(((LudemeInput) in).getRequiredLudeme())) {
+                        ludeme_inputs.add(((LudemeInput) in).getRequiredLudeme());
+                    }
+                }
+            }
+            for (Ludeme l : new ArrayList<Ludeme>(ludeme_inputs)) {
+                if (l.HIDDEN) {
+                    ludeme_inputs.remove(l);
+                    ludeme_inputs.addAll(getNonHiddenLudemes(l));
+                }
+            }
+            //remove duplicates in list
+            return ludeme_inputs.stream().distinct().collect(Collectors.toList());
+        }
+        return null;
     }
 
     public List<Ludeme> getPossibleLudemeInputs(){

@@ -53,7 +53,6 @@ public class LudemeInput implements Input{
 
     @Override
     public String toString(){
-        if(REQUIRED_LUDEME.HIDDEN) return "";
         String s = "<"+NAME+">";
         if(OPTIONAL){
             s = "["+s+"]";

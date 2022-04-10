@@ -42,6 +42,7 @@ public class LInputField extends JComponent {
     }
 
     public LInputField(LudemeNodeComponent ludemeNodeComponent, List<InputInformation> inputInformationList){
+        System.out.println("constructing " + ludemeNodeComponent.getLudemeNode().getLudeme().getName());
         this.LNC = ludemeNodeComponent;
         this.inputInformationList = inputInformationList;
         isSingle = false;
@@ -272,7 +273,8 @@ public class LInputField extends JComponent {
             repaint();
             return newInputField;
         }
-        return null;
+        System.out.println(inputInformation + "; " + this);
+        return this;
     }
 
 
