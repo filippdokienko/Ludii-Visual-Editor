@@ -13,7 +13,6 @@ import view.components.ludemenodecomponent.LudemeConnection;
 import view.components.ludemenodecomponent.LudemeNodeComponent;
 import view.components.ludemenodecomponent.inputs.LConnectionComponent;
 import view.components.ludemenodecomponent.inputs.LIngoingConnectionComponent;
-import view.components.ludemenodecomponent.inputs.LInputField;
 import view.panels.IGraphPanel;
 
 import javax.swing.*;
@@ -130,7 +129,7 @@ public class EditorPanel2 extends JPanel implements IGraphPanel {
     }
 
     public void startNewConnection(LConnectionComponent source){
-        System.out.println(source.getConnectionPointPosition());
+        System.out.println(source.getConnectionPointPosition() + " , " + source.getRequiredLudemes());
         if(selectedConnectionComponent != null){
             selectedConnectionComponent.setFill(false);
         }
@@ -139,8 +138,10 @@ public class EditorPanel2 extends JPanel implements IGraphPanel {
 
     @Override
     public void cancelNewConnection(){
-        selectedConnectionComponent.setFill(false);
-        selectedConnectionComponent = null;
+        if(selectedConnectionComponent != null) {
+            selectedConnectionComponent.setFill(false);
+            selectedConnectionComponent = null;
+        }
     }
 
     public void finishNewConnection(LudemeNodeComponent target){
@@ -150,13 +151,23 @@ public class EditorPanel2 extends JPanel implements IGraphPanel {
 
     @Override
     public void addConnection(LConnectionComponent source, LIngoingConnectionComponent target) {
-        LudemeConnection connection = new LudemeConnection(source, target);
+
+        if(!source.getInputField().isSingle()){
+            source = source.getInputField().setToSingle(target.getHeader().getLudemeNodeComponent().getLudemeNode().getLudeme()).getConnectionComponent();
+        }
+
         source.setFill(true);
         target.setFill(true);
         source.setConnectedTo(target.getHeader().getLudemeNodeComponent());
         Handler.updateInput(graph, source.getLudemeNodeComponent().getLudemeNode(), source.getInputField().getInputIndex(), target.getHeader().getLudemeNodeComponent().getLudemeNode());
         Handler.addEdge(graph, source.getLudemeNodeComponent().getLudemeNode(), target.getHeader().getLudemeNodeComponent().getLudemeNode());
+
+
+        LudemeConnection connection = new LudemeConnection(source, target);
         edges.add(connection);
+        source.updatePosition();
+        target.updatePosition();
+
         repaint();
     }
 
@@ -177,6 +188,7 @@ public class EditorPanel2 extends JPanel implements IGraphPanel {
         Handler.addNode(graph, node);
         nodeComponents.add(lc);
         add(lc);
+        lc.updatePositions();
 
         if(connect){
             finishNewConnection(lc);
@@ -204,6 +216,7 @@ public class EditorPanel2 extends JPanel implements IGraphPanel {
                 e.getIngoingConnectionComponent().setFill(false); // header
                 e.getConnectionComponent().setFill(false); // input
                 e.getConnectionComponent().setConnectedTo(null);
+                e.getConnectionComponent().getInputField().getLudemeNodeComponent().getInputArea().updateComponent();
                 Handler.updateInput(graph, e.getConnectionComponent().getLudemeNodeComponent().getLudemeNode(), e.getConnectionComponent().getInputField().getInputIndex(), null);
             }
         }
@@ -218,6 +231,7 @@ public class EditorPanel2 extends JPanel implements IGraphPanel {
                 e.getIngoingConnectionComponent().setFill(false); // header
                 e.getConnectionComponent().setFill(false); // input
                 e.getConnectionComponent().setConnectedTo(null);
+                e.getConnectionComponent().getInputField().getLudemeNodeComponent().getInputArea().updateComponent();
                 Handler.updateInput(graph, e.getConnectionComponent().getLudemeNodeComponent().getLudemeNode(), e.getConnectionComponent().getInputField().getInputIndex(), null);
             }
         }

@@ -2,9 +2,6 @@ package view.components.ludemenodecomponent;
 
 import view.components.ludemenodecomponent.inputs.LConnectionComponent;
 import view.components.ludemenodecomponent.inputs.LIngoingConnectionComponent;
-import view.components.ludemenodecomponent.inputs.LInputField;
-
-import java.awt.*;
 
 public class LudemeConnection {
 

@@ -11,6 +11,7 @@ public class EditorPopupMenu extends JPopupMenu {
         JMenuItem newLudeme = new JMenuItem("New Ludeme");
         JMenuItem arrangeGraph = new JMenuItem("Arrange Graph");
         JMenuItem duplicateScreen = new JMenuItem("Duplicate Screen");
+        JMenuItem repaintScreen = new JMenuItem("Repaint");
 
         newLudeme.addActionListener(e -> {
             graphPanel.showAllAvailableLudemes(getX(), getY());
@@ -33,9 +34,14 @@ public class EditorPopupMenu extends JPopupMenu {
             graphPanel.drawGraph(graphPanel.getGraph());
         });
 
+        repaintScreen.addActionListener(e -> {
+            graphPanel.repaint();
+                });
+
         add(newLudeme);
         add(arrangeGraph);
         add(duplicateScreen);
+        add(repaintScreen);
     }
 
 }

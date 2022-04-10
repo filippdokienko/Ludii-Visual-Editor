@@ -4,13 +4,10 @@ import handler.Handler;
 import model.LudemeNode;
 
 import model.grammar.Constructor;
-import view.components.ludemenode.block.InputComponent;
-import view.components.ludemenode.block.LudemeBlock;
 import view.components.ludemenodecomponent.inputs.LIngoingConnectionComponent;
+import view.components.ludemenodecomponent.inputs.InputInformation;
 import view.components.ludemenodecomponent.inputs.LInputArea;
 import view.panels.IGraphPanel;
-import view.panels.editor.EditorPanel2;
-import view.panels.editor.EditorPopupMenu;
 
 import javax.swing.*;
 import java.awt.*;
@@ -60,6 +57,8 @@ public class LudemeNodeComponent extends JComponent {
         addMouseMotionListener(dragListener);
         addMouseListener(mouseListener);
 
+        updatePositions();
+
         revalidate();
         repaint();
         setVisible(true);
@@ -91,7 +90,8 @@ public class LudemeNodeComponent extends JComponent {
         repaint();
     }
 
-    public void updatePositions(){
+    public void updatePositions() {
+        if(inputArea == null || header == null) return;
         position.update(getLocation());
         inputArea.updatePosition();
         header.updatePosition();
@@ -101,8 +101,23 @@ public class LudemeNodeComponent extends JComponent {
         inputArea.updateProvidedInputs();
     }
 
+    public void updateComponent(){
+        if(inputArea == null) return;
+        int preferredHeight = inputArea.getPreferredSize().height + header.getPreferredSize().height;
+
+        setPreferredSize(new Dimension(getMinimumSize().width, preferredHeight));
+        setSize(getPreferredSize());
+
+        repaint();
+        revalidate();
+    }
+
     public LudemeNode getLudemeNode(){
         return LUDEME_NODE;
+    }
+
+    public LInputArea getInputArea(){
+        return inputArea;
     }
 
     public int getWidth(){
