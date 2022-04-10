@@ -48,7 +48,7 @@ public class LHeader extends JComponent {
                 ludemeNodeComponent.changeConstructor((Constructor) constructorPicker.getSelectedItem());
                 repaint();
             });
-            add(constructorPicker, BorderLayout.LINE_END);
+            add(constructorPicker, BorderLayout.SOUTH);
         }
 
 

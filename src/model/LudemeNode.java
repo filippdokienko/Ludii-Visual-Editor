@@ -169,7 +169,7 @@ public class LudemeNode implements iLudemeNode, iGNode {
         char c = '"';
 
         if(currentConstructor.getInputs().size() == 1 && currentConstructor.getInputs().get(0).isTerminal()){
-            if(providedInputs[0] instanceof String) return c+providedInputs[0].toString()+c;
+            if(providedInputs[0] instanceof String) return c+providedInputs[0].toString()+c+" ";
             else return providedInputs[0].toString();
         }
 

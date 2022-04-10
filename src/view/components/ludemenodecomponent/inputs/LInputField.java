@@ -38,6 +38,7 @@ public class LInputField extends JComponent {
         inputInformationList.add(inputInformation);
         isSingle = true;
         constructInputField(inputInformation);
+
     }
 
     public LInputField(LudemeNodeComponent ludemeNodeComponent, List<InputInformation> inputInformationList){
