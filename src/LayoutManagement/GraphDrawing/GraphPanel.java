@@ -37,8 +37,8 @@ public class GraphPanel extends JPanel
         expGraph = (ExpGraph) gc.createGraph();
 
         // initialise layout manager
-        lm = new LayoutHandler(expGraph);
-        lm.setLayoutMethod(0);
+        lm = new LayoutHandler(expGraph, expGraph.getRoot().getId());
+        lm.setLayoutMethod(1);
 
         add(getMenuBar(timer));
 

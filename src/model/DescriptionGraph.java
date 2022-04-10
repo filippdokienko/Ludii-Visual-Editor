@@ -45,7 +45,7 @@ public class DescriptionGraph implements iGraph {
 
     @Override
     public void setRoot(int id) {
-        this.ROOT = (LudemeNode) getNode(id);
+        this.ROOT = getNode(id);
     }
 
     @Override
