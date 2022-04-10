@@ -8,29 +8,14 @@ import java.util.List;
 
 public class Ludeme {
     public final String NAME;
-    public boolean HIDDEN = true; // TODO
+    private boolean HIDDEN = true; // TODO
+    private boolean checkedHidden = false;
     public List<Constructor> CONSTRUCTORS = new ArrayList<>();
 
 
     public Ludeme(String name, List<Constructor> constructors){
         this.NAME = name;
         this.CONSTRUCTORS = constructors;
-
-        // check whether hidden
-        for(Constructor c : getConstructors()){
-            if(HIDDEN == false) break;
-            if(c.getInputs().size() > 1){
-                this.HIDDEN = false;
-                break;
-            }
-            for(Input in : c.getInputs()){
-                if(!(in instanceof LudemeInput)){
-                    this.HIDDEN = false;
-                    break;
-                }
-            }
-        }
-
     }
 
     public Ludeme(String name){
@@ -46,15 +31,27 @@ public class Ludeme {
     }
     public void addConstructor(Constructor c){
         CONSTRUCTORS.add(c);
-        if(c.getInputs().size() > 1) HIDDEN = false;
-        else {
-            for(Input in : c.getInputs()){
-                if(!(in instanceof LudemeInput) || in.isChoice() || in.isCollection()){
-                    HIDDEN = false;
+    }
+
+    public boolean isHidden(){
+        // check whether hidden
+        if(!checkedHidden) {
+            for (Constructor c : getConstructors()) {
+                if (HIDDEN == false) break;
+                if (c.getInputs().size() > 1) {
+                    this.HIDDEN = false;
                     break;
                 }
+                for (Input in : c.getInputs()) {
+                    if (!(in instanceof LudemeInput)) {
+                        this.HIDDEN = false;
+                        break;
+                    }
+                }
             }
+            checkedHidden = true;
         }
+        return HIDDEN;
     }
 
     @Override

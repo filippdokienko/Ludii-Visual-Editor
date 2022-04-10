@@ -78,7 +78,7 @@ public class EditorPanel2 extends JPanel implements IGraphPanel {
         List<LudemeNode> nodes = graph.getNodes();
         for(LudemeNode node : nodes) {
             //add(new LudemeBlock(node, null, 300));
-            LudemeNodeComponent lc = new LudemeNodeComponent(node, 300, this);
+            LudemeNodeComponent lc = new LudemeNodeComponent(node, 250, this);
             nodeComponents.add(lc);
             add(lc);
             lc.revalidate();
@@ -194,7 +194,7 @@ public class EditorPanel2 extends JPanel implements IGraphPanel {
     @Override
     public LudemeNode addNode(Ludeme ludeme, int x, int y, boolean connect) {
         LudemeNode node = new LudemeNode(ludeme, x, y);
-        LudemeNodeComponent lc = new LudemeNodeComponent(node, 300, this);
+        LudemeNodeComponent lc = new LudemeNodeComponent(node, 250, this);
         Handler.addNode(graph, node);
         nodeComponents.add(lc);
         add(lc);
