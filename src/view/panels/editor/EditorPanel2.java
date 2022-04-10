@@ -217,8 +217,12 @@ public class EditorPanel2 extends JPanel implements IGraphPanel {
 
     @Override
     public void removeAllConnections(LudemeNode node) {
+        removeAllConnections(node, true);
+    }
+
+    public void removeAllConnections(LudemeNode node, boolean onlyOutgoingConnections){
         for(LudemeConnection e : new ArrayList<>(edges)){
-            if(e.getConnectionComponent().getLudemeNodeComponent().getLudemeNode().equals(node) || e.getIngoingConnectionComponent().getHeader().getLudemeNodeComponent().getLudemeNode().equals(node)){
+            if(e.getConnectionComponent().getLudemeNodeComponent().getLudemeNode().equals(node) || (!onlyOutgoingConnections && e.getIngoingConnectionComponent().getHeader().getLudemeNodeComponent().getLudemeNode().equals(node))){
                 edges.remove(e);
                 e.getIngoingConnectionComponent().setFill(false); // header
                 e.getConnectionComponent().setFill(false); // input
@@ -229,6 +233,7 @@ public class EditorPanel2 extends JPanel implements IGraphPanel {
         }
         repaint();
     }
+
 
     @Override
     public void removeConnection(LudemeNode node, LConnectionComponent connection) {
@@ -260,7 +265,7 @@ public class EditorPanel2 extends JPanel implements IGraphPanel {
         System.out.println("Removing node");
         LudemeNodeComponent lc = getNodeComponent(node);
         nodeComponents.remove(lc);
-        removeAllConnections(node);
+        removeAllConnections(node, false);
         Handler.removeNode(graph, node);
         remove(lc);
         repaint();
