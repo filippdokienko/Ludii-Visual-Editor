@@ -88,6 +88,9 @@ public class EditorPanel2 extends JPanel implements IGraphPanel {
             lc.updatePositions();
         }
 
+        add(addLudemeWindow);
+        add(connectLudemeWindow);
+
         revalidate();
         repaint();
     }
