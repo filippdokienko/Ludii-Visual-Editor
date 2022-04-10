@@ -299,6 +299,9 @@ public class EditorPanel2 extends JPanel implements IGraphPanel {
         @Override
         public void mouseClicked(MouseEvent e) {
             super.mouseClicked(e);
+            if(connectLudemeWindow.isVisible()){
+                cancelNewConnection();
+            }
             addLudemeWindow.setVisible(false);
             connectLudemeWindow.setVisible(false);
             if(e.getButton() == MouseEvent.BUTTON1) {
@@ -308,7 +311,7 @@ public class EditorPanel2 extends JPanel implements IGraphPanel {
                     if(selectedConnectionComponent.getRequiredLudemes().size() == 1) {
                         addNode(selectedConnectionComponent.getRequiredLudemes().get(0), e.getX(), e.getY(), true);
                     }
-                    else if(selectedConnectionComponent.getRequiredLudemes().size() > 1) {
+                    else if(!connectLudemeWindow.isVisible() && selectedConnectionComponent.getRequiredLudemes().size() > 1) {
                         showCurrentlyAvailableLudemes(e.getX(), e.getY());
                     }
                 }
@@ -322,6 +325,7 @@ public class EditorPanel2 extends JPanel implements IGraphPanel {
 
         public void mousePressed(MouseEvent e){
             if(e.getButton() == MouseEvent.BUTTON3){
+                cancelNewConnection();
                 openPopupMenu(e);
             }
         }
