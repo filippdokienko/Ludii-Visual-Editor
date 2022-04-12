@@ -26,9 +26,9 @@ public class LayoutHandler {
     {
         switch (l)
         {
-            case 0 -> layout = new FruchtermanReingold(graph, 5, 0.05, new Vector2D(1000, 1000));
-            case 1 -> layout = new DFSBoxDrawing(graph, root,10);
-            case 2 -> layout = new PLANET(graph, root,25);
+            case 0 -> layout = new FruchtermanReingold(graph, 0.5, 0.15, new Vector2D(500, 500));
+            case 1 -> layout = new DFSBoxDrawing(graph, root,50);
+            case 2 -> layout = new PLANET(graph, root,15);
             default -> layout = new DFSBoxDrawing(graph, root, 5);
         }
 

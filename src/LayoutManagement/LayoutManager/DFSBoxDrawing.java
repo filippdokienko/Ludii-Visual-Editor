@@ -2,23 +2,29 @@ package LayoutManagement.LayoutManager;
 
 import LayoutManagement.GraphDrawing.NodePlacementRoutines;
 import LayoutManagement.Math.Vector2D;
+import model.LudemeNode;
 import model.interfaces.iGNode;
 import model.interfaces.iGraph;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import static LayoutManagement.GraphDrawing.NodePlacementRoutines.packLayers;
 import static LayoutManagement.GraphDrawing.NodePlacementRoutines.translateByRoot;
 import static LayoutManagement.GraphRoutines.getNodeDepth;
 import static java.lang.Math.*;
 
+/**
+ * By Y. Miyadera et al (1998) https://doi.org/10.1016/s0020-0190(98)00068-4
+ * @author nic0gin
+ */
 public class DFSBoxDrawing implements LayoutMethod
 {
     private iGraph graph;
     private final int C3j;
     private int freeY;
-    private final double wY = 0.5;
-    private final double wX = 0.75;
+    private final double wY = 1.5;
+    private final double wX = 2.5;
     private final int root;
 
     /**
@@ -50,15 +56,20 @@ public class DFSBoxDrawing implements LayoutMethod
             iGNode nLast = graph.getNode(nodeCh.get(nodeCh.size()-1));
 
             nodeCh.forEach((s) -> {
-                initPlacement(s, (int) (freeX + getNodeDepth(graph, s)*graph.getNode(s).getWidth()*wX));
+                initPlacement(s, (int) (freeX+graph.getNode(s).getWidth()*wX));
+                // freeX + getNodeDepth(graph, s)*graph.getNode(s).getWidth()*wX
 
                 iGNode nV = graph.getNode(nodeId);
                 Vector2D piInit = new Vector2D(freeX,
                         nFirst.getPos().getY() +
-                                min(C3j, nLast.getPos().getY() - nFirst.getPos().getY()));
-                nV.setPos(piInit);
-                freeY = max(freeY, (int) (nV.getPos().getY() + nV.getHeight()*wY));
+                                0);
+                // nLast.getPos().getY() - nFirst.getPos().getY()
+                // Several options to set Y coordinate based positions of children nodes
+                // (nLast.getPos().getY() - nFirst.getPos().getY())/2
+                // min(C3j, nLast.getPos().getY() - nFirst.getPos().getY())
 
+                nV.setPos(piInit);
+                //freeY = max(freeY, (int) (nV.getPos().getY() + nV.getHeight()*wY));
 
             });
 
@@ -93,10 +104,14 @@ public class DFSBoxDrawing implements LayoutMethod
     public void applyLayout()
     {
         freeY = 0;
-        Vector2D oPos = graph.getRoot().getPos(); // TODO: TO FIX cannot get correct position of root node
+        //LudemeNode lN = (LudemeNode) graph.getNode(root);
+        //Vector2D lPos = lN.getPos();
+        Vector2D oPos = graph.getNode(root).getPos(); // TODO: TO FIX cannot get correct position of root node
+        System.out.println(oPos.getX() + " " + oPos.getY());
         initPlacement(root,0);
         //shift(r);
         translateByRoot(graph, root, oPos);
+        //packLayers(graph, root);
         //NodePlacementRoutines.packLayers(graph, root);
         // translate graph by root vertex coordinates
 

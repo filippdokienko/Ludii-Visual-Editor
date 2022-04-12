@@ -58,7 +58,11 @@ public final class NodePlacementRoutines
         layer.add(r);
         while (!layer.isEmpty())
         {
-            if (d == 2) {basicX = (int) graph.getNode(layer.get(0)).getPos().getY();}
+            if (d == 2)
+            {
+
+                basicX = (int) graph.getNode(layer.get(0)).getPos().getX();
+            }
 
             int finalBasicX;
             if (d > 2) finalBasicX = basicX*d;

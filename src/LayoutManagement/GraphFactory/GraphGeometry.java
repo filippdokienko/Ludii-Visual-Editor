@@ -17,7 +17,7 @@ public class GraphGeometry extends GraphCreator{
 
     @Override
     public iGraph createGraph() {
-        return getGraphPyramid();
+        return getTicTacToeTree();
     }
 
     public iGraph getGraphCube() {
@@ -153,40 +153,72 @@ public class GraphGeometry extends GraphCreator{
         iGraph graph = new ExpGraph();
 
         int A1 = graph.addNode("game");
-        int A2 = graph.addNode("game");
-        int A3 = graph.addNode("game");
-        int A4 = graph.addNode("game");
-        int A5 = graph.addNode("game");
-        int A6 = graph.addNode("game");
-        int A7 = graph.addNode("game");
-        int A8 = graph.addNode("game");
-        int A9 = graph.addNode("game");
-        int A10 = graph.addNode("game");
-        int A11 = graph.addNode("game");
+        graph.setRoot(A1);
 
-        int B1 = graph.addNode("game");
-        int B2 = graph.addNode("game");
-        int B3 = graph.addNode("game");
-        int B4 = graph.addNode("game");
-        int B5 = graph.addNode("game");
-        int B6 = graph.addNode("game");
-        int B7 = graph.addNode("game");
-        int B8 = graph.addNode("game");
-        int B9 = graph.addNode("game");
-        int B10 = graph.addNode("game");
-        int B11 = graph.addNode("game");
+        int A2 = graph.addNode("\"Tic-Tac-Toe\" ");
+        graph.addEdge(A1, A2);
 
-        int C1 = graph.addNode("game");
-        int C2 = graph.addNode("game");
-        int C3 = graph.addNode("game");
-        int C4 = graph.addNode("game");
-        int C5 = graph.addNode("game");
-        int C6 = graph.addNode("game");
-        int C7 = graph.addNode("game");
-        int C8 = graph.addNode("game");
-        int C9 = graph.addNode("game");
-        int C10 = graph.addNode("game");
-        int C11 = graph.addNode("game");
+        int A3 = graph.addNode("players");
+        graph.addEdge(A1, A3);
+        int A4 = graph.addNode("2");
+        graph.addEdge(A3, A4);
+
+        int A5 = graph.addNode("equipment");
+        graph.addEdge(A1, A5);
+        int A51 = graph.addNode("board");
+        graph.addEdge(A5, A51);
+        int A6 = graph.addNode("square");
+        graph.addEdge(A51, A6);
+        int A7 = graph.addNode("3");
+        graph.addEdge(A6, A7);
+
+        int A8 = graph.addNode("piece");
+        graph.addEdge(A5, A8);
+        int A9 = graph.addNode("\"Disc\"");
+        graph.addEdge(A8, A9);
+        int A10 = graph.addNode("P1");
+        graph.addEdge(A8, A10);
+
+        int A11 = graph.addNode("piece");
+        graph.addEdge(A5, A11);
+        int B1 = graph.addNode("\"Cross\"");
+        graph.addEdge(A11, B1);
+        int B2 = graph.addNode("P2");
+        graph.addEdge(A11, B2);
+
+        int B3 = graph.addNode("rules");
+        graph.addEdge(A1, B3);
+
+        int B4 = graph.addNode("play");
+        graph.addEdge(B3, B4);
+        int B5 = graph.addNode("move");
+        graph.addEdge(B4, B5);
+        int B6 = graph.addNode("Add");
+        graph.addEdge(B5, B6);
+        int B7 = graph.addNode("to");
+        graph.addEdge(B5, B7);
+        int B8 = graph.addNode("sites");
+        graph.addEdge(B7, B8);
+        int B9 = graph.addNode("Empty");
+        graph.addEdge(B8, B9);
+
+        int B10 = graph.addNode("end");
+        graph.addEdge(B3, B10);
+        int B11 = graph.addNode("if");
+        graph.addEdge(B10, B11);
+        int C1 = graph.addNode("is");
+        graph.addEdge(B11, C1);
+        int C2 = graph.addNode("Line");
+        graph.addEdge(C1, C2);
+        int C3 = graph.addNode("3");
+        graph.addEdge(C1, C3);
+
+        int C4 = graph.addNode("result");
+        graph.addEdge(B10, C4);
+        int C5 = graph.addNode("Mover");
+        graph.addEdge(C4, C5);
+        int C6 = graph.addNode("Win");
+        graph.addEdge(C4, C6);
 
         return graph;
     }

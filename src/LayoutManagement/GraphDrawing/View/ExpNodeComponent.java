@@ -25,8 +25,8 @@ public class ExpNodeComponent
         drawInner((Graphics2D) g);
         drawOuter((Graphics2D) g);
         g.drawString(label,
-                (int)node.getPos().getX() + DrawingFrame.getWIDTH() / 2,
-                (int)node.getPos().getY() + DrawingFrame.getHEIGHT() / 2);
+                (int)(node.getPos().getX() + DrawingFrame.getWIDTH() / 2 - node.getWidth() /2 ),
+                (int)(node.getPos().getY() + DrawingFrame.getHEIGHT() / 2 + node.getHeight()/2));
     }
 
     private void drawInner(Graphics2D g2)

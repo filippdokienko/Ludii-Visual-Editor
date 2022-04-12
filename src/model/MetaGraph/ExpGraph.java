@@ -29,8 +29,8 @@ public class ExpGraph implements iGraph {
         nodeList = new HashMap<>();
         edgeList = new ArrayList<>();
 
-        root = new ExpNode("root");
-        nodeList.put(root.getId(), root);
+        //root = new ExpNode("root");
+        //nodeList.put(root.getId(), root);
     }
 
     //### Implementation of interface methods ###

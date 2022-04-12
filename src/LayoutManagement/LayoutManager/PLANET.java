@@ -11,6 +11,10 @@ import java.util.concurrent.atomic.AtomicInteger;
 import static LayoutManagement.GraphRoutines.*;
 import static java.lang.Math.*;
 
+/**
+ * Radial PLANET algorithm by Huang, G. et al (2020). https://doi.org/10.1016/j.physa.2019.122948
+ * @author nic0gin
+ */
 public class PLANET implements LayoutMethod
 {
 
@@ -19,7 +23,7 @@ public class PLANET implements LayoutMethod
     private final int XI;
     private HashMap<Integer, Double> thetaMap;
 
-    private final double CIRC = PI/3.0*2.0; // Originally equals 2*PI
+    private final double CIRC = PI*2.0; // Originally equals 2*PI
 
     public PLANET(iGraph graph, int ROOT_ID, int XI)
     {
@@ -37,8 +41,8 @@ public class PLANET implements LayoutMethod
      */
     private double calculateTheta1(int i, int nd)
     {
-        return (CIRC*(i - 1)) / nd - CIRC/2;
-    } // subtract CIRC/2
+        return (2*(i - 1)*PI) / nd;
+    }
 
     private double calculateTheta2(int v, int i, int nd)
     {
@@ -47,7 +51,7 @@ public class PLANET implements LayoutMethod
         else
         {
             double f0 = fJ(0);
-            return theta1 - CIRC/(2*f0) + CIRC*(i - 1)/((nd - 1)*f0);
+            return theta1 - PI/f0 + 2*(i - 1)*PI/((nd - 1)*f0);
         }
     }
 
@@ -72,17 +76,17 @@ public class PLANET implements LayoutMethod
         else if (thetadm1 < thetadm2)
         {
             int fJProd = prodFk(m);
-            return thetadm1 + CIRC*(i-1)/((nd-1)*fJProd);
+            return thetadm1 + 2*(i-1)*PI/((nd-1)*fJProd);
         }
         else if (thetadm1 > thetadm2)
         {
             int fJProd = prodFk(m);
-            return thetadm1 - CIRC*(i-1)/((nd-1)*fJProd);
+            return thetadm1 - 2*(i-1)*PI/((nd-1)*fJProd);
         }
         else
         {
             int fJProd = prodFk(m);
-            return thetadm1 - CIRC/(2*fJProd) + CIRC*(i-1)/((nd-1)*fJProd);
+            return thetadm1 - PI/fJProd + 2*(i-1)*PI/((nd-1)*fJProd);
         }
     }
 
@@ -120,7 +124,7 @@ public class PLANET implements LayoutMethod
         iGNode rN = graph.getNode(r);
         List<Integer> Q = new ArrayList<>(rN.getChildren());
 
-        //Iteration: calculate the coordinate of nodes on dth levels
+        // Iteration: calculate the coordinate of nodes on dth levels
         while (!Q.isEmpty())
         {
             d++;

@@ -2,6 +2,7 @@ package LayoutManagement.GraphDrawing;
 
 import LayoutManagement.GraphDrawing.View.ExpEdgeComponent;
 import LayoutManagement.GraphDrawing.View.ExpNodeComponent;
+import LayoutManagement.GraphFactory.GraphGeometry;
 import LayoutManagement.LayoutManager.LayoutHandler;
 import model.MetaGraph.ExpGraph;
 import LayoutManagement.GraphFactory.GraphCreator;
@@ -37,8 +38,8 @@ public class GraphPanel extends JPanel
         expGraph = (ExpGraph) gc.createGraph();
 
         // initialise layout manager
-        lm = new LayoutHandler(expGraph, expGraph.getRoot().getId());
-        lm.setLayoutMethod(1);
+        lm = new LayoutHandler(expGraph, 1);
+        lm.setLayoutMethod(2);
 
         add(getMenuBar(timer));
 
