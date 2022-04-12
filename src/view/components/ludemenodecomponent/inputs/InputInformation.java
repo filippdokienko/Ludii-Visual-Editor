@@ -42,7 +42,7 @@ public class InputInformation {
         if(input instanceof LudemeInput){
             LudemeInput l_input = (LudemeInput) input;
 
-            if(l_input.getRequiredLudeme().HIDDEN){
+            if(l_input.getRequiredLudeme().isHidden()){
             /*
                 for(Constructor c : l_input.getRequiredLudeme().getConstructors()){
                     for(Input in : c.getInputs()){
@@ -62,7 +62,7 @@ public class InputInformation {
     }
 
     private List<Ludeme> getNonHiddenLudemes(Ludeme ludeme){
-        if(ludeme.HIDDEN) {
+        if(ludeme.isHidden()) {
             List<Ludeme> ludeme_inputs = new ArrayList<>();
             for (Constructor c : ludeme.getConstructors()) {
                 for (Input in : c.getInputs()) {
@@ -72,7 +72,7 @@ public class InputInformation {
                 }
             }
             for (Ludeme l : new ArrayList<Ludeme>(ludeme_inputs)) {
-                if (l.HIDDEN) {
+                if (l.isHidden()) {
                     ludeme_inputs.remove(l);
                     ludeme_inputs.addAll(getNonHiddenLudemes(l));
                 }

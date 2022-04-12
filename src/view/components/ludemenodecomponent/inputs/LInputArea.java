@@ -1,5 +1,6 @@
 package view.components.ludemenodecomponent.inputs;
 
+import model.LudemeNode;
 import model.grammar.input.Input;
 import view.components.DesignPalette;
 import view.components.ludemenodecomponent.LudemeNodeComponent;
@@ -28,6 +29,13 @@ public class LInputArea extends JPanel {
         setLayout(new BoxLayout(this,BoxLayout.Y_AXIS));
         setAlignmentX(LEFT_ALIGNMENT);
         setBackground(DesignPalette.BACKGROUND_LUDEME_BODY);
+
+       /* if(inputFields.size() == 1 && inputFields.get(0).getRequiredLudemes().size() == 1){
+            LudemeNode ln = new LudemeNode(inputFields.get(0).getRequiredLudemes().get(0), 0, 0);
+            this.inputFields = getInputFields(new LudemeNodeComponent(ln, LNC.getWidth(), LNC.getGraphPanel()));
+            drawInputFields();
+            return;
+        } */
 
         for(LInputField inputField : inputFields){
             inputField.setAlignmentX(LEFT_ALIGNMENT);
