@@ -1,11 +1,11 @@
-package validation;
+package recs.validation;
 
-import model.Ludii.NGramModelLudii;
-import split.LudiiFileCleanup;
-import split.SentenceSplit;
-import utils.FileUtils;
-import utils.ReadAllGameFiles;
-import utils.Triple;
+import recs.model.Ludii.NGramModelLudii;
+import recs.split.LudiiFileCleanup;
+import recs.split.SentenceSplit;
+import recs.utils.FileUtils;
+import recs.utils.ReadAllGameFiles;
+import recs.utils.Triple;
 
 import java.io.FileWriter;
 import java.io.IOException;

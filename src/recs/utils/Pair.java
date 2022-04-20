@@ -1,4 +1,4 @@
-package utils;
+package recs.utils;
 
 public class Pair<R, S> {
     private final R r;

@@ -155,7 +155,8 @@ public class LudemeNode implements iLudemeNode, iGNode {
     }
 
     public void addChildren(LudemeNode children){
-        this.children.add(children);
+        // Checks if child nodes was already added
+        if (!this.children.contains(children)) this.children.add(children);
     }
 
     public void removeChildren(LudemeNode children){

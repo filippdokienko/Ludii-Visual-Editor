@@ -13,8 +13,8 @@ import java.util.List;
 public class Parser {
 
 
-    private ArrayList<Ludeme> ludemes = new ArrayList<>();
-    private final List<Grammar> GRAMMAR = getGrammar();
+    private ArrayList<Ludeme> ludemes = new ArrayList<>(); // TODO refactor into HashMap !!! This way we'll save on runtime
+    private final List<Grammar> GRAMMAR = createGrammar();
     private final boolean DEBUG = false;
     private final String GRAMMAR_CHARACTERS = "[]<>(){}|,:"; //List.of('[',']','<','>','{','}','|',':','(',')');
     private final String CAPITAL_NON_GRAMMAR_LETTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -102,7 +102,7 @@ public class Parser {
     }
 
 
-    private List<Grammar> getGrammar(){
+    private List<Grammar> createGrammar(){
         List<Grammar> records = new ArrayList<>();
         try (BufferedReader br = new BufferedReader(new FileReader("resources/easy.csv"))) {
             String line;
@@ -148,6 +148,10 @@ public class Parser {
         }
         records.remove(0); // remove header
         return records;
+    }
+
+    public List<Grammar> getGRAMMAR() {
+        return GRAMMAR;
     }
 
     private List<Ludeme> actualLudems = new ArrayList<>();

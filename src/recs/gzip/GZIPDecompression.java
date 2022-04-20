@@ -1,4 +1,4 @@
-package gzip;
+package recs.gzip;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;

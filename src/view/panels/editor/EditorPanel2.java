@@ -69,8 +69,7 @@ public class EditorPanel2 extends JPanel implements IGraphPanel {
     @Override
     public void drawGraph(DescriptionGraph graph) {
         this.graph = graph;
-        lm = new LayoutHandler(graph, graph.getRoot().getId());
-        System.out.println(graph.getNodes().size());
+        //lm = new LayoutHandler(graph, graph.getRoot().getId());
         removeAll();
         nodeComponents.clear();
         edges.clear();
@@ -84,7 +83,7 @@ public class EditorPanel2 extends JPanel implements IGraphPanel {
             lc.revalidate();
         }
         for(LudemeNodeComponent lc : nodeComponents){
-            lc.updateProvidedInputs();
+            lc.updateProvidedInputs(); //TODO: FIX. Call of this method duplicates children nodes id in parent's list
             lc.updatePositions();
         }
 
@@ -298,6 +297,7 @@ public class EditorPanel2 extends JPanel implements IGraphPanel {
 
         @Override
         public void mouseClicked(MouseEvent e) {
+            System.out.println("ROOT_X: "+graph.getRoot().getPos().getX());
             super.mouseClicked(e);
             if(connectLudemeWindow.isVisible()){
                 cancelNewConnection();

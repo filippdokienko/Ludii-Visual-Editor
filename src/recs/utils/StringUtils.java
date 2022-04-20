@@ -1,4 +1,4 @@
-package utils;
+package recs.utils;
 
 public class StringUtils {
     public static boolean isInteger(String s) {

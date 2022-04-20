@@ -34,12 +34,12 @@ public class GraphPanel extends JPanel
     {
 
         // initialise graph for the panel
-        GraphCreator gc = new GraphFromFile();
+        GraphCreator gc = new GraphGeometry();
         expGraph = (ExpGraph) gc.createGraph();
 
         // initialise layout manager
         lm = new LayoutHandler(expGraph, 1);
-        lm.setLayoutMethod(2);
+        lm.setLayoutMethod(1);
 
         add(getMenuBar(timer));
 

@@ -1,7 +1,7 @@
-package split;
+package recs.split;
 
-import utils.FileUtils;
-import utils.StringUtils;
+import recs.utils.FileUtils;
+import recs.utils.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;

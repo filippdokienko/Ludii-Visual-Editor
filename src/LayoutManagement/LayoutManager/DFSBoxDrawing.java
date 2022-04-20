@@ -106,11 +106,12 @@ public class DFSBoxDrawing implements LayoutMethod
         freeY = 0;
         //LudemeNode lN = (LudemeNode) graph.getNode(root);
         //Vector2D lPos = lN.getPos();
-        Vector2D oPos = graph.getNode(root).getPos(); // TODO: TO FIX cannot get correct position of root node
-        System.out.println(oPos.getX() + " " + oPos.getY());
+        Vector2D oPos = graph.getNode(root).getPos();
         initPlacement(root,0);
         //shift(r);
+
         translateByRoot(graph, root, oPos);
+
         //packLayers(graph, root);
         //NodePlacementRoutines.packLayers(graph, root);
         // translate graph by root vertex coordinates

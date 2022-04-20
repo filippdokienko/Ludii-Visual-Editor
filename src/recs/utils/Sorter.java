@@ -1,6 +1,6 @@
-package utils;
+package recs.utils;
 
-import model.Ludii.NGramInstanceLudii;
+import recs.model.Ludii.NGramInstanceLudii;
 
 import java.util.*;
 

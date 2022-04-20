@@ -1,14 +1,14 @@
-package run;
+package recs.run;
 
-import gzip.GZIPCompression;
-import gzip.GZIPDecompression;
-import model.Ludii.NGramModelLudii;
-import split.LudiiFileCleanup;
-import split.SentenceSplit;
-import utils.FileUtils;
-import utils.ReadAllGameFiles;
-import utils.Triple;
-import validation.NGramValidation;
+import recs.gzip.GZIPCompression;
+import recs.gzip.GZIPDecompression;
+import recs.model.Ludii.NGramModelLudii;
+import recs.split.LudiiFileCleanup;
+import recs.split.SentenceSplit;
+import recs.utils.FileUtils;
+import recs.utils.ReadAllGameFiles;
+import recs.utils.Triple;
+import recs.validation.NGramValidation;
 
 import java.io.FileWriter;
 import java.io.IOException;

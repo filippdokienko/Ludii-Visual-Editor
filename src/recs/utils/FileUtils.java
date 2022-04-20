@@ -1,4 +1,4 @@
-package utils;
+package recs.utils;
 
 import java.io.File;
 import java.io.FileNotFoundException;

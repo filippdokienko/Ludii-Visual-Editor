@@ -1,7 +1,7 @@
-package run;
+package recs.run;
 
-import split.LudiiFileCleanup;
-import split.SentenceSplit;
+import recs.split.LudiiFileCleanup;
+import recs.split.SentenceSplit;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package split;
+package recs.split;
 
 import java.util.ArrayList;
 import java.util.List;

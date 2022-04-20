@@ -145,6 +145,8 @@ public class LudemeNodeComponent extends JComponent {
             super.mouseDragged(e);
             e.translatePoint(e.getComponent().getLocation().x - LudemeNodeComponent.this.x, e.getComponent().getLocation().y -LudemeNodeComponent.this.y);
             LudemeNodeComponent.this.setLocation(e.getX(),e.getY());
+            // TODO: fix positions
+            // System.out.println(e.getX() + " " + e.getY());
             updatePositions();
         }
     };
@@ -156,6 +158,8 @@ public class LudemeNodeComponent extends JComponent {
             JPopupMenu popupMenu = new NodePopupMenu(LudemeNodeComponent.this, LudemeNodeComponent.this.getGraphPanel());
             popupMenu.show(e.getComponent(), e.getX(), e.getY());
         }
+
+        //TODO: do we need mousePressed listener?
 
         @Override
         public void mousePressed(MouseEvent e) {
@@ -172,6 +176,22 @@ public class LudemeNodeComponent extends JComponent {
                 getGraphPanel().clickedOnNode(LudemeNodeComponent.this.getLudemeNode());
             }
 
+        }
+
+        @Override
+        public void mouseReleased(MouseEvent e) {
+            super.mouseReleased(e);
+            LudemeNodeComponent.this.x = e.getX();
+            LudemeNodeComponent.this.y = e.getY();
+            Handler.updatePosition(getGraphPanel().getGraph(), getLudemeNode(), getX(), getY());
+
+            if(e.getButton() == MouseEvent.BUTTON3){
+                openPopupMenu(e);
+                getGraphPanel().cancelNewConnection();
+            }
+            else {
+                getGraphPanel().clickedOnNode(LudemeNodeComponent.this.getLudemeNode());
+            }
         }
     };
 

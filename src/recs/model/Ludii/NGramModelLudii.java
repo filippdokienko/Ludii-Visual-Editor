@@ -1,15 +1,15 @@
-package model.Ludii;
+package recs.model.Ludii;
 
-import gzip.GZIPCompression;
-import gzip.GZIPDecompression;
-import interfaces.iNGramInstance;
-import interfaces.iNGramModel;
-import split.LudiiFileCleanup;
-import split.SentenceSplit;
-import utils.FileUtils;
-import utils.MatchingTailElements;
-import utils.Pair;
-import utils.Sorter;
+import recs.gzip.GZIPCompression;
+import recs.gzip.GZIPDecompression;
+import recs.interfaces.iNGramInstance;
+import recs.interfaces.iNGramModel;
+import recs.split.LudiiFileCleanup;
+import recs.split.SentenceSplit;
+import recs.utils.FileUtils;
+import recs.utils.MatchingTailElements;
+import recs.utils.Pair;
+import recs.utils.Sorter;
 
 import java.io.FileWriter;
 import java.io.IOException;

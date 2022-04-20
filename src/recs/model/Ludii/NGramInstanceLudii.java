@@ -1,6 +1,6 @@
-package model.Ludii;
+package recs.model.Ludii;
 
-import interfaces.iNGramInstance;
+import recs.interfaces.iNGramInstance;
 
 import java.util.List;
 

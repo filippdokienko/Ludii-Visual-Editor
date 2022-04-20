@@ -1,4 +1,4 @@
-package interfaces;
+package recs.interfaces;
 
 import java.util.List;
 

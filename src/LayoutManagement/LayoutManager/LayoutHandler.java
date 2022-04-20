@@ -34,6 +34,10 @@ public class LayoutHandler {
 
     }
 
+    public void setRoot(int root) {
+        this.root = root;
+    }
+
     public void executeLayout()
     {
         // Prepare the graph

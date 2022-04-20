@@ -1,4 +1,4 @@
-package utils;
+package recs.utils;
 
 public class Triple<R, S, T> {
     private final R r;

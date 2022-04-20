@@ -1,10 +1,11 @@
-package utils;
+package recs.utils;
 
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
+
 
 /**
  * This class is supposed to find all .lud files in the given directory and write their locations to a
