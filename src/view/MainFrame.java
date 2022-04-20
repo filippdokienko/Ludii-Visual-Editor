@@ -1,7 +1,6 @@
 package view;
 
 import view.panels.MainPanel;
-import view.panels.editor.EditorPanel2;
 
 import javax.swing.*;
 

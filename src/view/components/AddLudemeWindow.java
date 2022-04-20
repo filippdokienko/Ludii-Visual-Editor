@@ -3,7 +3,6 @@ package view.components;
 import handler.Handler;
 import model.grammar.Ludeme;
 import view.panels.IGraphPanel;
-import view.panels.editor.EditorPanel;
 import view.panels.editor.IEditorPanel;
 
 import javax.swing.*;

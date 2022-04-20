@@ -1,8 +1,5 @@
 package view.panels.header;
 
-import view.panels.editor.EditorPanel;
-import view.panels.editor.EditorPanel2;
-
 import javax.swing.*;
 import java.awt.*;
 
