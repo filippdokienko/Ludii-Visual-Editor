@@ -35,7 +35,7 @@ public class Ludeme {
     }
 
     public boolean isHidden(){
-        // check whether hidden
+        // check whether hidden TODO: Not correct way actually :(
         if(!checkedHidden) {
             for (Constructor c : getConstructors()) {
                 if (HIDDEN == false) break;
@@ -44,7 +44,7 @@ public class Ludeme {
                     break;
                 }
                 for (Input in : c.getInputs()) {
-                    if (!(in instanceof LudemeInput)) {
+                    if (!(in instanceof LudemeInput) || in.isCollection() || in.isOptional()) {
                         this.HIDDEN = false;
                         break;
                     }

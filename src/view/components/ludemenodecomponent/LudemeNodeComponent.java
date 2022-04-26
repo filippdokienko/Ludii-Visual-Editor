@@ -24,6 +24,8 @@ public class LudemeNodeComponent extends JComponent {
     private final LudemeNode LUDEME_NODE;
     private final IGraphPanel GRAPH_PANEL;
 
+    public boolean dynamic = false;
+
     private LHeader header;
     private LInputArea inputArea;
 
@@ -135,6 +137,10 @@ public class LudemeNodeComponent extends JComponent {
 
     public LIngoingConnectionComponent getIngoingConnectionComponent(){
         return header.getIngoingConnectionComponent();
+    }
+
+    public void changeDynamic(){
+        dynamic = !dynamic;
     }
 
     // Drag Listener
