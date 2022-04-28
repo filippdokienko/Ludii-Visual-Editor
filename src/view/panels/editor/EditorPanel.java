@@ -44,6 +44,8 @@ public class EditorPanel extends JPanel implements IGraphPanel {
     // window to add a new ludeme as an input
     private AddLudemeWindow connectLudemeWindow = new AddLudemeWindow(ludemes, this, true);
 
+    private static final boolean DEBUG = true;
+
     public EditorPanel(int width, int height){
         setLayout(null);
         setPreferredSize(new Dimension(width, height));
@@ -167,7 +169,7 @@ public class EditorPanel extends JPanel implements IGraphPanel {
         }*/
 
         if(!source.getInputField().isSingle()){
-            source = source.getLudemeNodeComponent().getInputArea().addedConnection(target.getHeader().getLudemeNodeComponent().getLudemeNode(), source.getInputField()).getConnectionComponent();
+            source = source.getLudemeNodeComponent().getInputArea().addedConnection(target.getHeader().getLudemeNodeComponent(), source.getInputField()).getConnectionComponent();
         }
 
         source.updatePosition();
@@ -184,6 +186,31 @@ public class EditorPanel extends JPanel implements IGraphPanel {
         edges.add(connection);
 
         repaint();
+    }
+
+    @Override
+    public void rewireConnection(LConnectionComponent old_source, LudemeNodeComponent old_target, LConnectionComponent new_source, LudemeNodeComponent new_target){
+        // find LudemeConnection
+        LudemeConnection connection = null;
+        for(LudemeConnection e : edges){
+
+            System.out.println("Checking whether " + old_source + " equals to " + e.getConnectionComponent());
+
+            if(e.getConnectionComponent() == old_source && e.getIngoingConnectionComponent() == old_target.getIngoingConnectionComponent()){
+                connection = e;
+            }
+        }
+        if(connection == null){
+            System.err.println("[EP ERROR] Could not find LudemeConnection when rewiring");
+            return;
+        }
+
+        edges.remove(connection);
+
+        //LudemeConnection new_connection = new LudemeConnection(new_source, new_target.getIngoingConnectionComponent());
+        addConnection(new_source, new_target.getIngoingConnectionComponent());
+
+
     }
 
     @Override
@@ -246,6 +273,7 @@ public class EditorPanel extends JPanel implements IGraphPanel {
 
     @Override
     public void removeConnection(LudemeNode node, LConnectionComponent connection) {
+        if(connection.getLudemeNodeComponent().dynamic) connection.getLudemeNodeComponent().getInputArea().removedConnectionDynamic(node, connection.getInputField());
         for(LudemeConnection e : new ArrayList<>(edges)){
             if(e.getConnectionComponent().equals(connection)){
                 edges.remove(e);

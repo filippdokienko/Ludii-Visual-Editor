@@ -14,6 +14,7 @@ public interface IGraphPanel {
     void startNewConnection(LConnectionComponent source);
     void cancelNewConnection();
     void addConnection(LConnectionComponent source, LIngoingConnectionComponent target);
+    void rewireConnection(LConnectionComponent old_source, LudemeNodeComponent old_target, LConnectionComponent new_source, LudemeNodeComponent new_target);
     LudemeNodeComponent getNodeComponent(LudemeNode node);
     LudemeNode addNode(Ludeme ludeme, int x, int y, boolean connect);
     void showAllAvailableLudemes(int x, int y);

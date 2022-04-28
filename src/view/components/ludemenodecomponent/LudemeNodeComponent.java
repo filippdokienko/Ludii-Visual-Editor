@@ -70,10 +70,6 @@ public class LudemeNodeComponent extends JComponent {
     public void changeConstructor(Constructor c){
         Handler.updateCurrentConstructor(getGraphPanel().getGraph(), getLudemeNode(), c);
 
-        // TODO: Remove all edges of this ludeme node AND MODEL
-        getGraphPanel().cancelNewConnection();
-        getGraphPanel().removeAllConnections(getLudemeNode());
-
         inputArea.updateConstructor();
 
         revalidate();
@@ -141,6 +137,7 @@ public class LudemeNodeComponent extends JComponent {
 
     public void changeDynamic(){
         dynamic = !dynamic;
+        getInputArea().setDynamic(dynamic);
     }
 
     // Drag Listener
